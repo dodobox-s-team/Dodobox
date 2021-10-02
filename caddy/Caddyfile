@@ -1,5 +1,5 @@
 {$DOMAIN_NAME}:{$WEB_PORT} {
-	reverse_proxy web:8080
+	reverse_proxy web:3000
 	encode zstd gzip
 
 	handle_path /api/* {
