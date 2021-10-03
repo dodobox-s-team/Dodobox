@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import logo from './logo.svg'
-import './App.css'
+import 'bootstrap/dist/css/bootstrap.min.css'
+import './App.scss'
+import Button from 'react-bootstrap/Button'
 
 function App() {
   const [count, setCount] = useState(0)
