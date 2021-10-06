@@ -1,42 +1,30 @@
-.App {
-  text-align: center;
+.sideBar {
+  width : 15em;
+  height: 58em;
+  background-color: #459C9C;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.sidebar-nav {
+  list-style-type: none;
+  padding:0;
+  margin:0;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.sidebar-nav li{
+  background-color: #C4C4C4;
+  margin-top:2em;
+  text-align : center;
+  padding : 0.5em;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.sidebar-parameter {
+  background-color: #C4C4C4; 
+  padding : 0.5em;
+  text-align : center;
+  margin-top : 30em;
 }
 
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-button {
-  font-size: calc(10px + 2vmin);
+.burger-menu-icon {
+  width : 3em;
+  position : absolute;
 }
