@@ -31,6 +31,12 @@ class ProcessCommand(Command):
         return Popen(args).wait()
 
 
+@action('build', help='Build the dev environnement with docker compose.')
+class ComposeBuild(ProcessCommand):
+    def run(self, config):
+        return super(ComposeBuild, self).run('docker-compose', '-p', config.project, 'build')
+
+
 @action('up', help='Starts the dev environnement with docker compose.')
 class ComposeUp(ProcessCommand):
     def configure(self, parser):
