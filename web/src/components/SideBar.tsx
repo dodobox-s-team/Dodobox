@@ -2,28 +2,52 @@ import { useState } from 'react'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import menuIcon from '../images/burger-menu-icon.png'
+import { AiOutlineMenu, AiOutlineDashboard } from "react-icons/ai";
+import { FaLayerGroup } from "react-icons/fa";
+import { MdOutlineWidgets } from "react-icons/md";
+import {
+  Menu,
+  MenuItem,
+  ProSidebar,
+  SidebarHeader,
+  SubMenu,
+} from "react-pro-sidebar";
 
-function SideBar() {
-    return (
-        <div className="">
-            <div className="sideBar navbar-expand d-flex flex-column align-item-start">
-                <img src={menuIcon} className="burger-menu-icon"></img>
-                <h1 className="text-center"> Menu </h1>
-                <ul className="sidebar-nav">
-                    <li className="">
-                    <a href="" className="text-black text-decoration-none">Tableau de bord</a>
-                    </li>
-                    <li>
-                    <a href="" className="text-black text-decoration-none">Liste des objets</a>
-                    </li>
-                    <li>
-                    <a href="" className="text-black text-decoration-none">Salons personnalisés</a>
-                    </li>
-                </ul>
-                <a href="" className="sidebar-parameter text-black text-decoration-none"> Paramètres </a>
-            </div>
+const SideBar = () => {
+  const [collapsed, setCollapsed] = useState(false);
+  // added styles 
+  const styles = {
+    sideBarHeight: {
+      height: "100vh",
+    },
+    menuIcon: {
+      float: "right",
+      margin: "10px",
+    },
+  };
+
+  const onClickMenuIcon = () => {
+    setCollapsed(!collapsed);
+  };
+
+  return (
+    <ProSidebar style={styles.sideBarHeight} collapsed={collapsed}>
+      <SidebarHeader>
+        <div style={styles.menuIcon} onClick={onClickMenuIcon}>
+          <AiOutlineMenu />
         </div>
-    )
-}
+      </SidebarHeader>
+      <Menu iconShape="square">
+        <MenuItem icon={<AiOutlineDashboard />}> Tableau de bord </MenuItem>
+        <MenuItem icon={<MdOutlineWidgets />}> Listes des appareils </MenuItem>
+        <SubMenu title="Salles personnalisées" icon={<FaLayerGroup />}>
+          <MenuItem>Salon</MenuItem>
+          <MenuItem>Cuisine</MenuItem>
+          <MenuItem>Chambre n°1</MenuItem>
+        </SubMenu>
+      </Menu>
+    </ProSidebar>
+  );
+};
 
-export default SideBar
+export default SideBar;

@@ -1,4 +1,9 @@
-@import 'react-pro-sidebar/dist/scss/styles.scss';
+// color to use
+$primary: red;
+
+// sidebar options
+$sidebar-bg-color: $primary !default;
+
 
 .sideBar {
   width : 15em;
@@ -30,3 +35,6 @@
   width : 3em;
   position : absolute;
 }
+
+@import '../node_modules/bootstrap/scss/bootstrap';
+@import 'react-pro-sidebar/dist/scss/styles.scss';
