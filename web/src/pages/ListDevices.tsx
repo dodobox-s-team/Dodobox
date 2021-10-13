@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import React from 'react'
 import ReactDOM from 'react-dom'
+import DeviceBox from '../components/DeviceBox.tsx'
 import Navbar from 'react-bootstrap/Navbar'
 import Nav from 'react-bootstrap/Nav'
 import NavDropdown from 'react-bootstrap/NavDropdown'
@@ -29,39 +30,12 @@ const ListDevices = () => {
 		  </Container>
 		</Navbar>
 		<CardGroup>
-			<Card
-				bg="success"
-				text='white'
-				style={{ width: '18rem' }}
-				className="m-2"
-			>
-				<Card.Body>
-					<Card.Title>T° Salon</Card.Title>
-					<Card.Text>
-						Température: 25°C
-					</Card.Text>
-				</Card.Body>
-			</Card>
-			<Card
-				bg="danger"
-				text='white'
-				style={{ width: '18rem' }}
-				className="m-2"
-			>
-				<Card.Body>
-					<Card.Title>Lampe Cuisine</Card.Title>
-				</Card.Body>
-			</Card>
-			<Card
-				bg="success"
-				text='white'
-				style={{ width: '18rem' }}
-				className="m-2"
-			>
-				<Card.Body>
-					<Card.Title>Lampe Salon</Card.Title>
-				</Card.Body>
-			</Card>
+			<DeviceBox state="success" name='T° Salon' info='Température: 25°C' img='FaThermometerQuarter'></DeviceBox>
+			<DeviceBox state="danger" name='Lampe Cuisine' info='' img='BsLamp'></DeviceBox>
+			<DeviceBox state="success" name='Lampe Salon' info='' img='BsLamp'></DeviceBox>
+			<DeviceBox state="success" name='Lampe Salon' info='' img='BsLamp'></DeviceBox>
+			<DeviceBox state="success" name='Lampe Salon' info='' img='BsLamp'></DeviceBox>
+			<DeviceBox state="success" name='Lampe Salon' info='' img='BsLamp'></DeviceBox>
 		</CardGroup>
 		</div>
 
