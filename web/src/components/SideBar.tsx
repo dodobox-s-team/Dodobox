@@ -12,6 +12,7 @@ import {
   SidebarHeader,
   SubMenu,
 } from "react-pro-sidebar";
+import { Link } from "react-router-dom";
 
 const SideBar = () => {
   const [collapsed, setCollapsed] = useState(false);
@@ -38,8 +39,8 @@ const SideBar = () => {
         </div>
       </SidebarHeader>
       <Menu iconShape="square">
-        <MenuItem icon={<AiOutlineDashboard />}> Tableau de bord </MenuItem>
-        <MenuItem icon={<MdOutlineWidgets />}> Listes des appareils </MenuItem>
+        <MenuItem icon={<AiOutlineDashboard />}><Link to="/Dashboard"> Tableau de bord </Link></MenuItem>
+        <MenuItem icon={<MdOutlineWidgets />}><Link to="/ListDevices"> Listes des appareils </Link></MenuItem>
         <SubMenu title="Salles personnalisées" icon={<FaLayerGroup />}>
           <MenuItem>Salon</MenuItem>
           <MenuItem>Cuisine</MenuItem>
