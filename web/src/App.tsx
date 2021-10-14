@@ -5,6 +5,7 @@ import Button from 'react-bootstrap/Button'
 import SideBar from './components/SideBar'
 import Dashboard from './pages/Dashboard'
 import ListDevices from './pages/ListDevices'
+import Details from './pages/Details'
 import {ProSidebar, Menu, MenuItem, SubMenu} from 'react-pro-sidebar';
 import {
   BrowserRouter as Router,
@@ -34,6 +35,9 @@ function App() {
             </Route>
             <Route path="/">
               <Dashboard />
+            </Route>
+            <Route path="/Details">
+              <Details />
             </Route>
           </Switch>
         </div>
