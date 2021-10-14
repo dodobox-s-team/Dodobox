@@ -8,6 +8,8 @@ import NavDropdown from 'react-bootstrap/NavDropdown'
 import Container from 'react-bootstrap/Container'
 import Card from 'react-bootstrap/Card'
 import CardGroup from 'react-bootstrap/CardGroup'
+import { FaThermometerQuarter } from "react-icons/fa";
+import { BsLamp } from "react-icons/bs";
 
 const ListDevices = () => {
 
@@ -30,12 +32,12 @@ const ListDevices = () => {
 		  </Container>
 		</Navbar>
 		<CardGroup>
-			<DeviceBox state="success" name='T° Salon' info='Température: 25°C' img='FaThermometerQuarter'></DeviceBox>
-			<DeviceBox state="danger" name='Lampe Cuisine' info='' img='BsLamp'></DeviceBox>
-			<DeviceBox state="success" name='Lampe Salon' info='' img='BsLamp'></DeviceBox>
-			<DeviceBox state="success" name='Lampe Salon' info='' img='BsLamp'></DeviceBox>
-			<DeviceBox state="success" name='Lampe Salon' info='' img='BsLamp'></DeviceBox>
-			<DeviceBox state="success" name='Lampe Salon' info='' img='BsLamp'></DeviceBox>
+			<DeviceBox state="success" name='T° Salon' info='Température: 25°C' img={[<FaThermometerQuarter />]}></DeviceBox>
+			<DeviceBox state="danger" name='Lampe Cuisine' info='' img={[<BsLamp/>]}></DeviceBox>
+			<DeviceBox state="success" name='Lampe Salon' info='' img={[<BsLamp/>]}></DeviceBox>
+			<DeviceBox state="success" name='Lampe Salon' info='' img={[<BsLamp/>]}></DeviceBox>
+			<DeviceBox state="success" name='Lampe Salon' info='' img={[<BsLamp/>]}></DeviceBox>
+			<DeviceBox state="success" name='Lampe Salon' info='' img={[<BsLamp/>]}></DeviceBox>
 		</CardGroup>
 		</div>
 

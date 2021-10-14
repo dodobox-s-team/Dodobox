@@ -2,8 +2,6 @@ import { useState } from 'react'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import Card from 'react-bootstrap/Card'
-import { FaThermometerQuarter } from "react-icons/fa";
-import { BsLamp } from "react-icons/bs";
 
 const DeviceBox = (props) => {
 
@@ -15,7 +13,7 @@ const DeviceBox = (props) => {
         className="m-2"
       >
         <Card.Body>
-          <Card.Title><FaThermometerQuarter />{props.name}</Card.Title>
+          <Card.Title>{props.img}{props.name}</Card.Title>
           <Card.Text>
             {props.info}
           </Card.Text>
