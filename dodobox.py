@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 import argparse
+import os
 import sys
 from subprocess import Popen
 
@@ -75,6 +76,33 @@ class ComposeRestart(ProcessCommand):
             args = ['-t', config.timeout]
 
         return super().run('docker-compose', '-p', config.project, 'restart', *args)
+
+
+@action('upgrade', help='Upgrade the database using Alembic.')
+class AlembicUpgrade(ProcessCommand):
+    def run(self, config):
+        args = ['-T', '--workdir', '/api', 'api', 'alembic', 'upgrade', 'head']
+        return super().run('docker-compose', '-p', config.project, 'exec', *args)
+
+
+@action('downgrade', help='Downgrade the database using Alembic.')
+class AlembicDowngrade(ProcessCommand):
+    def run(self, config):
+        args = ['-T', '--workdir', '/api', 'api', 'alembic', 'downgrade', '-1']
+        return super().run('docker-compose', '-p', config.project, 'exec', *args)
+
+
+@action('revision', help='Create a new revision of the database.')
+class AlembicRevision(ProcessCommand):
+    def configure(self, parser):
+        parser.add_argument('message', help='Specify a name for the revision.')
+
+    def run(self, config):
+        args = ['/api', 'api', 'alembic', 'revision', '--autogenerate', '-m', config.message]
+        result = super().run('docker-compose', '-p', config.project, 'exec', '--workdir', *args)
+        args = ['/api/alembic/versions', 'api', 'chown', '-R', str(os.getuid()), '.']
+        super().run('docker-compose', '-p', config.project, 'exec', '--workdir', *args)
+        return result
 
 
 if __name__ == '__main__':
