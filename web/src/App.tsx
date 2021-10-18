@@ -39,9 +39,6 @@ function App() {
             <Route path="/">
               <Dashboard />
             </Route>
-            <Route path="/Details">
-              <Details />
-            </Route>
           </Switch>
         </div>
       </div>
