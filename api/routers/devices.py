@@ -1,4 +1,4 @@
-from api.schemas import Device
+from api.models.devices import Device
 from fastapi import APIRouter, HTTPException, status
 
 router = APIRouter(
