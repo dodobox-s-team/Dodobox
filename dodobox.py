@@ -30,7 +30,7 @@ class Command:
 
 class ProcessCommand(Command):
     def run(self, *args):
-        return Popen(args).wait()
+        return Popen([str(arg) for arg in args]).wait()
 
 
 @action('build', help='Build the dev environnement with docker compose.')
@@ -100,7 +100,7 @@ class AlembicRevision(ProcessCommand):
     def run(self, config):
         args = ['/api', 'api', 'alembic', 'revision', '--autogenerate', '-m', config.message]
         result = super().run('docker-compose', '-p', config.project, 'exec', '--workdir', *args)
-        args = ['/api/alembic/versions', 'api', 'chown', '-R', str(os.getuid()), '.']
+        args = ['/api/alembic/versions', 'api', 'chown', '-R', os.getuid(), '.']
         super().run('docker-compose', '-p', config.project, 'exec', '--workdir', *args)
         return result
 
