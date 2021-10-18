@@ -33,11 +33,11 @@ function App() {
             <Route path="/ListDevices">
               <ListDevices />
             </Route>
-            <Route path="/">
-              <Dashboard />
-            </Route>
             <Route path="/Details">
               <Details />
+            </Route>
+            <Route path="/">
+              <Dashboard />
             </Route>
           </Switch>
         </div>
