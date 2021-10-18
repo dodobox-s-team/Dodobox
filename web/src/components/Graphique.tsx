@@ -36,7 +36,6 @@ class Graphique extends React.Component {
         return (
             <div>
             <MDBContainer>
-                <h3 className="mt-5">Line chart</h3>
                 <Line data={this.state.dataLine} options={{responsive: true}}/>
             </MDBContainer>
         </div>
