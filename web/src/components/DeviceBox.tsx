@@ -2,6 +2,7 @@ import { useState } from 'react'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import Card from 'react-bootstrap/Card'
+import DeviceSettings from './DeviceSettings'
 
 const DeviceBox = (props) => {
 
@@ -18,6 +19,9 @@ const DeviceBox = (props) => {
             {props.info}
           </Card.Text>
         </Card.Body>
+        <Card.Footer className="text-center">
+          <DeviceSettings/>
+        </Card.Footer>
       </Card>
   );
 };
