@@ -35,8 +35,15 @@ class ProcessCommand(Command):
 
 @action('build', help='Build the dev environnement with docker compose.')
 class ComposeBuild(ProcessCommand):
+    def configure(self, parser):
+        parser.add_argument('-p', '--pull', action='store_true', help='Pull the images from docker hub.', dest='pull')
+
     def run(self, config):
-        return super(ComposeBuild, self).run('docker-compose', '-p', config.project, 'build')
+        args = ['build']
+        if config.pull:
+            args.append('--pull')
+
+        return super(ComposeBuild, self).run('docker-compose', '-p', config.project, *args)
 
 
 @action('up', help='Starts the dev environnement with docker compose.')
