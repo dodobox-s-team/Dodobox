@@ -3,7 +3,7 @@ import os
 
 from fastapi import FastAPI
 
-from api.models import db
+from api.schemas import db
 
 DB_RETRIES = int(os.getenv("DB_RETRIES", 3))
 

@@ -2,7 +2,7 @@ from typing import Optional
 
 from pydantic import BaseModel, constr
 
-from api.models import db, devices
+from api.schemas import db, devices
 
 
 class Device(BaseModel):

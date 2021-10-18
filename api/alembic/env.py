@@ -24,9 +24,9 @@ fileConfig(config.config_file_name)
 # target_metadata = mymodel.Base.metadata
 sys.path.append('/')
 
-from api import models
+from api import schemas
 
-target_metadata = models.metadata
+target_metadata = schemas.metadata
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:
