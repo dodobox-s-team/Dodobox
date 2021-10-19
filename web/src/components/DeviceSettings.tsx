@@ -1,14 +1,19 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import {Modal, Button, Form, Image} from 'react-bootstrap'
+import {Modal, Button, Form, Image, Alert} from 'react-bootstrap'
 import {useState} from 'react'
 import { RiSettings2Line } from "react-icons/ri";
 
 function DeviceSettings(props) {
-    const [show, setShow] = useState(false);
+    const [modalShow, setModalShow] = useState(false);
+    const [alertShow, setAlertShow] = useState(false);
 
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+    const handleClose = () => {
+         setModalShow(false);
+         setAlertShow(false);
+    }
+    const handleShow = () => setModalShow(true);
+    const handleAlertShow = () => setAlertShow(true);
   
     return (
         <div>
@@ -16,7 +21,7 @@ function DeviceSettings(props) {
                 <RiSettings2Line/>
             </Button>
   
-            <Modal show={show} onHide={handleClose} animation={false}>
+            <Modal show={modalShow} onHide={handleClose} animation={false}>
                 <Modal.Header closeButton>
                     <Modal.Title>Paramètres de l'appareil</Modal.Title>
                 </Modal.Header>
@@ -31,13 +36,12 @@ function DeviceSettings(props) {
                             </Form.Text>
 
                         </Form.Group>
-                    
-                    
+
                         <Form.Group className="mb-3" controlId="formIpAddress">
                             <Form.Label>Adresse IP de l'appareil</Form.Label>
                             <Form.Control type="text" placeholder="Exemple: 172.16.1.6" />
                             <Form.Text className="text-muted">
-                            Définir l'adresse ip utilisée par l'appareil pour être reconnu dans le réseau.
+                                Définir l'adresse ip utilisée par l'appareil pour être reconnu dans le réseau.
                             </Form.Text>
                         </Form.Group>
 
@@ -47,20 +51,26 @@ function DeviceSettings(props) {
                                 <option value="choiceLivingRoom">Salon</option>
                                 <option value="choiceKitchen">Cuisine</option>
                                 <option value="choiceChamberNumberN">Chambre n°1</option>
-                                <option value="choiceAddNewGroup">Ajouter un nouveau groupe</option>
+                                <option value="choiceAddNewGroup"> Ajouter un nouveau groupe </option>
                             </Form.Select>
                             <Form.Text className="text-muted">
                                 Définir le groupe associé à l'appareil.
                             </Form.Text>
                         </Form.Group>
                     </Form>
+                    <Alert variant="success" show={alertShow}>
+                        La configuration de l'appareil a bien été sauvegardée.
+                    </Alert>
+                    <Alert variant="danger" show={false}>
+                        La configuration de l'appareil ne peut pas être sauvegardée car le champ y n'est pas valide
+                    </Alert>
                 </Modal.Body>
             
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}>
                         Fermer la fenêtre
                     </Button>
-                    <Button variant="primary" onClick={handleClose}>
+                    <Button variant="primary" onClick={handleAlertShow}>
                         Sauvegarder
                     </Button>
                 </Modal.Footer>
