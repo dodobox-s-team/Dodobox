@@ -128,6 +128,12 @@ class ComposeRestart(DockerCompose):
         return super().run('restart', *args)
 
 
+@action('pull', help='Pull docker images.')
+class ComposePull(DockerCompose):
+    def run(self):
+        return super().run('pull')
+
+
 @action('upgrade', help='Upgrade the database using Alembic.')
 class AlembicUpgrade(DockerCompose):
     def run(self):
