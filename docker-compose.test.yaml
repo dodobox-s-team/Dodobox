@@ -1,0 +1,23 @@
+version: "3.6"
+
+services:
+  db:
+    image: postgres:13-alpine
+    environment:
+      - POSTGRES_DB=test
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASS}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+  api:
+    build: ./api
+    command: python -m pytest --cov api --cov-report html:/api/htmlcov --cov-config=/api/setup.cfg -v api
+    volumes:
+      - ./api:/api
+    environment:
+      - DATABASE_URL=postgresql://${DB_USER}:${DB_PASS}@db:5432/test
+    depends_on:
+      - db
+
+volumes:
+  postgres_data: {}
