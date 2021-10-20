@@ -177,6 +177,13 @@ class TestBack(TestCommand):
         return super().run('run', '--rm', 'api', exit=self.config.exit)
 
 
+@action('test-cleanup', help='Cleanup the test environment.')
+class TestCleanup(TestCommand):
+    def run(self):
+        super().run('down', exit=True)
+        return super(DockerCompose, self).run('docker', 'volume', 'rm', f'{self.project}_postgres_data')
+
+
 @action('lint', help="Lint the backend's code.")
 class LintCommand(TestCommand):
     @classmethod
