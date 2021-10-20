@@ -14,7 +14,6 @@ function FormDeviceOptions(props) {
                             <Form.Text className="text-muted">
                                 Définir le nom de l'appareil.
                             </Form.Text>
-
                         </Form.Group>
 
                         <Form.Group className="mb-3" controlId="formIpAddress">
