@@ -56,7 +56,7 @@ class DockerCompose(ProcessCommand):
         if self.config.test or self.testing:
             dc.extend(('-f', 'docker-compose.test.yaml'))
 
-        return super().run(*dc, *args, **kwargs)
+        return super(DockerCompose, self).run(*dc, *args, **kwargs)
 
 
 class TestCommand(DockerCompose):
@@ -164,24 +164,33 @@ class AlembicRevision(DockerCompose):
 @action('test-setup', help='Setup the test environment.')
 class TestSetup(TestCommand):
     def run(self):
-        super().run('up', '-d', 'db', exit=True)
-        super().run('run', '-T', '--rm', '--workdir', '/api', 'api', 'alembic', 'upgrade', 'head', exit=True)
+        super(TestCommand, self).run('up', '-d', 'db', exit=True)
+        super(TestCommand, self).run('run', '-T', '--rm', '--workdir', '/api', 'api', 'alembic', 'upgrade', 'head', exit=True)
 
 
 @action('test-back', help='Setup the test environment.')
 class TestBack(TestCommand):
     def run(self):
         if not self.config.exit:
-            super().run('build', 'api', exit=True)
+            super(TestCommand, self).run('build', 'api', exit=True)
 
-        return super().run('run', '--rm', 'api', exit=self.config.exit)
+        return super(TestCommand, self).run('run', '--rm', 'api', exit=self.config.exit)
 
 
 @action('test-cleanup', help='Cleanup the test environment.')
 class TestCleanup(TestCommand):
     def run(self):
-        super().run('down', exit=True)
+        print(super(TestCommand, self).run)
+        super(TestCommand, self).run('down', exit=True)
         return super(DockerCompose, self).run('docker', 'volume', 'rm', f'{self.project}_postgres_data')
+
+
+@action('tests', help='Cleanup the test environment.')
+class RunTests(TestSetup, TestBack, TestCleanup):
+    def run(self):
+        TestSetup.run(self)
+        TestBack.run(self)
+        return TestCleanup.run(self)
 
 
 @action('lint', help="Lint the backend's code.")
