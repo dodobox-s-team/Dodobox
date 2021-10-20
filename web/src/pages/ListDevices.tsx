@@ -2,9 +2,12 @@ import { useState } from 'react'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import DeviceBox from '../components/DeviceBox.tsx'
+import AddDevice from '../components/AddDevice.tsx'
 import Navbar from 'react-bootstrap/Navbar'
 import Nav from 'react-bootstrap/Nav'
 import NavDropdown from 'react-bootstrap/NavDropdown'
+import Button from 'react-bootstrap/Button'
+import Row from 'react-bootstrap/Row'
 import Container from 'react-bootstrap/Container'
 import Card from 'react-bootstrap/Card'
 import CardGroup from 'react-bootstrap/CardGroup'
@@ -55,14 +58,15 @@ class ListDevices extends React.Component {
 		        </NavDropdown>
 		      </Nav>
 		    </Navbar.Collapse>
+		    <AddDevice/>
 		  </Container>
 		</Navbar>
-		<CardGroup>
+		<Row>
 
 		{devices.map((device, i) => (
                         <DeviceBox img={[<BsLamp/>]} name={device.name} key={i} state="success" ipAddress={device.ip} />
                     ))}
-		</CardGroup>
+		</Row>
 		</div>
 
 	);
