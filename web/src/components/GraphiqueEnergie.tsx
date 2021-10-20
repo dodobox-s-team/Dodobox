@@ -3,13 +3,13 @@ import ReactDom from 'react-dom'
 import {Line} from 'react-chartjs-2'
 import {MDBContainer} from 'mdbreact'
 
-class Graphique extends React.Component {
+class GraphiqueEnergie extends React.Component {
     state = {
         dataLine: {
             labels: this.props.labels,
             datasets: [
                 {
-                    label: this.props.labeldata,
+                    label: "Consommation énergétique",
                     fill: true,
                     lineTension: 0.3,
                     backgroundColor: "rgba(225, 204,230, .5)",
@@ -43,4 +43,4 @@ class Graphique extends React.Component {
     }
 }
 
-export default Graphique
+export default GraphiqueEnergie
