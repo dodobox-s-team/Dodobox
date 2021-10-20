@@ -2,9 +2,11 @@ import { useState } from 'react'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import DeviceBox from '../components/DeviceBox.tsx'
+import AddDevice from '../components/AddDevice.tsx'
 import Navbar from 'react-bootstrap/Navbar'
 import Nav from 'react-bootstrap/Nav'
 import NavDropdown from 'react-bootstrap/NavDropdown'
+import Button from 'react-bootstrap/Button'
 import Container from 'react-bootstrap/Container'
 import Card from 'react-bootstrap/Card'
 import CardGroup from 'react-bootstrap/CardGroup'
@@ -29,6 +31,7 @@ const ListDevices = () => {
 		        </NavDropdown>
 		      </Nav>
 		    </Navbar.Collapse>
+		    <AddDevice/>
 		  </Container>
 		</Navbar>
 		<CardGroup>
