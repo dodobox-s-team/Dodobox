@@ -52,7 +52,7 @@ class Device(BaseModel):
         """Edit a device using another device object."""
         device = device.dict()
         device.pop('id')
-        return cls.update(id, **device)
+        return await cls.update(id, **device)
 
     @classmethod
     async def delete(cls, id: int) -> Optional['Device']:

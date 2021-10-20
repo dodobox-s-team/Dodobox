@@ -32,4 +32,4 @@ class TestDevice:
     @pytest.mark.asyncio
     async def test_get_all(self, db):
         await Device.add(self.device2)
-        assert len(await Device.get_all()) == 2
+        assert len(await Device.get_all()) == 1
