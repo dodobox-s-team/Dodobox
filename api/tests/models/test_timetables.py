@@ -2,10 +2,14 @@ import pytest
 from api.models.timetables import Timetable
 from datetime import datetime, timedelta
 
+
 class TestTimetable:
-    timetable = Timetable(id=1, action="off", start=datetime.now(), duration=timedelta(minutes=5), repeat=timedelta(weeks=1))
-    edit_timetable = Timetable(id=1, action="on", start=datetime.now(), duration=timedelta(minutes=3), repeat=timedelta(days=1))
-    timetable2 = Timetable(id=2, action="click", start=datetime.now(), duration=timedelta(seconds=60), repeat=timedelta(minutes=10))
+    timetable = Timetable(id=1, action="off", start=datetime.now(), duration=timedelta(minutes=5),
+                          repeat=timedelta(weeks=1))
+    edit_timetable = Timetable(id=1, action="on", start=datetime.now(), duration=timedelta(minutes=3),
+                               repeat=timedelta(days=1))
+    timetable2 = Timetable(id=2, action="click", start=datetime.now(), duration=timedelta(seconds=60),
+                           repeat=timedelta(minutes=10))
 
     @pytest.mark.asyncio
     async def test_add(self, db):
