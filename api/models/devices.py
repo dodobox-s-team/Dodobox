@@ -1,8 +1,7 @@
 from typing import Optional
 
-from pydantic import BaseModel, constr
-
 from api.schemas import db, devices
+from pydantic import BaseModel, constr
 
 
 class Device(BaseModel):
@@ -47,6 +46,13 @@ class Device(BaseModel):
         query = devices.update().where(devices.c.id == id).values(**kwargs).returning(devices)
         if device := await db.fetch_one(query):
             return Device(**device)
+
+    @classmethod
+    async def edit(cls, id: int, device: 'Device') -> Optional['Device']:
+        """Edit a device using another device object."""
+        device = device.dict()
+        device.pop('id')
+        return await cls.update(id, **device)
 
     @classmethod
     async def delete(cls, id: int) -> Optional['Device']:
