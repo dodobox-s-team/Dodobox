@@ -14,7 +14,33 @@ import CardGroup from 'react-bootstrap/CardGroup'
 import { FaThermometerQuarter } from "react-icons/fa";
 import { BsLamp } from "react-icons/bs";
 
-const ListDevices = () => {
+class ListDevices extends React.Component {
+
+	constructor(props) {
+		super(props)
+		this.state = {
+			devices: [],
+			isLoaded: false
+		}
+	};
+	
+	displayDevice () {
+		fetch("https://localhost/api/devices", {method: 'GET'})
+			.then(devicesElements => devicesElements.json())
+			.then((response) => {
+				this.setState({
+					isLoaded : true,
+					devices : response
+				}
+				)});
+
+	};
+
+	render() {
+		let {devices} = this.state;
+		console.log(devices);
+
+		window.onload = this.displayDevice.bind(this)
 
 	return (
 		<div>
@@ -36,16 +62,15 @@ const ListDevices = () => {
 		  </Container>
 		</Navbar>
 		<Row>
-			<DeviceBox state="success" name='T° Salon' info='Température: 25°C' img={[<FaThermometerQuarter />]}></DeviceBox>
-			<DeviceBox state="danger" name='Lampe Cuisine' info='' img={[<BsLamp/>]}></DeviceBox>
-			<DeviceBox state="success" name='Lampe Salon' info='' img={[<BsLamp/>]}></DeviceBox>
-			<DeviceBox state="success" name='Lampe Salon' info='' img={[<BsLamp/>]}></DeviceBox>
-			<DeviceBox state="success" name='Lampe Salon' info='' img={[<BsLamp/>]}></DeviceBox>
-			<DeviceBox state="success" name='Lampe Salon' info='' img={[<BsLamp/>]}></DeviceBox>
+
+		{devices.map((device, i) => (
+                        <DeviceBox img={[<BsLamp/>]} name={device.name} key={i} state="success" ipAddress={device.ip} />
+                    ))}
 		</Row>
 		</div>
 
 	);
+	};
 };
 
 export default ListDevices;
