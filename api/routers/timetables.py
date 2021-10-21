@@ -47,4 +47,3 @@ async def edit_a_timetable(id: int, timetable: Timetable):
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="No timetable with that id was found.")
 
     return edit_timetable
-
