@@ -19,7 +19,7 @@ async def get_timetables():
     return await Timetable.get_all()
 
 
-@router.get("/{id]", response_model=Timetable)
+@router.get("/{id}", response_model=Timetable)
 async def get_timetable_id(id: int):
     """Get a timetable by id."""
     timetable = await Timetable.get(id)
