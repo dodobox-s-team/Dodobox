@@ -1,7 +1,6 @@
 from fastapi import status
 from fastapi.testclient import TestClient
 import pytest
-import json
 from api.models.timetables import Timetable
 from api.main import app
 from datetime import datetime, timedelta
