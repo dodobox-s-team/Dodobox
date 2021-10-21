@@ -19,7 +19,7 @@ async def get_timetables():
     return await Timetable.get_all()
 
 
-@router.get("/{id]", response_model=Timetable)
+@router.get("/{id}", response_model=Timetable)
 async def get_timetable_id(id: int):
     """Get a timetable by id."""
     timetable = await Timetable.get(id)
@@ -47,3 +47,4 @@ async def edit_a_timetable(id: int, timetable: Timetable):
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="No timetable with that id was found.")
 
     return edit_timetable
+
