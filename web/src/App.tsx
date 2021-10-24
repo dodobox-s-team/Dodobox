@@ -12,6 +12,7 @@ import {
   Switch,
   Route
 } from "react-router-dom";
+//window.id = 1; 
 
 function App() {
   const styles = {
@@ -33,7 +34,8 @@ function App() {
             <Route path="/ListDevices">
               <ListDevices />
             </Route>
-            <Route path="/Details">
+            <Route path="/Details/:id"
+                  render={(props)}>
               <Details />
             </Route>
             <Route path="/">
