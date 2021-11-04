@@ -61,12 +61,12 @@ class ListDevices extends React.Component {
 		    <AddDevice/>
 		  </Container>
 		</Navbar>
-		<CardGroup>
+		<Row>
 
 		{devices.map((device, i) => (
                         <DeviceBox img={[<BsLamp/>]} name={device.name} key={i} state="success" ipAddress={device.ip} />
                     ))}
-		</CardGroup>
+		</Row>
 		</div>
 
 	);
