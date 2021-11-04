@@ -3,9 +3,8 @@ import ReactDOM from 'react-dom'
 import FormDeviceOptions from './FormDeviceOptions.tsx'
 import {Modal, Button, Form, Image, Alert} from 'react-bootstrap'
 import {useState} from 'react'
-import { RiSettings2Line } from "react-icons/ri";
 
-function DeviceSettings(props) {
+function AddDevice(props) {
     const [modalShow, setModalShow] = useState(false);
     const [alertShow, setAlertShow] = useState(false);
 
@@ -18,13 +17,11 @@ function DeviceSettings(props) {
   
     return (
         <div>
-            <Button variant="secondary" onClick={handleShow} >
-                <RiSettings2Line/>
-            </Button>
+            <Button variant="secondary" onClick={handleShow} > Ajouter un appareil </Button>
   
             <Modal show={modalShow} onHide={handleClose} animation={false}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Paramètres de l'appareil</Modal.Title>
+                    <Modal.Title> Ajouter un appareil </Modal.Title>
                 </Modal.Header>
 
                 <Modal.Body>
@@ -50,4 +47,4 @@ function DeviceSettings(props) {
     );
   };
 
-export default DeviceSettings;
+export default AddDevice;

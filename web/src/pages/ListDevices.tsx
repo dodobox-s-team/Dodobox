@@ -2,16 +2,45 @@ import { useState } from 'react'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import DeviceBox from '../components/DeviceBox.tsx'
+import AddDevice from '../components/AddDevice.tsx'
 import Navbar from 'react-bootstrap/Navbar'
 import Nav from 'react-bootstrap/Nav'
 import NavDropdown from 'react-bootstrap/NavDropdown'
+import Button from 'react-bootstrap/Button'
+import Row from 'react-bootstrap/Row'
 import Container from 'react-bootstrap/Container'
 import Card from 'react-bootstrap/Card'
 import CardGroup from 'react-bootstrap/CardGroup'
 import { FaThermometerQuarter } from "react-icons/fa";
 import { BsLamp } from "react-icons/bs";
 
-const ListDevices = () => {
+class ListDevices extends React.Component {
+
+	constructor(props) {
+		super(props)
+		this.state = {
+			devices: [],
+			isLoaded: false
+		}
+	};
+	
+	displayDevice () {
+		fetch("https://localhost/api/devices", {method: 'GET'})
+			.then(devicesElements => devicesElements.json())
+			.then((response) => {
+				this.setState({
+					isLoaded : true,
+					devices : response
+				}
+				)});
+
+	};
+
+	render() {
+		let {devices} = this.state;
+		console.log(devices);
+
+		window.onload = this.displayDevice.bind(this)
 
 	return (
 		<div>
@@ -29,19 +58,19 @@ const ListDevices = () => {
 		        </NavDropdown>
 		      </Nav>
 		    </Navbar.Collapse>
+		    <AddDevice/>
 		  </Container>
 		</Navbar>
-		<CardGroup>
-			<DeviceBox state="success" name='T° Salon' info='Température: 25°C' img={[<FaThermometerQuarter />]}></DeviceBox>
-			<DeviceBox state="danger" name='Lampe Cuisine' info='' img={[<BsLamp/>]}></DeviceBox>
-			<DeviceBox state="success" name='Lampe Salon' info='' img={[<BsLamp/>]}></DeviceBox>
-			<DeviceBox state="success" name='Lampe Salon' info='' img={[<BsLamp/>]}></DeviceBox>
-			<DeviceBox state="success" name='Lampe Salon' info='' img={[<BsLamp/>]}></DeviceBox>
-			<DeviceBox state="success" name='Lampe Salon' info='' img={[<BsLamp/>]}></DeviceBox>
-		</CardGroup>
+		<Row>
+
+		{devices.map((device, i) => (
+                        <DeviceBox img={[<BsLamp/>]} name={device.name} key={i} state="success" ipAddress={device.ip} />
+                    ))}
+		</Row>
 		</div>
 
 	);
+	};
 };
 
 export default ListDevices;
