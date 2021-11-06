@@ -49,3 +49,10 @@ device_timetables = Table(
     Column("deviceId", Integer, ForeignKey('devices.id'), primary_key=True),
     Column("timetableId", Integer, ForeignKey('timetables.id'), primary_key=True),
 )
+
+device_data = Table(
+    "device_data",
+    metadata,
+    Column("device_dataId", Integer, ForeignKey('devices.id'), primary_key=True),
+    Column("data", Integer, nullable=True),
+)
