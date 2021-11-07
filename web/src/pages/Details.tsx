@@ -1,6 +1,7 @@
 import React from 'react'
 import { MDBListGroup, MDBListGroupItem, MDBContainer, MDBBadge } from "mdbreact";
-import { Form } from 'react-bootstrap'
+//import { Form } from 'react-bootstrap'
+import {useParams} from 'react-router-dom'
 
 class Details extends React.Component {
   constructor(props) {
@@ -8,19 +9,19 @@ class Details extends React.Component {
     this.state = {
       error: null,
       isLoaded: false,
-      id: this.props.match.params.id
+      devices: []
     };
   }
 
-  detailsApi() {
-//    fetch(`https://localhost/api/devices/${window.id}`, { method: 'GET' })
-    fetch(`https://localhost/api/devices/${id}`, { method: 'GET' })
+  detailsApi(idParameter) {
+
+    fetch(`https://localhost/api/devices/` + idParameter)
       .then(res => res.json())
-      .then((reponse) => {
+      .then((result) => {
         this.setState({
           isLoaded: true,
-          devices: reponse
-        });
+          devices: result
+        })
       },
         (error) => {
           this.setState({
@@ -33,9 +34,14 @@ class Details extends React.Component {
 
 
   render() {
-    const { error, isLoaded, devices } = this.state;
+    const { error, isLoaded, devices} = this.state;
+    console.log(devices);
+    let id = this.props.match.params.id
+    console.log(id);
+    console.log(typeof(id));
 
-    window.onload = this.detailsApi.bind(this);
+
+    window.onload = () => this.detailsApi(id);
 
     if (error) {
       return <div>Erreur: {error.message}</div>
@@ -43,41 +49,33 @@ class Details extends React.Component {
       return <div>Chargement...</div>;
     } else {
       return (
-
-
         <div>
 
-          {(devices.map((device, i) =>
+          <MDBContainer>
+            <MDBListGroup style={{ width: "22rem" }}>
+              <MDBListGroupItem className="d-flex justify-content-between align-items-center">Name: {devices.name}<MDBBadge color="primary"
+                pill>14</MDBBadge>
+              </MDBListGroupItem>
+              <MDBListGroupItem className="d-flex justify-content-between align-items-center">Groupe: {devices.groupId}<MDBBadge color="primary"
+                pill>1</MDBBadge>
+              </MDBListGroupItem>
+              <MDBListGroupItem className="d-flex justify-content-between align-items-center">Modèle: {devices.modele}<MDBBadge
+                color="primary" pill>2</MDBBadge>
+              </MDBListGroupItem>
+              <MDBListGroupItem className="d-flex justify-content-between align-items-center">IP: {devices.ip}<MDBBadge color="primary"
+                pill>1</MDBBadge>
+              </MDBListGroupItem>
+              <MDBListGroupItem className="d-flex justify-content-between align-items-center">Type: {devices.type}<MDBBadge color="primary"
+                pill>1</MDBBadge>
+              </MDBListGroupItem>
+            </MDBListGroup>
+          </MDBContainer>
 
-            <MDBContainer>
-              <MDBListGroup style={{ width: "22rem" }}>
-                <MDBListGroupItem className="d-flex justify-content-between align-items-center">Name: {device.name}<MDBBadge color="primary"
-                  pill>14</MDBBadge>
-                </MDBListGroupItem>
-                <MDBListGroupItem className="d-flex justify-content-between align-items-center">Groupe: {device.groupId}<MDBBadge color="primary"
-                  pill>1</MDBBadge>
-                </MDBListGroupItem>
-                <MDBListGroupItem className="d-flex justify-content-between align-items-center">Modèle: {device.modele}<MDBBadge
-                  color="primary" pill>2</MDBBadge>
-                </MDBListGroupItem>
-                <MDBListGroupItem className="d-flex justify-content-between align-items-center">IP: {device.ip}<MDBBadge color="primary"
-                  pill>1</MDBBadge>
-                </MDBListGroupItem>
-                <MDBListGroupItem className="d-flex justify-content-between align-items-center">Type: {device.type}<MDBBadge color="primary"
-                  pill>1</MDBBadge>
-                </MDBListGroupItem>
-              </MDBListGroup>
-            </MDBContainer>
-
-          )
-          )
-
-
-          };
-        </div>
+        
+      </div>
       )
-
     };
   };
 }
+
 export default Details;
