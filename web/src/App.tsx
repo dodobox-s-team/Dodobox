@@ -34,9 +34,8 @@ function App() {
             <Route path="/ListDevices">
               <ListDevices />
             </Route>
-            <Route path="/Details/:id"
-                  render={(props)}>
-              <Details />
+            <Route path="/Details/:id" component={Details} >
+              
             </Route>
             <Route path="/">
               <Dashboard />
