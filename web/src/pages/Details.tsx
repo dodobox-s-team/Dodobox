@@ -57,26 +57,26 @@ class Details extends React.Component {
                             <MDBListGroupItem
                                 className="d-flex justify-content-between align-items-center">Name: {devices.name}<MDBBadge
                                 color="primary"
-                                pill>14</MDBBadge>
+                                pill></MDBBadge>
                             </MDBListGroupItem>
                             <MDBListGroupItem
                                 className="d-flex justify-content-between align-items-center">Groupe: {devices.groupId}<MDBBadge
                                 color="primary"
-                                pill>1</MDBBadge>
+                                pill></MDBBadge>
                             </MDBListGroupItem>
                             <MDBListGroupItem
                                 className="d-flex justify-content-between align-items-center">Modèle: {devices.modele}<MDBBadge
-                                color="primary" pill>2</MDBBadge>
+                                color="primary" pill></MDBBadge>
                             </MDBListGroupItem>
                             <MDBListGroupItem
                                 className="d-flex justify-content-between align-items-center">IP: {devices.ip}<MDBBadge
                                 color="primary"
-                                pill>1</MDBBadge>
+                                pill></MDBBadge>
                             </MDBListGroupItem>
                             <MDBListGroupItem
                                 className="d-flex justify-content-between align-items-center">Type: {devices.type}<MDBBadge
                                 color="primary"
-                                pill>1</MDBBadge>
+                                pill></MDBBadge>
                             </MDBListGroupItem>
                         </MDBListGroup>
                         <GraphiqueEnergie data={[15, 24, 18, 19]} labels={["test1", "test2", "test3", "test4"]}/>
