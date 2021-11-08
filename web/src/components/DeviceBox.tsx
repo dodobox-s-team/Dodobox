@@ -22,7 +22,7 @@ const DeviceBox = (props) => {
         </Card.Body>
         </a>
         <Card.Footer className="text-center">
-          <DeviceSettings />
+          <DeviceSettings name={props.name} ipAddress={props.ipAddress} id={props.id} groupId={props.groupId} type={props.type}/>
         </Card.Footer>
       </Card>
   );

@@ -92,8 +92,8 @@ class ListDevices extends React.Component<{}, ListDevicesInterface> {
                 <Row>
 
                     {this.state.devicesShown.map((device: Device, i: number) => (
-                        <DeviceBox img={[<BsLamp/>]} name={device.name} key={i} state="success" ipAddress={device.ip} />
-                    ))}
+                        <DeviceBox img={[<BsLamp/>]} name={device.name} key={device.id} state="success" ipAddress={device.ip} groupId={device.groupId} type={device.type} id={device.id}/>
+					))}
                 </Row>
             </div>
 

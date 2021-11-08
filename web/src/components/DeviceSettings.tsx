@@ -27,8 +27,8 @@ function DeviceSettings(props) {
                     <Modal.Title>Paramètres de l'appareil</Modal.Title>
                 </Modal.Header>
 
-                <Modal.Body>
-                    <FormDeviceOptions/>
+                <Modal.Body> 
+                    <FormDeviceOptions name={props.name} ipAddress={props.ipAddress} id={props.id} groupId={props.groupId} type={props.type} />
                     <Alert variant="success" show={alertShow}>
                         La configuration de l'appareil a bien été sauvegardée.
                     </Alert>
