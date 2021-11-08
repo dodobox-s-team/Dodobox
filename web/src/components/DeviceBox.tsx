@@ -16,11 +16,11 @@ const DeviceBox = (props) => {
         <Card.Body>
           <Card.Title>{props.img}{props.name}</Card.Title>
           <Card.Text>
-            {props.info}
+            {props.ipAddress}
           </Card.Text>
         </Card.Body>
         <Card.Footer className="text-center">
-          <DeviceSettings/>
+          <DeviceSettings />
         </Card.Footer>
       </Card>
   );
