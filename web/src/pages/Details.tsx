@@ -82,7 +82,6 @@ class Details extends React.Component {
                         <GraphiqueEnergie data={[15, 24, 18, 19]} labels={["test1", "test2", "test3", "test4"]}/>
                     </MDBContainer>
 
-
                 </div>
             )
         }
