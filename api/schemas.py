@@ -68,8 +68,9 @@ graphData = Table(
 )
 
 # Create the hypertable for time-scale data
+hypertable_data_ddl = DDL(f"SELECT create_hypertable('\"{graphData.name}\"', {graphData.c.time.name!r});")
 event.listen(
     graphData,
     "after_create",
-    DDL(f"SELECT create_hypertable({graphData.name!r}, {graphData.c.time.name!r});")
+    hypertable_data_ddl
 )
