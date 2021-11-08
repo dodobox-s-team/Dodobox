@@ -1,16 +1,19 @@
-import { useState } from 'react'
-import React from 'react'
-import ReactDOM from 'react-dom'
-import DeviceBox from '../components/DeviceBox.tsx'
-import AddDevice from '../components/AddDevice.tsx'
-import Navbar from 'react-bootstrap/Navbar'
-import Nav from 'react-bootstrap/Nav'
-import NavDropdown from 'react-bootstrap/NavDropdown'
-import Button from 'react-bootstrap/Button'
-import Row from 'react-bootstrap/Row'
-import Container from 'react-bootstrap/Container'
-import Card from 'react-bootstrap/Card'
-import CardGroup from 'react-bootstrap/CardGroup'
+import { useState } from 'react';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import DeviceBox from '../components/DeviceBox.tsx';
+import AddDevice from '../components/AddDevice.tsx';
+import SearchBar from '../components/SearchBar.tsx';
+import Navbar from 'react-bootstrap/Navbar';
+import Nav from 'react-bootstrap/Nav';
+import NavDropdown from 'react-bootstrap/NavDropdown';
+import Button from 'react-bootstrap/Button';
+import Row from 'react-bootstrap/Row';
+import Container from 'react-bootstrap/Container';
+import Form from 'react-bootstrap/Form';
+import FormControl from 'react-bootstrap/FormControl';
+import Card from 'react-bootstrap/Card';
+import CardGroup from 'react-bootstrap/CardGroup';
 import { FaThermometerQuarter } from "react-icons/fa";
 import { BsLamp } from "react-icons/bs";
 
@@ -58,6 +61,10 @@ class ListDevices extends React.Component {
 		        </NavDropdown>
 		      </Nav>
 		    </Navbar.Collapse>
+			  <SearchBar
+				  placeholder="Chercher un appareil"
+				  onChange={ (e) => console.log(e.target.value)}
+		  		/>
 		    <AddDevice/>
 		  </Container>
 		</Navbar>
