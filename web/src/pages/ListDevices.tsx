@@ -1,83 +1,104 @@
-import { useState } from 'react';
 import React from 'react';
-import ReactDOM from 'react-dom';
-import DeviceBox from '../components/DeviceBox.tsx';
-import AddDevice from '../components/AddDevice.tsx';
-import SearchBar from '../components/SearchBar.tsx';
+import DeviceBox from '../components/DeviceBox';
+import AddDevice from '../components/AddDevice';
+import SearchBar from '../components/SearchBar';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import NavDropdown from 'react-bootstrap/NavDropdown';
-import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
 import Container from 'react-bootstrap/Container';
-import Form from 'react-bootstrap/Form';
-import FormControl from 'react-bootstrap/FormControl';
-import Card from 'react-bootstrap/Card';
-import CardGroup from 'react-bootstrap/CardGroup';
-import { FaThermometerQuarter } from "react-icons/fa";
-import { BsLamp } from "react-icons/bs";
+import {BsLamp} from "react-icons/bs";
+import Fuse from "fuse.js";
 
-class ListDevices extends React.Component {
+interface Device {
+    id: number
+    groupId: number
+    name: string
+    modele: string
+    type: number
+    ip: string
+}
 
-	constructor(props) {
-		super(props)
-		this.state = {
-			devices: [],
-			isLoaded: false
-		}
-	};
-	
-	displayDevice () {
-		fetch("https://localhost/api/devices", {method: 'GET'})
-			.then(devicesElements => devicesElements.json())
-			.then((response) => {
-				this.setState({
-					isLoaded : true,
-					devices : response
-				}
-				)});
+interface ListDevicesInterface {
+    devices: Device[]
+    devicesShown: Device[]
+    isLoaded: boolean
+}
 
-	};
+class ListDevices extends React.Component<{}, ListDevicesInterface> {
 
-	render() {
-		let {devices} = this.state;
-		console.log(devices);
+    constructor(props: object) {
+        super(props)
+        this.state = {
+            devices: [],
+            devicesShown: [],
+            isLoaded: false
+        }
+    };
 
-		window.onload = this.displayDevice.bind(this)
+    displayDevice() {
+        fetch("https://localhost/api/devices", {method: 'GET'})
+            .then(devicesElements => devicesElements.json())
+            .then((response) => {
+                this.setState({
+                        isLoaded: true,
+                        devices: response,
+                        devicesShown: response
+                    }
+                )
+            });
 
-	return (
-		<div>
-		<Navbar bg="light" expand="lg">
-		  <Container>
-		    <Navbar.Brand href="#home">Listes des appareils</Navbar.Brand>
-		    <Navbar.Collapse id="basic-navbar-nav">
-		      <Nav className="me-auto">
-		        <NavDropdown title="Filtres" id="basic-nav-dropdown" className="justify-content-end">
-		          <NavDropdown.Item href="#action/3.1">ON</NavDropdown.Item>
-		          <NavDropdown.Item href="#action/3.2">OFF</NavDropdown.Item>
-		          <NavDropdown.Item href="#action/3.3">TYPE</NavDropdown.Item>
-		          <NavDropdown.Divider />
-		          <NavDropdown.Item href="#action/3.4">Salon</NavDropdown.Item>
-		        </NavDropdown>
-		      </Nav>
-		    </Navbar.Collapse>
-			  <SearchBar
-				  placeholder="Chercher un appareil"
-				  onChange={ (e) => console.log(e.target.value)}
-		  		/>
-		    <AddDevice/>
-		  </Container>
-		</Navbar>
-		<Row>
+    };
+    searchData(pattern?: string) {
+        if (pattern == null || pattern == "") {
+            return;
+        }
 
-		{devices.map((device, i) => (
-                        <DeviceBox img={[<BsLamp/>]} name={device.name} key={i} state="success" ipAddress={device.ip} id={device.id} />
+        const fuse = new Fuse(this.state.devices, {
+            keys: ["name", "modele"],
+            threshold: 0.1,
+            ignoreLocation: true
+        });
+        const result = fuse.search(pattern).map(({item}) => item);
+        this.setState({devicesShown: result});
+    };
+
+    render() {
+        window.onload = this.displayDevice.bind(this)
+
+        return (
+            <div>
+                <Navbar bg="light" expand="lg">
+                    <Container>
+                        <Navbar.Brand href="#home">Listes des appareils</Navbar.Brand>
+                        <Navbar.Collapse id="basic-navbar-nav">
+                            <Nav className="me-auto">
+                                <NavDropdown title="Filtres" id="basic-nav-dropdown" className="justify-content-end">
+                                    <NavDropdown.Item href="#action/3.1">ON</NavDropdown.Item>
+                                    <NavDropdown.Item href="#action/3.2">OFF</NavDropdown.Item>
+                                    <NavDropdown.Item href="#action/3.3">TYPE</NavDropdown.Item>
+                                    <NavDropdown.Divider/>
+                                    <NavDropdown.Item href="#action/3.4">Salon</NavDropdown.Item>
+                                </NavDropdown>
+                            </Nav>
+                        </Navbar.Collapse>
+                        <SearchBar
+                            placeholder="Chercher un appareil"
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => this.searchData(e.target.value)}
+                        />
+                        <AddDevice/>
+                    </Container>
+                </Navbar>
+                <Row>
+
+                    {this.state.devicesShown.map((device: Device, i: number) => (
+                        <DeviceBox img={[<BsLamp/>]} name={device.name} key={i} state="success" ipAddress={device.ip}/>
                     ))}
-		</Row>
-		</div>
+                </Row>
+            </div>
 
-	);
-	};
-};
+        );
+    };
+}
 
 export default ListDevices;
