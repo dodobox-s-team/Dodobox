@@ -4,47 +4,83 @@ import FormDeviceOptions from './FormDeviceOptions.tsx'
 import {Modal, Button, Form, Image, Alert} from 'react-bootstrap'
 import {useState} from 'react'
 
-function AddDevice(props) {
-    const [modalShow, setModalShow] = useState(false);
-    const [alertShow, setAlertShow] = useState(false);
+class AddDevice extends React.Component {
 
-    const handleClose = () => {
-         setModalShow(false);
-         setAlertShow(false);
+    constructor(props) {
+		super(props)
+		this.state = {
+            modalShow: false,
+            setModalShow: false,
+            alertShow: false,
+            setAlertShow: false,
+		}
+	};
+
+    handleClose() {
+        this.setState({modalShow: false});
+        this.setState({alertShow: false});
     }
-    const handleShow = () => setModalShow(true);
-    const handleAlertShow = () => setAlertShow(true);
-  
-    return (
-        <div>
-            <Button variant="secondary" onClick={handleShow} > Ajouter un appareil </Button>
-  
-            <Modal show={modalShow} onHide={handleClose} animation={false}>
-                <Modal.Header closeButton>
-                    <Modal.Title> Ajouter un appareil </Modal.Title>
-                </Modal.Header>
+    handleShow() {
+        this.setState({modalShow: true});
+    }
+    handleAlertShow() {
+        this.setState({alertShow: true});
+    }
 
-                <Modal.Body>
-                    <FormDeviceOptions/>
-                    <Alert variant="success" show={alertShow}>
-                        La configuration de l'appareil a bien été sauvegardée.
-                    </Alert>
-                    <Alert variant="danger" show={false}>
-                        La configuration de l'appareil ne peut pas être sauvegardée car le champ y n'est pas valide
-                    </Alert>
-                </Modal.Body>
-            
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
-                        Fermer la fenêtre
-                    </Button>
-                    <Button variant="primary" onClick={handleAlertShow}>
-                        Sauvegarder
-                    </Button>
-                </Modal.Footer>
-            </Modal>
-        </div>
-    );
+    handleInput = (e) => {
+        e.preventDefault();
+
+        let dataDevice = {
+            "groupId": 1,
+            "name" : e.target[0].value,
+            "modele": 1,
+            "type": 1,
+            "ip": e.target[1].value,
+         }
+
+         fetch("https://localhost/api/devices", {method: 'POST',
+            headers: {
+                'Content-type': 'application/json; charset=UTF-8'
+            },
+             body: JSON.stringify(dataDevice)
+         })
+             .then(response => response.json())
+    }
+
+    render() {
+        return (
+            <div>
+                <Button variant="secondary" onClick={this.handleShow.bind(this)} > Ajouter un appareil </Button>
+    
+                <Modal show={this.state.modalShow} onHide={this.handleClose.bind(this)} animation={false}>
+                    <Modal.Header closeButton>
+                        <Modal.Title> Ajouter un appareil </Modal.Title>
+                    </Modal.Header>
+
+                    <Modal.Body>
+                        <Form onSubmit={(e) => this.handleInput(e)}>
+                            <FormDeviceOptions/>
+                        </Form>
+                        <Alert variant="success" show={this.state.alertShow}>
+                            La configuration de l'appareil a bien été sauvegardée.
+                        </Alert>
+                        <Alert variant="danger" show={false}>
+                            La configuration de l'appareil ne peut pas être sauvegardée car le champ y n'est pas valide
+                        </Alert>
+                    </Modal.Body>
+                
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={this.handleClose}>
+                            Fermer la fenêtre
+                        </Button>
+                        <Button variant="primary" onClick={this.handleAlertShow}>
+                            Ajouter l'appareil
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
+            </div>
+        );
+        }
   };
 
 export default AddDevice;

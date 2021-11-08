@@ -4,6 +4,7 @@ import FormDeviceOptions from './FormDeviceOptions.tsx'
 import {Modal, Button, Form, Image, Alert} from 'react-bootstrap'
 import {useState} from 'react'
 import { RiSettings2Line } from "react-icons/ri";
+import EditDevice from './EditDevice'
 
 function DeviceSettings(props) {
     const [modalShow, setModalShow] = useState(false);
@@ -28,7 +29,7 @@ function DeviceSettings(props) {
                 </Modal.Header>
 
                 <Modal.Body> 
-                    <FormDeviceOptions name={props.name} ipAddress={props.ipAddress} id={props.id} groupId={props.groupId} type={props.type} />
+                    <EditDevice name={props.name} ipAddress={props.ipAddress} id={props.id} groupId={props.groupId} type={props.type}/>
                     <Alert variant="success" show={alertShow}>
                         La configuration de l'appareil a bien été sauvegardée.
                     </Alert>
