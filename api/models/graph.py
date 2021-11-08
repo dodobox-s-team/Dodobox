@@ -26,17 +26,37 @@ class Graph(BaseModel):
         return graph
     
     @classmethod
-    async def get (cls, id: int) -> 'Graph':
-        pass
+    async def get (cls, id: int) -> Optional['Graph']:
+        """Get a graph from the database from its id."""
+        query = graphs.select().where(graphs.c.id == id)
+        graph = await db.fetch_one(query)
+        if graph:
+            return Graph(**graph)
+
     @classmethod
-    async def get_all (cls) -> 'Graph':
-        pass
+    async def get_all (cls) -> list['Graph']:
+        """Return a list of all graphs from the database.""" 
+           return [Graph(**graph) for graph in await db.fetch_all(graphs.select())]
+
     @classmethod
-    async def update (cls, id: int, **kwargs) -> 'Graph':
-        pass
+    async def update (cls, id: int, **kwargs) -> Optional['Graph']:
+        """Update fields of a graph."""
+        query = graphs.update().where(graphs.c.id == id).values(**kwargs).returning(graphs)
+        if graph := await db.fetch_one(query):
+            return Graph(**graph)
+
     @classmethod
     async def edit (cls, id: int, graph: 'Graph') -> 'Graph':
-        pass
+        """Edit a graph using another device object."""
+        graph = graph.dict()
+        graph.pop('id')
+        return await cls.update(id, **graph)
     @classmethod
     async def delete (cls, id: int) -> 'Graph':
-        pass
+        """Delete a graph and return it. Return None if the graph does not exists."""
+        query = graphs.delete().where(graphs.c.id == id).returning(graphs)
+        graph = await db.fetch_one(query)
+
+        return graph
+
+        
