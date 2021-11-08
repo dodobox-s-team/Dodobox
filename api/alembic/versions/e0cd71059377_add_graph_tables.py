@@ -5,9 +5,9 @@ Revises: 7db537b8750a
 Create Date: 2021-11-08 08:44:13.898236
 
 """
-from alembic import op
 import sqlalchemy as sa
-
+from alembic import op
+from api.schemas import hypertable_data_ddl
 
 # revision identifiers, used by Alembic.
 revision = 'e0cd71059377'
@@ -32,6 +32,7 @@ def upgrade():
     sa.Column('value', sa.Numeric(), nullable=False),
     sa.ForeignKeyConstraint(['graphId'], ['graphs.id'], )
     )
+    hypertable_data_ddl(target=None, bind=op.get_bind())
     # ### end Alembic commands ###
 
 
