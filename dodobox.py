@@ -2,6 +2,7 @@
 import argparse
 import os
 import sys
+import time
 from subprocess import DEVNULL, Popen
 
 parser = argparse.ArgumentParser('dodobox')
@@ -165,6 +166,7 @@ class AlembicRevision(DockerCompose):
 class TestSetup(TestCommand):
     def run(self):
         super(TestCommand, self).run('up', '-d', 'db', exit=True)
+        time.sleep(0.5)  # Make sure the database is ready. Prevent the next command to fail.
         super(TestCommand, self).run('run', '-T', '--rm', '--workdir', '/api', 'api', 'alembic', 'upgrade', 'head', exit=True)
 
 
