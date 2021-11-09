@@ -182,7 +182,6 @@ class TestBack(TestCommand):
 @action('test-cleanup', help='Cleanup the test environment.')
 class TestCleanup(TestCommand):
     def run(self):
-        print(super(TestCommand, self).run)
         super(TestCommand, self).run('down', exit=True)
         return super(DockerCompose, self).run('docker', 'volume', 'rm', f'{self.project}_postgres_data')
 
