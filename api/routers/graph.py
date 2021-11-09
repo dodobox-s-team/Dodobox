@@ -1,4 +1,4 @@
-from api.models.devices import Graph
+from api.models.graph import Graph
 from fastapi import APIRouter, HTTPException, status
 
 router = APIRouter(
