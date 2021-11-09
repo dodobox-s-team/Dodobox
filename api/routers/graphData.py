@@ -6,7 +6,6 @@ router = APIRouter(
     tags=["graphData"],
 )
 
-
 @router.post("", response_model=GraphData)
 async def add_graphdata(graphdata: GraphData):
     """Add a graphdata."""
