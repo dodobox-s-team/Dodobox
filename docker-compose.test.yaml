@@ -3,6 +3,7 @@ version: "3.6"
 services:
   db:
     image: timescale/timescaledb:latest-pg13
+    command: postgres -c timescaledb.telemetry_level=off
     environment:
       - POSTGRES_DB=test
       - POSTGRES_USER=${DB_USER}
