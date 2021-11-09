@@ -23,6 +23,11 @@ def action(name, help=None, **kwargs):
 
 class Command:
     def __init__(self, config, testing=False, project=None):
+        if isinstance(config, Command):
+            testing = config.testing
+            project = config.project
+            config = config.config
+
         self.config = config
         self.testing = testing
         self.project = project or self.config.project
@@ -113,6 +118,20 @@ class ComposeDown(DockerCompose):
             args = ['-t', self.config.timeout]
 
         return super().run('down', *args)
+
+
+@action('rebuild', help='Rebuild the images and restart the environment.')
+class ComposeRebuild(ComposeDown, ComposeBuild, ComposeUp, DockerCompose):
+    @classmethod
+    def configure(cls, parser):
+        ComposeDown.configure(parser)
+        ComposeBuild.configure(parser)
+        ComposeUp.configure(parser)
+
+    def run(self):
+        ComposeDown(self).run()
+        ComposeBuild(self).run()
+        ComposeUp(self).run()
 
 
 @action('restart', help='Restart the dev environment.')
