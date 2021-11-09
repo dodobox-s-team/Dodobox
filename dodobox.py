@@ -184,33 +184,41 @@ class AlembicRevision(DockerCompose):
 @action('test-setup', help='Setup the test environment.')
 class TestSetup(TestCommand):
     def run(self):
-        super(TestCommand, self).run('up', '-d', 'db', exit=True)
-        time.sleep(0.5)  # Make sure the database is ready. Prevent the next command to fail.
-        super(TestCommand, self).run('run', '-T', '--rm', '--workdir', '/api', 'api', 'alembic', 'upgrade', 'head', exit=True)
+        super().run('up', '-d', 'db', exit=True)
+
+        # Make sure the database is ready. Prevent the next command from failing.
+        for i in range(5):
+            code = super().run('run', '-T', '--rm', '--workdir', '/api', 'api', 'alembic', 'upgrade', 'head')
+            if code == 0:
+                break
+
+            time.sleep(2 ** i / 10)
+
+        return code
 
 
 @action('test-back', help='Setup the test environment.')
 class TestBack(TestCommand):
     def run(self):
         if not self.config.exit:
-            super(TestCommand, self).run('build', 'api', exit=True)
+            super().run('build', 'api', exit=True)
 
-        return super(TestCommand, self).run('run', '--rm', 'api', exit=self.config.exit)
+        return super().run('run', '--rm', 'api', exit=self.config.exit)
 
 
 @action('test-cleanup', help='Cleanup the test environment.')
 class TestCleanup(TestCommand):
     def run(self):
-        super(TestCommand, self).run('down', exit=True)
+        super().run('down', exit=True)
         return super(DockerCompose, self).run('docker', 'volume', 'rm', f'{self.project}_postgres_data')
 
 
 @action('tests', help='Cleanup the test environment.')
 class RunTests(TestSetup, TestBack, TestCleanup):
     def run(self):
-        TestSetup.run(self)
-        TestBack.run(self)
-        return TestCleanup.run(self)
+        TestSetup(self).run()
+        TestBack(self).run()
+        return TestCleanup(self).run()
 
 
 @action('lint', help="Lint the backend's code.")
