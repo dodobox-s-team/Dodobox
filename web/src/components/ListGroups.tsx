@@ -69,6 +69,7 @@ class ListGroups extends React.Component<{}, ListGroupsInterface> {
                     }
                 } else {
                     this.closeModal();
+                    this.loadGroups();
                     toast.success(`Groupe "${r.name}" ajouté avec succès !`);
                 }
             });
