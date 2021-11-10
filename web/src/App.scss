@@ -1,42 +1,17 @@
-.App {
-  text-align: center;
-}
+// color to use
+$primary: #000246;
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
+// sidebar options
+$sidebar-bg-color: $primary !default;
+$submenu-bg-color: $primary !default;
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
+// delete horizontal scrollbar
+body { overflow-x : hidden}
 
-.App-link {
-  color: #61dafb;
-}
+//.pro-sidebar-inner { position: fixed ; }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
 
-button {
-  font-size: calc(10px + 2vmin);
-}
+
+@import '../node_modules/bootstrap/scss/bootstrap';
+@import 'react-pro-sidebar/dist/scss/styles.scss';

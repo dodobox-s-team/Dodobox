@@ -1,47 +1,50 @@
-import { useState } from 'react'
-import logo from './logo.svg'
+import {useState} from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './App.scss'
 import Button from 'react-bootstrap/Button'
+import SideBar from './components/SideBar'
+import Dashboard from './pages/Dashboard'
+import ListDevices from './pages/ListDevices'
+import Details from './pages/Details'
+import {ProSidebar, Menu, MenuItem, SubMenu} from 'react-pro-sidebar';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route
+} from "react-router-dom";
+//window.id = 1; 
 
 function App() {
-  const [count, setCount] = useState(0)
+  const styles = {
+    contentDiv: {
+      display: "flex",
+    },
+    contentMargin: {
+      marginLeft: "10px",
+      width: "100%",
+    },
+  };
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>Hello Vite + React!</p>
-        <p>
-          <button type="button" onClick={() => setCount((count) => count + 1)}>
-            count is: {count}
-          </button>
-        </p>
-        <p>
-          Edit <code>App.tsx</code> and save to test HMR updates.
-        </p>
-        <p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-          {' | '}
-          <a
-            className="App-link"
-            href="https://vitejs.dev/guide/features.html"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Vite Docs
-          </a>
-        </p>
-      </header>
-    </div>
-  )
+    <Router>
+      <div style={styles.contentDiv}>
+        <SideBar></SideBar>
+        <div style={styles.contentMargin}>
+          <Switch>
+            <Route path="/ListDevices">
+              <ListDevices />
+            </Route>
+            <Route path="/Details/:id" component={Details} >
+              
+            </Route>
+            <Route path="/">
+              <Dashboard />
+            </Route>
+          </Switch>
+        </div>
+      </div>
+    </Router>
+  );
 }
 
 export default App

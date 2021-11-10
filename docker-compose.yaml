@@ -31,6 +31,7 @@ services:
     command: caddy run
     volumes:
       - caddy_data:/data
+      - caddy_config:/config
     environment:
       - WEB_PORT=${WEB_PORT}
       - DOMAIN_NAME=${DOMAIN_NAME}
@@ -44,3 +45,4 @@ services:
 volumes:
   postgres_data: {}
   caddy_data: {}
+  caddy_config: {}

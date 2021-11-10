@@ -4,7 +4,7 @@ WORKDIR /
 
 # INSTALL THE BUILD DEP.
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends libpq-dev gcc libc-dev && \
+    apt-get install -y --no-install-recommends libpq-dev gcc libc-dev libffi-dev && \
     rm -rf /var/lib/apt/lists/* && \
     pip install --no-cache-dir -U setuptools wheel
 
