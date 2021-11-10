@@ -23,7 +23,7 @@ groups = Table(
     "groups",
     metadata,
     Column("id", Integer, primary_key=True),
-    Column("name", String(64), nullable=False),
+    Column("name", String(64), nullable=False, unique=True),
 )
 
 timetables = Table(
