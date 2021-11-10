@@ -3,6 +3,7 @@ import { Alert, Button, Form, Modal } from "react-bootstrap";
 import { FaLayerGroup, FaPlus } from "react-icons/fa";
 import { MenuItem, SubMenu } from "react-pro-sidebar";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 
 interface Group {
     id: number;
@@ -62,6 +63,7 @@ class ListGroups extends React.Component<{}, ListGroupsInterface> {
                     }
                 } else {
                     this.closeModal();
+                    toast.success(`Groupe "${r.name}" ajouté avec succès !`);
                 }
             });
         });
