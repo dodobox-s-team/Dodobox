@@ -42,33 +42,37 @@ class ListGroups extends React.Component<{}, ListGroupsInterface> {
   addGroup = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const data = JSON.stringify({
-      // @ts-ignore
-      name: e.target.elements.name.value,
-    });
-    fetch("/api/groups", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: data,
-    }).then(async (r) => {
-      const data = await r.json();
+    showError = (message: string) => this.setState({ alert: message });
+    openModal = () => this.setState({ isOpen: true });
+    closeModal = () => this.setState({ isOpen: false });
+    addGroup = (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
 
-      if (!r.ok) {
-        if (r.status == 409) {
-          this.showError("Ce nom de groupe existe déjà !");
-        } else {
-          this.showError(data.detail);
-        }
-      } else {
-        this.closeModal();
-        this.loadGroups();
-        toast.success(`Groupe "${data.name}" ajouté avec succès !`);
-      }
-    });
-  };
+        const data = JSON.stringify({
+            // @ts-ignore
+            name: e.target.elements.name.value,
+        });
+        fetch("/api/groups", {
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            body: data,
+        }).then((resp) => {
+            resp.json().then((r) => {
+                if (!resp.ok) {
+                    if (resp.status == 409) {
+                        this.showError("Ce nom de groupe existe déjà !");
+                    } else {
+                        this.showError(r.detail);
+                    }
+                } else {
+                    this.closeModal();
+                }
+            });
+        });
+    };
 
   render() {
     return (
@@ -82,35 +86,42 @@ class ListGroups extends React.Component<{}, ListGroupsInterface> {
           Ajouter un groupe
         </MenuItem>
 
-        <Modal show={this.state.isOpen} onHide={this.closeModal}>
-          <Form onSubmit={this.addGroup}>
-            <Modal.Header>
-              <Modal.Title>Ajouter un groupe</Modal.Title>
-            </Modal.Header>
+                <Modal show={this.state.isOpen} onHide={this.closeModal}>
+                    <Form onSubmit={this.addGroup}>
+                        <Modal.Header>
+                            <Modal.Title>Ajouter un groupe</Modal.Title>
+                        </Modal.Header>
 
-            <Modal.Body>
-              <Form.Group className="mb-3" controlId="name">
-                <Form.Label>Nom du groupe</Form.Label>
-                <Form.Control type="text" placeholder="Salon" required />
-              </Form.Group>
-              <Alert variant="danger" show={!!this.state.alert}>
-                {this.state.alert}
-              </Alert>
-            </Modal.Body>
+                        <Modal.Body>
+                            <Form.Group className="mb-3" controlId="name">
+                                <Form.Label>Nom du groupe</Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    placeholder="Salon"
+                                    required
+                                />
+                            </Form.Group>
+                            <Alert variant="danger" show={!!this.state.alert}>
+                                {this.state.alert}
+                            </Alert>
+                        </Modal.Body>
 
-            <Modal.Footer>
-              <Button variant="secondary" onClick={this.closeModal}>
-                Annuler
-              </Button>
-              <Button variant="primary" type="submit">
-                Ajouter
-              </Button>
-            </Modal.Footer>
-          </Form>
-        </Modal>
-      </SubMenu>
-    );
-  }
+                        <Modal.Footer>
+                            <Button
+                                variant="secondary"
+                                onClick={this.closeModal}
+                            >
+                                Annuler
+                            </Button>
+                            <Button variant="primary" type="submit">
+                                Ajouter
+                            </Button>
+                        </Modal.Footer>
+                    </Form>
+                </Modal>
+            </SubMenu>
+        );
+    }
 }
 
 export default ListGroups;
