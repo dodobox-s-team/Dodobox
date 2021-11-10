@@ -12,7 +12,7 @@ devices = Table(
     "devices",
     metadata,
     Column("id", Integer, primary_key=True),
-    Column("groupId", Integer),
+    Column("groupId", Integer, ForeignKey('groups.id')),
     Column("name", String(64), nullable=False),
     Column("modele", String(64), nullable=False),
     Column("type", Integer, nullable=False),
