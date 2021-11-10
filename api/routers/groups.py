@@ -1,6 +1,5 @@
 from api.models.devices import Device
 from api.models.groups import Group
-from asyncpg import UniqueViolationError
 from fastapi import APIRouter, HTTPException, status
 
 router = APIRouter(
@@ -12,10 +11,7 @@ router = APIRouter(
 @router.post("", response_model=Group)
 async def add_group(group: Group):
     """Add a group."""
-    try:
-        return await Group.add(group)
-    except UniqueViolationError:
-        raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="Group name already exists.")
+    return await Group.add(group)
 
 
 @router.get("", response_model=list[Group])

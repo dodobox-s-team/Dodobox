@@ -55,7 +55,7 @@ class Group(BaseModel):
     async def delete(cls, id: int) -> Optional['Group']:
         """Delete a group and return it. Return None if the group does not exists."""
         # Move the devices from this group to the default one
-        await db.execute(devices.update().where(devices.c.groupId == id).values(groupId=None))
+        await db.execute(devices.update().where(devices.c.groupId == id).values(id=None))
 
         query = groups.delete().where(groups.c.id == id).returning(groups)
         group = await db.fetch_one(query)
