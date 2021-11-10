@@ -1,5 +1,6 @@
-import React from "react";
-import { FaLayerGroup } from "react-icons/fa";
+import React, { useState } from "react";
+import { Alert, Button, Modal } from "react-bootstrap";
+import { FaLayerGroup, FaPlus } from "react-icons/fa";
 import { MenuItem, SubMenu } from "react-pro-sidebar";
 import { Link } from "react-router-dom";
 
@@ -10,6 +11,7 @@ interface Group {
 
 interface ListGroupsInterface {
     groups: Group[];
+    isOpen: boolean;
 }
 
 class ListGroups extends React.Component<{}, ListGroupsInterface> {
@@ -17,6 +19,7 @@ class ListGroups extends React.Component<{}, ListGroupsInterface> {
         super(props);
         this.state = {
             groups: [],
+            isOpen: false,
         };
         this.loadGroups();
     }
@@ -31,6 +34,9 @@ class ListGroups extends React.Component<{}, ListGroupsInterface> {
             });
     }
 
+    openModal = () => this.setState({ isOpen: true });
+    closeModal = () => this.setState({ isOpen: false });
+
     render() {
         return (
             <SubMenu title="Salles" icon={<FaLayerGroup />}>
@@ -39,6 +45,24 @@ class ListGroups extends React.Component<{}, ListGroupsInterface> {
                         <Link to={"/group/" + group.id}>{group.name}</Link>
                     </MenuItem>
                 ))}
+                <MenuItem icon={<FaPlus />} onClick={this.openModal}>
+                    Ajouter un groupe
+                </MenuItem>
+
+                <Modal show={this.state.isOpen} onHide={this.closeModal}>
+                    <Modal.Header>
+                        <Modal.Title>Ajouter un groupe</Modal.Title>
+                    </Modal.Header>
+
+                    <Modal.Body>test</Modal.Body>
+
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={this.closeModal}>
+                            Annuler
+                        </Button>
+                        <Button variant="primary">Ajouter</Button>
+                    </Modal.Footer>
+                </Modal>
             </SubMenu>
         );
     }
