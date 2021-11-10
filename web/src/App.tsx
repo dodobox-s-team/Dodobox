@@ -6,6 +6,8 @@ import ListDevices from "./pages/ListDevices";
 import Details from "./pages/Details";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import GroupDetail from "./pages/GroupDetail";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 //window.id = 1;
 
 function App() {
@@ -38,6 +40,7 @@ function App() {
                         </Route>
                     </Switch>
                 </div>
+                <ToastContainer />
             </div>
         </Router>
     );
