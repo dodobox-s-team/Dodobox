@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Alert, Button, Modal } from "react-bootstrap";
+import React, { FormEvent, useState } from "react";
+import { Alert, Button, Form, Modal } from "react-bootstrap";
 import { FaLayerGroup, FaPlus } from "react-icons/fa";
 import { MenuItem, SubMenu } from "react-pro-sidebar";
 import { Link } from "react-router-dom";
@@ -12,6 +12,7 @@ interface Group {
 interface ListGroupsInterface {
     groups: Group[];
     isOpen: boolean;
+    alert?: string;
 }
 
 class ListGroups extends React.Component<{}, ListGroupsInterface> {
@@ -34,8 +35,37 @@ class ListGroups extends React.Component<{}, ListGroupsInterface> {
             });
     }
 
+    showError = (message: string) => this.setState({ alert: message });
     openModal = () => this.setState({ isOpen: true });
     closeModal = () => this.setState({ isOpen: false });
+    addGroup = (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        const data = JSON.stringify({
+            // @ts-ignore
+            name: e.target.elements.name.value,
+        });
+        fetch("/api/groups", {
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            body: data,
+        }).then((resp) => {
+            resp.json().then((r) => {
+                if (!resp.ok) {
+                    if (resp.status == 409) {
+                        this.showError("Ce nom de groupe existe déjà !");
+                    } else {
+                        this.showError(r.detail);
+                    }
+                } else {
+                    this.closeModal();
+                }
+            });
+        });
+    };
 
     render() {
         return (
@@ -50,18 +80,37 @@ class ListGroups extends React.Component<{}, ListGroupsInterface> {
                 </MenuItem>
 
                 <Modal show={this.state.isOpen} onHide={this.closeModal}>
-                    <Modal.Header>
-                        <Modal.Title>Ajouter un groupe</Modal.Title>
-                    </Modal.Header>
+                    <Form onSubmit={this.addGroup}>
+                        <Modal.Header>
+                            <Modal.Title>Ajouter un groupe</Modal.Title>
+                        </Modal.Header>
 
-                    <Modal.Body>test</Modal.Body>
+                        <Modal.Body>
+                            <Form.Group className="mb-3" controlId="name">
+                                <Form.Label>Nom du groupe</Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    placeholder="Salon"
+                                    required
+                                />
+                            </Form.Group>
+                            <Alert variant="danger" show={!!this.state.alert}>
+                                {this.state.alert}
+                            </Alert>
+                        </Modal.Body>
 
-                    <Modal.Footer>
-                        <Button variant="secondary" onClick={this.closeModal}>
-                            Annuler
-                        </Button>
-                        <Button variant="primary">Ajouter</Button>
-                    </Modal.Footer>
+                        <Modal.Footer>
+                            <Button
+                                variant="secondary"
+                                onClick={this.closeModal}
+                            >
+                                Annuler
+                            </Button>
+                            <Button variant="primary" type="submit">
+                                Ajouter
+                            </Button>
+                        </Modal.Footer>
+                    </Form>
                 </Modal>
             </SubMenu>
         );
