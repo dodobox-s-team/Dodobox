@@ -38,7 +38,7 @@ class ListGroups extends React.Component<{}, ListGroupsInterface> {
 
     showError = (message: string) => this.setState({ alert: message });
     openModal = () => this.setState({ isOpen: true });
-    closeModal = () => this.setState({ isOpen: false });
+    closeModal = () => this.setState({ isOpen: false, alert: undefined });
     addGroup = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
