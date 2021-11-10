@@ -22,9 +22,9 @@ const SideBar = () => {
     },
   };
 
-  const onClickMenuIcon = () => {
-    setCollapsed(!collapsed);
-  };
+    const onClickMenuIcon = () => {
+        setCollapsed(!collapsed);
+    };
 
   return (
     <ProSidebar style={styles.sideBarHeight} collapsed={collapsed}>
