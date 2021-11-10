@@ -40,7 +40,7 @@ const SideBar = () => {
                 <MenuItem icon={<MdOutlineWidgets />}>
                     <Link to="/ListDevices"> Listes des appareils </Link>
                 </MenuItem>
-                <ListGroups></ListGroups>
+                <ListGroups />
             </Menu>
         </ProSidebar>
     );
