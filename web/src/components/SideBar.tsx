@@ -10,40 +10,40 @@ import { Link } from "react-router-dom";
 import ListGroups from "./ListGroups";
 
 const SideBar = () => {
-    const [collapsed, setCollapsed] = useState(false);
-    // added styles
-    const styles = {
-        sideBarHeight: {
-            height: "100vh",
-        },
-        menuIcon: {
-            float: "right",
-            margin: "10px",
-        },
-    };
+  const [collapsed, setCollapsed] = useState(false);
+  // added styles
+  const styles = {
+    sideBarHeight: {
+      height: "100vh",
+    },
+    menuIcon: {
+      float: "right",
+      margin: "10px",
+    },
+  };
 
-    const onClickMenuIcon = () => {
-        setCollapsed(!collapsed);
-    };
+  const onClickMenuIcon = () => {
+    setCollapsed(!collapsed);
+  };
 
-    return (
-        <ProSidebar style={styles.sideBarHeight} collapsed={collapsed}>
-            <SidebarHeader>
-                <div style={styles.menuIcon} onClick={onClickMenuIcon}>
-                    <AiOutlineMenu />
-                </div>
-            </SidebarHeader>
-            <Menu iconShape="square">
-                <MenuItem icon={<AiOutlineDashboard />}>
-                    <Link to="/"> Tableau de bord </Link>
-                </MenuItem>
-                <MenuItem icon={<MdOutlineWidgets />}>
-                    <Link to="/ListDevices"> Listes des appareils </Link>
-                </MenuItem>
-                <ListGroups />
-            </Menu>
-        </ProSidebar>
-    );
+  return (
+    <ProSidebar style={styles.sideBarHeight} collapsed={collapsed}>
+      <SidebarHeader>
+        <div style={styles.menuIcon} onClick={onClickMenuIcon}>
+          <AiOutlineMenu />
+        </div>
+      </SidebarHeader>
+      <Menu iconShape="square">
+        <MenuItem icon={<AiOutlineDashboard />}>
+          <Link to="/"> Tableau de bord </Link>
+        </MenuItem>
+        <MenuItem icon={<MdOutlineWidgets />}>
+          <Link to="/ListDevices"> Listes des appareils </Link>
+        </MenuItem>
+        <ListGroups />
+      </Menu>
+    </ProSidebar>
+  );
 };
 
 export default SideBar;
