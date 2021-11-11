@@ -117,6 +117,6 @@ class ListGroups extends React.Component<{}, ListGroupsInterface> {
       </SubMenu>
     );
   }
-x}
+}
 
 export default ListGroups;
