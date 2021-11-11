@@ -17,12 +17,12 @@ interface ListGroupsInterface {
 }
 
 class ListGroups extends React.Component<{}, ListGroupsInterface> {
-    constructor(props: object) {
-        super(props);
-        this.state = {
-            groups: [],
-            isOpen: false,
-        };
+    state: ListGroupsInterface = {
+        groups: [],
+        isOpen: false,
+    };
+
+    componentDidMount() {
         this.loadGroups();
     }
 
