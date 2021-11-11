@@ -21,7 +21,7 @@ type GroupProps = RouteComponentProps<{
 
 class GroupDetail extends React.Component<GroupProps, Group> {
   state: Group = {
-    name: "Loading ...",
+    group: { id: 0, name: "Loading ..." },
   };
 
   get id() {
