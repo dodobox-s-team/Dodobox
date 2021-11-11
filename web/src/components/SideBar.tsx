@@ -35,7 +35,7 @@ const SideBar = () => {
             </SidebarHeader>
             <Menu iconShape="square">
                 <MenuItem icon={<AiOutlineDashboard />}>
-                    <Link to="/Dashboard"> Tableau de bord </Link>
+                    <Link to="/"> Tableau de bord </Link>
                 </MenuItem>
                 <MenuItem icon={<MdOutlineWidgets />}>
                     <Link to="/ListDevices"> Listes des appareils </Link>

@@ -8,6 +8,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import GroupDetail from "./pages/GroupDetail";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import PageNotFound from "./pages/errors/404";
 //window.id = 1;
 
 function App() {
@@ -35,8 +36,11 @@ function App() {
                             path="/group/:id"
                             component={GroupDetail}
                         ></Route>
-                        <Route path="/">
+                        <Route exact path="/">
                             <Dashboard />
+                        </Route>
+                        <Route path="/">
+                            <PageNotFound />
                         </Route>
                     </Switch>
                 </div>
