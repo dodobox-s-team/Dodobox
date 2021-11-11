@@ -12,42 +12,39 @@ import PageNotFound from "./pages/errors/404";
 //window.id = 1;
 
 function App() {
-    const styles = {
-        contentDiv: {
-            display: "flex",
-        },
-        contentMargin: {
-            marginLeft: "10px",
-            width: "100%",
-        },
-    };
+  const styles = {
+    contentDiv: {
+      display: "flex",
+    },
+    contentMargin: {
+      marginLeft: "10px",
+      width: "100%",
+    },
+  };
 
-    return (
-        <Router>
-            <div style={styles.contentDiv}>
-                <SideBar></SideBar>
-                <div style={styles.contentMargin}>
-                    <Switch>
-                        <Route path="/ListDevices">
-                            <ListDevices />
-                        </Route>
-                        <Route path="/Details/:id" component={Details}></Route>
-                        <Route
-                            path="/group/:id"
-                            component={GroupDetail}
-                        ></Route>
-                        <Route exact path="/">
-                            <Dashboard />
-                        </Route>
-                        <Route path="/">
-                            <PageNotFound />
-                        </Route>
-                    </Switch>
-                </div>
-                <ToastContainer />
-            </div>
-        </Router>
-    );
+  return (
+    <Router>
+      <div style={styles.contentDiv}>
+        <SideBar></SideBar>
+        <div style={styles.contentMargin}>
+          <Switch>
+            <Route path="/ListDevices">
+              <ListDevices />
+            </Route>
+            <Route path="/Details/:id" component={Details}></Route>
+            <Route path="/group/:id" component={GroupDetail}></Route>
+            <Route exact path="/">
+              <Dashboard />
+            </Route>
+            <Route path="/">
+              <PageNotFound />
+            </Route>
+          </Switch>
+        </div>
+        <ToastContainer />
+      </div>
+    </Router>
+  );
 }
 
 export default App;
