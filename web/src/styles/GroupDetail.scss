@@ -1,0 +1,34 @@
+@import "../App.scss";
+
+.input-container {
+  display: inline-grid;
+  border: solid 1px rgba($secondary, 0.5);
+
+  &::after,
+  input {
+    grid-area: 1 / 2;
+    color: inherit;
+    width: auto;
+    padding: 0.25em;
+    background: none;
+    appearance: none;
+    border: none;
+  }
+
+  &::after {
+    content: attr(data-value);
+    visibility: hidden;
+    white-space: pre-wrap;
+  }
+
+  &:hover,
+  &:focus-within {
+    border-color: $secondary;
+  }
+
+  &:focus-within {
+    input:focus {
+      outline: none;
+    }
+  }
+}
