@@ -53,20 +53,20 @@ class ListGroups extends React.Component<{}, ListGroupsInterface> {
         "Content-Type": "application/json",
       },
       body: data,
-    }).then((resp) => {
-      resp.json().then((r) => {
-        if (!resp.ok) {
-          if (resp.status == 409) {
-            this.showError("Ce nom de groupe existe déjà !");
-          } else {
-            this.showError(r.detail);
-          }
+    }).then(async (r) => {
+      const data = await r.json();
+
+      if (!r.ok) {
+        if (r.status == 409) {
+          this.showError("Ce nom de groupe existe déjà !");
         } else {
-          this.closeModal();
-          this.loadGroups();
-          toast.success(`Groupe "${r.name}" ajouté avec succès !`);
+          this.showError(data.detail);
         }
-      });
+      } else {
+        this.closeModal();
+        this.loadGroups();
+        toast.success(`Groupe "${data.name}" ajouté avec succès !`);
+      }
     });
   };
 
