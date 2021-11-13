@@ -26,8 +26,8 @@ interface ListDevicesInterface {
 }
 
 class ListDevices extends React.Component<{}, ListDevicesInterface> {
-
-    constructor(props: object) {
+    
+	constructor(props: object) {
         super(props)
         this.state = {
             devices: [],
@@ -36,6 +36,10 @@ class ListDevices extends React.Component<{}, ListDevicesInterface> {
         }
     };
 
+	componentDidMount(){
+		this.displayDevice();
+	}
+	
     displayDevice() {
         fetch("https://localhost/api/devices", {method: 'GET'})
             .then(devicesElements => devicesElements.json())
@@ -63,9 +67,9 @@ class ListDevices extends React.Component<{}, ListDevicesInterface> {
         this.setState({devicesShown: result});
     };
 
-    render() {
-        window.onload = this.displayDevice.bind(this)
-
+	render() {
+		let {devices} = this.state;
+		console.log(devices);
         return (
             <div>
                 <Navbar bg="light" expand="lg">
@@ -92,7 +96,7 @@ class ListDevices extends React.Component<{}, ListDevicesInterface> {
                 <Row>
 
                     {this.state.devicesShown.map((device: Device, i: number) => (
-                        <DeviceBox img={[<BsLamp/>]} name={device.name} key={device.id} state="success" ipAddress={device.ip} groupId={device.groupId} type={device.type} id={device.id}/>
+                        <DeviceBox key={device.id} img={[<BsLamp key={device.id}/>]} name={device.name} state="success" ipAddress={device.ip} groupId={device.groupId} type={device.type} id={device.id} displayDevice={this.displayDevice.bind(this)}/>
 					))}
                 </Row>
             </div>
