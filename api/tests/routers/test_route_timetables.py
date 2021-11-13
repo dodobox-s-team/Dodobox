@@ -1,15 +1,8 @@
-from fastapi import status
-from fastapi.testclient import TestClient
-import pytest
-from api.models.timetables import Timetable
-from api.main import app
 from datetime import datetime, timedelta
 
-
-@pytest.fixture(scope="session")
-def client():
-    with TestClient(app) as client:
-        yield client
+from api.models.timetables import Timetable
+from fastapi import status
+from fastapi.testclient import TestClient
 
 
 class TestRouteTimetable:
