@@ -1,28 +1,23 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import {Modal, Button, Form, Image, Alert} from 'react-bootstrap'
-import {useState} from 'react'
 
 class FormDeviceOptions extends React.Component {
-
-    constructor(props){
+    constructor(props) {
         super(props)
         this.state = {
-            formValues : [],
             nameDevice : props.name,
             ipDevice : props.ipAddress,
             idDevice : props.id,
             groupId : props.groupId,
             type: props.type,
         }
-    };
-
+    }
 
     render (){
         let {nameDevice, idDevice, ipDevice, groupId, type} = this.state;
         return (
             <div>
-                
                 <Form.Group className="mb-3" controlId="formNameDevice">
                     <Form.Label>Nom de l'appareil</Form.Label>
                     <Form.Control type="text" placeholder="Exemple: Lumière LED 1" defaultValue={nameDevice}/>
@@ -63,15 +58,10 @@ class FormDeviceOptions extends React.Component {
                     <Form.Text className="text-muted">
                         Définir le groupe associé à l'appareil.
                     </Form.Text>
-                    <Button variant={"primary"} type={"submit"}>
-                        Sauvegarder
-                    </Button>
                 </Form.Group>
-
             </div>
         )
   };
-
 }
 
 export default FormDeviceOptions;
