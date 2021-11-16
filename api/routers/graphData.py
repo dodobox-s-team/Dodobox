@@ -6,6 +6,7 @@ router = APIRouter(
     tags=["graphData"],
 )
 
+
 @router.post("", response_model=GraphData)
 async def add_graphdata(graphdata: GraphData):
     """Add a graphdata."""
@@ -16,7 +17,6 @@ async def add_graphdata(graphdata: GraphData):
 async def get_graphdata():
     """Get a list of time bucketed graphdata."""
     return await GraphData.get_all()
-
 
 @router.delete("/{id}", response_model=GraphData)
 async def delete_graphData(id: int):
