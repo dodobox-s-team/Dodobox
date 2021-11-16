@@ -1,6 +1,7 @@
 import pytest
-from datetime import datetime, timedelta
+from datetime import datetime
 from api.models.graphData import GraphData
+
 
 class GraphData:
     graphData = GraphData(time=datetime.now(), graphId=1, value=24.5)
@@ -26,8 +27,8 @@ class GraphData:
         assert self.modified_graphData == await GraphData.edit(self.graphData.graphId, self.modified_graphData)
         assert self.modified_graphData == await GraphData.get(self.modified_graphData)
         assert self.graphData != await GraphData.get(self.graphData)
-    
+
     @pytest.mark.asyncio
     async def test_delete(self, db):
-        assert self.modified_graphData ==await GraphData.delete(self.modified_graphData.graphId)
+        assert self.modified_graphData == await GraphData.delete(self.modified_graphData.graphId)
         assert await GraphData.get(self.modified_graphData.graphId) is None
