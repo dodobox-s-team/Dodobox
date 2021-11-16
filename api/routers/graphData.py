@@ -25,8 +25,8 @@ async def delete_graphData(id: int):
     graphdata = await GraphData.delete(id)
     if not graphdata:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="No data with that ID was found.")
-    
-    return device
+
+    return graphdata
 
 
 @router.put("/{id}", response_model=GraphData)
