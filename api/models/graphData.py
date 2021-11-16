@@ -1,8 +1,8 @@
-from datetime import datetime, timedelta
+from datetime import datetime
 from typing import Optional
 
 from api.schemas import db, graphData
-from pydantic import BaseModel, constr
+from pydantic import BaseModel
 
 
 class GraphData(BaseModel):
@@ -32,7 +32,6 @@ class GraphData(BaseModel):
         graphdata = await db.fetch_all(query)
         if graphdata:
             return GraphData(**graphdata)
-    
 
     @classmethod
     async def update(cls, graphId: int, **kwargs) -> Optional['GraphData']:

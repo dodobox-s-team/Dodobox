@@ -1,4 +1,4 @@
-from api.models.graphData import Graph
+from api.models.graphData import GraphData
 from fastapi import APIRouter, HTTPException, status
 
 router = APIRouter(
@@ -18,6 +18,7 @@ async def get_graphdata():
     """Get a list of time bucketed graphdata."""
     return await GraphData.get_all()
 
+
 @router.delete("/{id}", response_model=GraphData)
 async def delete_graphData(id: int):
     """Delete a data from Graph"""
@@ -27,6 +28,7 @@ async def delete_graphData(id: int):
     
     return device
 
+
 @router.put("/{id}", response_model=GraphData)
 async def edit_a_graphdata(id: int, graphData: GraphData):
     """Updates informations about data."""
@@ -34,6 +36,4 @@ async def edit_a_graphdata(id: int, graphData: GraphData):
     if not updated_graphData:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="No data with that ID was found.")
 
-    return updated_graphData 
-
-
+    return updated_graphData
