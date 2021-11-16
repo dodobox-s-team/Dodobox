@@ -1,6 +1,6 @@
 import pytest
 from datetime import datetime, timedelta
-from api.schemas import db as database
+from api.models.graphData import GraphData
 
 class GraphData:
     graphData = GraphData(time=datetime.now(), graphId=1, value=24.5)
