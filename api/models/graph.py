@@ -36,7 +36,7 @@ class Graph(BaseModel):
     @classmethod
     async def get_all (cls) -> list['Graph']:
         """Return a list of all graphs from the database.""" 
-           return [Graph(**graph) for graph in await db.fetch_all(graphs.select())]
+        return [Graph(**graph) for graph in await db.fetch_all(graphs.select())]
 
     @classmethod
     async def update (cls, id: int, **kwargs) -> Optional['Graph']:
