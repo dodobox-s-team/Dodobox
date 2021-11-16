@@ -24,7 +24,7 @@ class GraphData:
     @pytest.mark.asyncio
     async def test_edit(self, db):
         assert self.modified_graphData == await GraphData.edit(self.graphData.graphId, self.modified_graphData)
-        assert self.modified_graphData == await GraphData.get(self.modified_graphData.)
+        assert self.modified_graphData == await GraphData.get(self.modified_graphData)
         assert self.graphData != await GraphData.get(self.graphData)
     
     @pytest.mark.asyncio
