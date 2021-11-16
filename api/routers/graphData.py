@@ -29,7 +29,6 @@ async def delete_graphData(id: int):
     return graphdata
 
 
-
 @router.put("/{id}", response_model=GraphData)
 async def edit_a_graphdata(id: int, graphData: GraphData):
     """Updates informations about data."""
