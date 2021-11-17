@@ -2,7 +2,7 @@ import pytest
 from api.models.graph import Graph
 
 
-class GraphTest:
+class TestGraph:
     graph = Graph(id=1, deviceId=2, name="graphe de température", axisLabel="X")
     modified_graph = Graph(id=1, deviceId=2, name="graphe de chaleur", axisLabel="X")
     graph2 = Graph(id=2, deviceId=4, name="graphe d'autre chose", axisLabel="Y")
