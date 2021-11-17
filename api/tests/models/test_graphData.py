@@ -3,7 +3,7 @@ from datetime import datetime
 from api.models.graphData import GraphData
 
 
-class GraphDataTest:
+class TestGraphData:
     graphData = GraphData(time=datetime.now(), graphId=1, value=24.5)
     modified_graphData = GraphData(time=datetime.now(), graphId=1, value=27.5)
     graphData2 = GraphData(time=datetime.now(), graphId=2, value=20.5)
