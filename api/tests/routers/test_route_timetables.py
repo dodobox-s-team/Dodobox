@@ -46,7 +46,7 @@ class TestRouteTimetable:
         assert self.timetable_edit == Timetable(**response.json())
         assert self.timetable != Timetable(**response.json())
         assert self.timetable_edit == Timetable(**client.get(self.prefix + f"/{response.json()['id']}").json())
-        response = client.put(self.prefix + f"/10", data=self.timetable_edit.json())
+        response = client.put(self.prefix + "10", data=self.timetable_edit.json())
         assert response.status_code == status.HTTP_404_NOT_FOUND
 
     def test_delete_timetable(self, client: TestClient):
@@ -56,7 +56,6 @@ class TestRouteTimetable:
         assert response.status_code == status.HTTP_404_NOT_FOUND
         response = client.delete(self.prefix + f"/{self.timetable.id}")
         assert response.status_code == status.HTTP_404_NOT_FOUND
-
 
     def test_get_timetables(self, client: TestClient):
         response = client.get(self.prefix)
