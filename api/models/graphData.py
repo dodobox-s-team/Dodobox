@@ -18,10 +18,10 @@ class GraphData(BaseModel):
         The id is suppressed without warning.
         """
         values = graphdata.dict()
-        values.pop('id')
+        values.pop('graphId')
 
         query = graphData.insert().values(**values)
-        graphdata.id = await db.execute(query)
+        graphdata.graphId = await db.execute(query)
 
         return graphdata
 

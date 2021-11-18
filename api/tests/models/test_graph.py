@@ -15,19 +15,19 @@ class TestGraph:
     async def test_get(self, db):
         assert self.graph == await Graph.get(self.graph.id)
         assert await Graph.get(14) is None
+    
+    @pytest.mark.asyncio
+    async def test_edit(self, db):
+        assert self.modified_graph == await Graph.edit(self.graph.id, self.modified_graph)
+        assert self.modified_graph == await Graph.get(self.modified_graph.id)
+        assert self.graph != await Graph.get(self.graph.id)
+    
+    @pytest.mark.asyncio
+    async def test_delete(self, db):
+        assert self.modified_graph == await Graph.delete(self.modified_graph.id)
+        assert await Graph.get(self.modified_graph.id) is None
 
     @pytest.mark.asyncio
     async def test_get_all(self, db):
         await Graph.add(self.graph2)
         assert len(await Graph.get_all()) == 1
-
-    @pytest.mark.asyncio
-    async def test_edit(self, db):
-        assert self.modified_graph == await Graph.edit(self.graph.id, self.modified_graph)
-        assert self.modified_graph == await Graph.get(self.modified_graph)
-        assert self.graph != await Graph.get(self.graph.id)
-
-    @pytest.mark.asyncio
-    async def test_delete(self, db):
-        assert self.modified_graph == await Graph.delete(self.modified_graph.id)
-        assert await Graph.get(self.modified_graph.id) is None
