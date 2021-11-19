@@ -1,11 +1,13 @@
 import pytest
 from api.models.graph import Graph
+from api.models.devices import Device
 
 
 class TestGraph:
     graph = Graph(id=1, deviceId=2, name="graphe de température", axisLabel="X")
     modified_graph = Graph(id=1, deviceId=2, name="graphe de chaleur", axisLabel="X")
-    graph2 = Graph(id=2, deviceId=4, name="graphe d'autre chose", axisLabel="Y")
+    graph2 = Graph(id=2, deviceId=1, name="graphe d'autre chose", axisLabel="Y")
+    device = Device(id=4, groupId=None, name="prise salon", modele="esp32", type=0, ip="192.168.1.9")
 
     @pytest.mark.asyncio
     async def test_add(self, db):
@@ -29,5 +31,8 @@ class TestGraph:
 
     @pytest.mark.asyncio
     async def test_get_all(self, db):
+        TestGraph.device = await Device.add(self.device)
+
         await Graph.add(self.graph2)
         assert len(await Graph.get_all()) == 1
+        await Graph.delete(self.device)
