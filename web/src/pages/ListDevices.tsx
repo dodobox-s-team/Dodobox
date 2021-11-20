@@ -104,3 +104,5 @@ class ListDevices extends React.Component<{}, ListDevicesInterface> {
         );
     };
 }
+
+export default ListDevices;

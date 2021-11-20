@@ -14,6 +14,11 @@ class Details extends React.Component {
         };
     }
 
+    componentDidMount(){
+        let id = this.props.match.params.id
+		this.detailsApi(id);
+	}
+
     detailsApi(idParameter) {
 
         fetch(`https://localhost/api/devices/` + idParameter)
@@ -37,12 +42,7 @@ class Details extends React.Component {
     render() {
         const {error, isLoaded, devices} = this.state;
         console.log(devices);
-        let id = this.props.match.params.id
-        console.log(id);
         console.log(typeof (id));
-
-
-        window.onload = () => this.detailsApi(id);
 
         if (error) {
             return <div>Erreur: {error.message}</div>
