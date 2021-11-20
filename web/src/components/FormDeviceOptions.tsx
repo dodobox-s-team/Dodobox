@@ -20,7 +20,7 @@ class FormDeviceOptions extends React.Component {
             <div>
                 <Form.Group className="mb-3" controlId="formNameDevice">
                     <Form.Label>Nom de l'appareil</Form.Label>
-                    <Form.Control type="text" placeholder="Exemple: Lumière LED 1" defaultValue={nameDevice}/>
+                    <Form.Control type="text" placeholder="Exemple: Lumière LED 1" defaultValue={nameDevice} maxLength="64" />
                     <Form.Text className="text-muted">
                         Définir le nom de l'appareil.
                     </Form.Text>
@@ -28,7 +28,7 @@ class FormDeviceOptions extends React.Component {
 
                 <Form.Group className="mb-3" controlId="formIpAddress">
                     <Form.Label>Adresse IP de l'appareil</Form.Label>
-                    <Form.Control type="text" placeholder="Exemple: 172.16.1.6" defaultValue={ipDevice} />
+                    <Form.Control type="text" placeholder="Exemple: 172.16.1.6" defaultValue={ipDevice} maxLength="15"/>
                     <Form.Text className="text-muted">
                         Définir l'adresse ip utilisée par l'appareil pour être reconnu dans le réseau.
                     </Form.Text>

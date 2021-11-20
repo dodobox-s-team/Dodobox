@@ -2,7 +2,8 @@ import { useState } from 'react'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import Card from 'react-bootstrap/Card'
-import DeviceSettings from './DeviceSettings'
+import DevicesManagement from './DevicesManagement'
+import { RiSettings2Line } from "react-icons/ri";
 
 const DeviceBox = (props) => {
 
@@ -22,7 +23,7 @@ const DeviceBox = (props) => {
         </Card.Body>
         </a>
         <Card.Footer className="text-center">
-          <DeviceSettings name={props.name} ipAddress={props.ipAddress} id={props.id} groupId={props.groupId} type={props.type} displayDevice={props.displayDevice}/>
+          <DevicesManagement name={props.name} ipAddress={props.ipAddress} id={props.id} groupId={props.groupId} type={props.type} displayDevice={props.displayDevice} buttonFeature={<RiSettings2Line/> } fetchMethod={"PUT"}/>
         </Card.Footer>
       </Card>
   );

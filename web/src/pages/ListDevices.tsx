@@ -9,6 +9,7 @@ import Row from 'react-bootstrap/Row';
 import Container from 'react-bootstrap/Container';
 import {BsLamp} from "react-icons/bs";
 import Fuse from "fuse.js";
+import DevicesManagement from '../components/DevicesManagement';
 
 interface Device {
     id: number
@@ -90,11 +91,10 @@ class ListDevices extends React.Component<{}, ListDevicesInterface> {
                             placeholder="Chercher un appareil"
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => this.searchData(e.target.value)}
                         />
-                        <AddDevice/>
+                        <DevicesManagement displayDevice={this.displayDevice.bind(this)} buttonFeature={"Ajouter un appareil"} fetchMethod={"POST"}/>
                     </Container>
                 </Navbar>
                 <Row>
-
                     {this.state.devicesShown.map((device: Device, i: number) => (
                         <DeviceBox key={device.id} img={[<BsLamp key={device.id}/>]} name={device.name} state="success" ipAddress={device.ip} groupId={device.groupId} type={device.type} id={device.id} displayDevice={this.displayDevice.bind(this)}/>
 					))}
