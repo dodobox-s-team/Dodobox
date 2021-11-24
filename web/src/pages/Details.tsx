@@ -75,7 +75,7 @@ class Details extends React.Component<DetailsProps, DetailsInterface> {
   }
 
   deleteDevice(idParameter) {
-    fetch('https://localhost/api/devices/' + idParameter, {
+    fetch('/api/devices/' + idParameter, {
       method: 'DELETE'
     })
       .then(res => res.json())
