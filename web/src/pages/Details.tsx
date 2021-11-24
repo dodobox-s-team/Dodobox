@@ -43,6 +43,9 @@ class Details extends React.Component<DetailsProps, DetailsInterface> {
 
   handleDeleteClose(del: boolean) {
     this.setState({show: false})
+    if (del) {
+      this.deleteDevice(this.state.id)
+    }
   }
 
   handleDeleteShow() {
@@ -54,7 +57,6 @@ class Details extends React.Component<DetailsProps, DetailsInterface> {
   }
 
   detailsApi(idParameter) {
-
     fetch(`/api/devices/` + idParameter)
       .then(res => res.json())
       .then((result) => {
@@ -72,6 +74,20 @@ class Details extends React.Component<DetailsProps, DetailsInterface> {
       )
   }
 
+  deleteDevice(idParameter) {
+    fetch('https://localhost/api/devices/' + idParameter, {
+      method: 'DELETE'
+    })
+      .then(res => res.json())
+      .then((result) => {
+          console.log(result)
+        },
+        (error) => {
+          this.setState({
+            error
+          });
+        })
+  }
 
   render() {
     const {error, isLoaded, devices} = this.state;
