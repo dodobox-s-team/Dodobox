@@ -1,7 +1,13 @@
 import React from 'react'
-import { MDBListGroup, MDBListGroupItem, MDBContainer, MDBBadge } from "mdbreact";
+import {MDBListGroup, MDBListGroupItem, MDBContainer, MDBBadge} from "mdbreact";
 import GraphiqueEnergie from "../components/GraphiqueEnergie";
-import { useParams } from 'react-router-dom'
+import {Button, Modal} from 'react-bootstrap'
+import {useParams} from 'react-router-dom'
+import {RouteComponentProps} from "react-router"
+
+type DetailsProps = RouteComponentProps<{
+  id: string;
+}>;
 
 interface Device {
   id: number
@@ -18,7 +24,7 @@ interface DetailsInterface {
   devices: Device[];
 }
 
-class Details extends React.Component<{}, DetailsInterface>{
+class Details extends React.Component<DetailsProps, DetailsInterface> {
 
   state: DetailsInterface = {
     modalShow: false,
@@ -28,11 +34,23 @@ class Details extends React.Component<{}, DetailsInterface>{
     setInvalidAlertShow: false,
     setValidAlertShow: false,
     modalErrorMessage: "",
+    show: false,
+  }
+
+  get id() {
+    return this.props.match.params.id;
+  }
+
+  handleDeleteClose(del: boolean) {
+    this.setState({show: false})
+  }
+
+  handleDeleteShow() {
+    this.setState({show: true})
   }
 
   componentDidMount() {
-    let id = this.props.match.params.id
-    this.detailsApi(id);
+    this.detailsApi(this.id);
   }
 
   detailsApi(idParameter) {
@@ -40,11 +58,11 @@ class Details extends React.Component<{}, DetailsInterface>{
     fetch(`/api/devices/` + idParameter)
       .then(res => res.json())
       .then((result) => {
-        this.setState({
-          isLoaded: true,
-          devices: result
-        })
-      },
+          this.setState({
+            isLoaded: true,
+            devices: result
+          })
+        },
         (error) => {
           this.setState({
             isLoaded: true,
@@ -56,7 +74,7 @@ class Details extends React.Component<{}, DetailsInterface>{
 
 
   render() {
-    const { error, isLoaded, devices } = this.state;
+    const {error, isLoaded, devices} = this.state;
 
     if (error) {
       return <div>Erreur: {error.message}</div>
@@ -65,37 +83,50 @@ class Details extends React.Component<{}, DetailsInterface>{
     } else {
       return (
         <div>
-
+          <Button variant="danger" onClick={this.handleDeleteShow.bind(this)}>Supprimer l'appareil</Button>
+          <Modal show={this.state.show} onHide={this.handleDeleteClose.bind(this, false)}>
+            <Modal.Header closeButton>
+              <Modal.Title>Modal heading</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={this.handleDeleteClose.bind(this, false)}>
+                Close
+              </Button>
+              <Button variant="primary" onClick={this.handleDeleteClose.bind(this, true)}>
+                Save Changes
+              </Button>
+            </Modal.Footer>
+          </Modal>
           <MDBContainer>
-            <MDBListGroup style={{ width: "22rem" }}>
+            <MDBListGroup style={{width: "22rem"}}>
               <MDBListGroupItem
                 className="d-flex justify-content-between align-items-center">Name: {devices.name}<MDBBadge
-                  color="primary"
-                  pill></MDBBadge>
+                color="primary"
+                pill></MDBBadge>
               </MDBListGroupItem>
               <MDBListGroupItem
                 className="d-flex justify-content-between align-items-center">Groupe: {devices.groupId}<MDBBadge
-                  color="primary"
-                  pill></MDBBadge>
+                color="primary"
+                pill></MDBBadge>
               </MDBListGroupItem>
               <MDBListGroupItem
                 className="d-flex justify-content-between align-items-center">Modèle: {devices.modele}<MDBBadge
-                  color="primary" pill></MDBBadge>
+                color="primary" pill></MDBBadge>
               </MDBListGroupItem>
               <MDBListGroupItem
                 className="d-flex justify-content-between align-items-center">IP: {devices.ip}<MDBBadge
-                  color="primary"
-                  pill></MDBBadge>
+                color="primary"
+                pill></MDBBadge>
               </MDBListGroupItem>
               <MDBListGroupItem
                 className="d-flex justify-content-between align-items-center">Type: {devices.type}<MDBBadge
-                  color="primary"
-                  pill></MDBBadge>
+                color="primary"
+                pill></MDBBadge>
               </MDBListGroupItem>
             </MDBListGroup>
-            <GraphiqueEnergie data={[15, 24, 18, 19]} labels={["test1", "test2", "test3", "test4"]} />
+            <GraphiqueEnergie data={[15, 24, 18, 19]} labels={["test1", "test2", "test3", "test4"]}/>
           </MDBContainer>
-
         </div>
       )
     }
