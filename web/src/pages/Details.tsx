@@ -1,8 +1,8 @@
 import React from 'react'
-import {MDBListGroup, MDBListGroupItem, MDBContainer, MDBBadge} from "mdbreact";
-import GraphiqueEnergie from "../components/GraphiqueEnergie";
+import {MDBListGroup, MDBListGroupItem, MDBContainer, MDBBadge} from "mdbreact"
+import GraphiqueEnergie from "../components/GraphiqueEnergie"
 import {Button, Modal} from 'react-bootstrap'
-import {useParams} from 'react-router-dom'
+import {useParams, Link} from 'react-router-dom'
 import {RouteComponentProps} from "react-router"
 
 type DetailsProps = RouteComponentProps<{
@@ -53,7 +53,7 @@ class Details extends React.Component<DetailsProps, DetailsInterface> {
   }
 
   componentDidMount() {
-    this.detailsApi(this.id);
+    this.detailsApi(this.id)
   }
 
   detailsApi(idParameter) {
@@ -90,7 +90,7 @@ class Details extends React.Component<DetailsProps, DetailsInterface> {
   }
 
   render() {
-    const {error, isLoaded, devices} = this.state;
+    const {error, isLoaded, devices} = this.state
 
     if (error) {
       return <div>Erreur: {error.message}</div>
@@ -109,9 +109,11 @@ class Details extends React.Component<DetailsProps, DetailsInterface> {
               <Button variant="secondary" onClick={this.handleDeleteClose.bind(this, false)}>
                 Close
               </Button>
-              <Button variant="primary" onClick={this.handleDeleteClose.bind(this, true)}>
-                Save Changes
-              </Button>
+              <Link to="/ListDevices">
+                <Button variant="primary" onClick={this.handleDeleteClose.bind(this, true)}>
+                  Save Changes
+                </Button>
+              </Link>
             </Modal.Footer>
           </Modal>
           <MDBContainer>
