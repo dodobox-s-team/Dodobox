@@ -56,6 +56,10 @@ class Details extends React.Component<DetailsProps, DetailsInterface> {
     this.detailsApi(this.id)
   }
 
+  componentDidUpdate(props: DetailsProps) {
+    if (props.match.params.id != this.id) this.detailsApi(this.id);
+  }
+
   detailsApi(idParameter) {
     fetch(`/api/devices/` + idParameter)
       .then(res => res.json())
