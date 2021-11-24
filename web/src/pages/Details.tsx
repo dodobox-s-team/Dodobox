@@ -44,7 +44,7 @@ class Details extends React.Component<DetailsProps, DetailsInterface> {
   handleDeleteClose(del: boolean) {
     this.setState({show: false})
     if (del) {
-      this.deleteDevice(this.state.id)
+      this.deleteDevice(this.id)
     }
   }
 
@@ -106,16 +106,16 @@ class Details extends React.Component<DetailsProps, DetailsInterface> {
           <Button variant="danger" onClick={this.handleDeleteShow.bind(this)}>Supprimer l'appareil</Button>
           <Modal show={this.state.show} onHide={this.handleDeleteClose.bind(this, false)}>
             <Modal.Header closeButton>
-              <Modal.Title>Modal heading</Modal.Title>
+              <Modal.Title>Suppression</Modal.Title>
             </Modal.Header>
-            <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
+            <Modal.Body>Êtes vous sûr de supprimer un appareil!</Modal.Body>
             <Modal.Footer>
               <Button variant="secondary" onClick={this.handleDeleteClose.bind(this, false)}>
-                Close
+                Annuler
               </Button>
               <Link to="/ListDevices">
                 <Button variant="primary" onClick={this.handleDeleteClose.bind(this, true)}>
-                  Save Changes
+                  Supprimer
                 </Button>
               </Link>
             </Modal.Footer>
