@@ -3,14 +3,31 @@ import { MDBListGroup, MDBListGroupItem, MDBContainer, MDBBadge } from "mdbreact
 import GraphiqueEnergie from "../components/GraphiqueEnergie";
 import { useParams } from 'react-router-dom'
 
-class Details extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      error: null,
-      isLoaded: false,
-      devices: []
-    };
+interface Device {
+  id: number
+  groupId: number
+  name: string
+  modele: string
+  type: number
+  ip: string
+}
+
+interface DetailsInterface {
+  error: string;
+  isLoaded: boolean;
+  devices: Device[];
+}
+
+class Details extends React.Component<{}, DetailsInterface>{
+
+  state: DetailsInterface = {
+    modalShow: false,
+    setModalShow: false,
+    validAlertShow: false,
+    invalidAlertShow: false,
+    setInvalidAlertShow: false,
+    setValidAlertShow: false,
+    modalErrorMessage: "",
   }
 
   componentDidMount() {

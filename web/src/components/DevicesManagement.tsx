@@ -4,15 +4,6 @@ import FormDeviceOptions from './FormDeviceOptions.tsx'
 import { Modal, Button, Form, Image, Alert } from 'react-bootstrap'
 import { RiSettings2Line } from "react-icons/ri";
 
-interface Device {
-  id: number
-  groupId: number
-  name: string
-  modele: string
-  type: number
-  ip: string
-}
-
 interface DevicesManagementInterface {
   modalShow: boolean;
   setModalShow: boolean;
@@ -23,9 +14,9 @@ interface DevicesManagementInterface {
   modalErrorMessage: string,
 }
 
-class DevicesManagement extends React.Component {
+class DevicesManagement extends React.Component<{}, DevicesManagementInterface> {
 
-  state: TypeState = {
+  state: DevicesManagementInterface = {
     modalShow: false,
     setModalShow: false,
     validAlertShow: false,
@@ -71,7 +62,7 @@ class DevicesManagement extends React.Component {
       "type": 1,
       "ip": e.target.elements.formIpAddress.value.trim(),
     }
-    let regexIpv4Address = /^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$/;
+    let regexIpv4Address = /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
     let valueIpv4AddressForm = dataDevice.ip;
 
     if (((e.target.elements.formNameDevice.value).trim() == "") && !(regexIpv4Address.test(valueIpv4AddressForm))) {
