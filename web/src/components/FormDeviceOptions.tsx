@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { Modal, Button, Form, Image, Alert } from 'react-bootstrap'
 
-class FormDeviceOptions extends React.Component {
+class FormDeviceOptions extends React.Component<{}, {}> {
   render() {
     return (
       <div>
