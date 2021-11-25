@@ -29,6 +29,16 @@ async def get_device_id(id: int):
     return device
 
 
+@router.get("/{id}/status", response_model=Device)
+async def get_device_toggle(id: int):
+    """Get a device by id."""
+    toggle = await Device.get_toggle(id)
+    if not toggle:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="No device with that id was found.")
+
+    return toggle
+
+
 @router.delete("/{id}", response_model=Device)
 async def delete_device(id: int):
     """Delete an existing device."""
