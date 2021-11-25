@@ -1,6 +1,7 @@
 import os
 
 import sqlalchemy
+from sqlalchemy.sql.sqltypes import Boolean
 from databases import Database
 from sqlalchemy import Column, DateTime, ForeignKey, Integer, Interval, String, Table
 
@@ -17,6 +18,7 @@ devices = Table(
     Column("modele", String(64), nullable=False),
     Column("type", Integer, nullable=False),
     Column("ip", String(15)),
+    Column("toggle", Boolean, nullable=False),
 )
 
 groups = Table(

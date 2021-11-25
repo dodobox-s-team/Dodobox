@@ -11,6 +11,7 @@ class Device(BaseModel):
     modele: constr(max_length=64)
     type: int
     ip: constr(max_length=15)
+    toggle: bool
 
     @classmethod
     async def add(cls, device: 'Device') -> 'Device':
@@ -31,6 +32,14 @@ class Device(BaseModel):
     async def get(cls, id: int) -> Optional['Device']:
         """Get a device from the database from its id."""
         query = devices.select().where(devices.c.id == id)
+        device = await db.fetch_one(query)
+        if device:
+            return Device(**device)
+    
+    @classmethod
+    async def get_toggle(cls, id: int) -> Optional['Device']:
+        """Get the status of a device from the database from its id."""
+        query = f'SELECT toggle FROM devices WHERE id={id};'
         device = await db.fetch_one(query)
         if device:
             return Device(**device)
