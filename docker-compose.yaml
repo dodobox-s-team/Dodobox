@@ -27,6 +27,7 @@ services:
       - WEB_PORT=${WEB_PORT}
     volumes:
       - ./web/src:/app/src
+      - ./web/ws.js:/app/ws.js
     depends_on:
       - api
   caddy:
