@@ -1,0 +1,17 @@
+{
+  "name": "Dodobox",
+  "icons": [
+    {
+      "src": "src/images/icon512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    },
+    {
+      "src": "src/images/icon192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    }
+  ],
+  "start_url": "/?source=pwa",
+  "display": "standalone"
+}
