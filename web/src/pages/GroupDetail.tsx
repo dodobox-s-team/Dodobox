@@ -1,10 +1,11 @@
 import React from "react";
-import { Col, Container, Row } from "react-bootstrap";
-import { FaCog } from "react-icons/fa";
+import { Col, Container, Row, Modal } from "react-bootstrap";
+import { FaCog, FaTrash } from "react-icons/fa";
 import { RouteComponentProps } from "react-router";
 import PageNotFound from "./errors/404";
 import "../styles/GroupDetail.scss";
 import { toast } from "react-toastify";
+import {Link} from "react-router-dom";
 
 interface Group {
   name: string;
@@ -60,6 +61,10 @@ class GroupDetail extends React.Component<GroupProps, Group> {
     this.setState({ name: e.target.value });
   };
 
+  handleDeleteShow() {
+    this.setState({show: true})
+  }
+  
   saveChange = () => {
     // Check if the name has changed
     if (
@@ -89,6 +94,17 @@ class GroupDetail extends React.Component<GroupProps, Group> {
     });
   };
 
+  deleteGroup = ()  => {
+    fetch(`/api/groups/${this.id}`, { method: "DELETE" }).then(async (r) => {
+      if (r.ok) {
+        this.props.history.push("/groups");
+        toast.success("Le groupe a bien été supprimé");
+      } else {
+        toast.error("Impossible de supprimer ce groupe");
+      }
+    });
+  }
+
   render() {
     if (this.state.error !== undefined) {
       return this.state.error;
@@ -113,7 +129,7 @@ class GroupDetail extends React.Component<GroupProps, Group> {
               </span>
             </Col>
             <Col md="auto">
-              <FaCog size="1.3em" />
+              <FaTrash size="1.3em" onClick={this.deleteGroup} />
             </Col>
           </Row>
         </Container>
