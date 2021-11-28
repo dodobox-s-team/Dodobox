@@ -14,6 +14,7 @@ interface Group {
     name: string;
   };
   error?: React.ReactElement;
+  isOpen: boolean;
 }
 
 type GroupProps = RouteComponentProps<{
@@ -23,6 +24,7 @@ type GroupProps = RouteComponentProps<{
 class GroupDetail extends React.Component<GroupProps, Group> {
   state: Group = {
     name: "Loading ...",
+    isOpen: false,
   };
 
   get id() {
@@ -61,10 +63,6 @@ class GroupDetail extends React.Component<GroupProps, Group> {
     this.setState({ name: e.target.value });
   };
 
-  handleDeleteShow() {
-    this.setState({ show: true })
-  }
-
   saveChange = () => {
     // Check if the name has changed
     if (
@@ -94,10 +92,11 @@ class GroupDetail extends React.Component<GroupProps, Group> {
     });
   };
 
-  deleteGroup = () => {
+  deleteGroup = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     fetch(`/api/groups/${this.id}`, { method: "DELETE" }).then(async (r) => {
       if (r.ok) {
-        this.props.history.push("/groups");
+        this.props.history.push("/");
         toast.success("Le groupe a bien été supprimé");
       } else {
         toast.error("Impossible de supprimer ce groupe");
@@ -143,11 +142,9 @@ class GroupDetail extends React.Component<GroupProps, Group> {
                     <Button variant="secondary" onClick={this.closeModal}>
                       Annuler
                     </Button>
-                    <Link to="/">
-                      <Button variant="primary" type="submit">
-                        Supprimer
-                      </Button>
-                    </Link>
+                    <Button variant="primary" type="submit">
+                      Supprimer
+                    </Button>
                   </Modal.Footer>
                 </Form>
               </Modal>
