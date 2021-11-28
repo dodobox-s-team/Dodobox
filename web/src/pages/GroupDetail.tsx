@@ -1,11 +1,11 @@
-import React from "react";
-import { Col, Container, Row, Modal, Form, Button } from "react-bootstrap";
-import { FaCog, FaTrash } from "react-icons/fa";
+import React, { FormEvent } from "react";
+import { Col, Container, Row, Modal, Form, Button, ListGroup } from "react-bootstrap";
+import { FaTrash } from "react-icons/fa";
 import { RouteComponentProps } from "react-router";
 import PageNotFound from "./errors/404";
 import "../styles/GroupDetail.scss";
 import { toast } from "react-toastify";
-import { Link } from "react-router-dom";
+import ListGroups from "../components/ListGroups";
 
 interface Group {
   name: string;
@@ -97,6 +97,7 @@ class GroupDetail extends React.Component<GroupProps, Group> {
     fetch(`/api/groups/${this.id}`, { method: "DELETE" }).then(async (r) => {
       if (r.ok) {
         this.props.history.push("/");
+        ListGroups.instance?.loadGroups();
         toast.success("Le groupe a bien été supprimé");
       } else {
         toast.error("Impossible de supprimer ce groupe");
@@ -105,7 +106,7 @@ class GroupDetail extends React.Component<GroupProps, Group> {
   }
 
   openModal = () => this.setState({ isOpen: true });
-  closeModal = () => this.setState({ isOpen: false, alert: undefined });
+  closeModal = () => this.setState({ isOpen: false });
 
   render() {
     if (this.state.error !== undefined) {
