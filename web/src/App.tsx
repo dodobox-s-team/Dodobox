@@ -1,18 +1,15 @@
-import {useState} from 'react'
-import 'bootstrap/dist/css/bootstrap.min.css'
-import './App.scss'
-import Button from 'react-bootstrap/Button'
-import SideBar from './components/SideBar'
-import Dashboard from './pages/Dashboard'
-import ListDevices from './pages/ListDevices'
-import Details from './pages/Details'
-import {ProSidebar, Menu, MenuItem, SubMenu} from 'react-pro-sidebar';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route
-} from "react-router-dom";
-//window.id = 1; 
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./App.scss";
+import SideBar from "./components/SideBar";
+import Dashboard from "./pages/Dashboard";
+import ListDevices from "./pages/ListDevices";
+import Details from "./pages/Details";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import GroupDetail from "./pages/GroupDetail";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import PageNotFound from "./pages/errors/404";
+//window.id = 1;
 
 function App() {
   const styles = {
@@ -20,7 +17,6 @@ function App() {
       display: "flex",
     },
     contentMargin: {
-      marginLeft: "10px",
       width: "100%",
     },
   };
@@ -34,17 +30,20 @@ function App() {
             <Route path="/ListDevices">
               <ListDevices />
             </Route>
-            <Route path="/Details/:id" component={Details} >
-              
+            <Route path="/Details/:id" component={Details}></Route>
+            <Route path="/group/:id" component={GroupDetail}></Route>
+            <Route exact path="/">
+              <Dashboard />
             </Route>
             <Route path="/">
-              <Dashboard />
+              <PageNotFound />
             </Route>
           </Switch>
         </div>
+        <ToastContainer />
       </div>
     </Router>
   );
 }
 
-export default App
+export default App;
