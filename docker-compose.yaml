@@ -38,6 +38,7 @@ services:
     environment:
       - WEB_PORT=${WEB_PORT}
       - DOMAIN_NAME=${DOMAIN_NAME}
+      - ACME_APIKEY=${ACME_APIKEY}
     ports:
       - "${WEB_PORT}:${WEB_PORT}"
       - "${WEB_PORT_HTTP}:80"
