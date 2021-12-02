@@ -20,6 +20,8 @@ const DeviceBox = (props) => {
           <Card.Title>{props.img}{props.name}</Card.Title>
           <Card.Text>
             {props.ipAddress}
+            <br />
+            {props.temperature}
           </Card.Text>
         </Card.Body>
         </Link>
