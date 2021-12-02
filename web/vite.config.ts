@@ -8,7 +8,7 @@ export default defineConfig({
         hmr: {
             protocol : "wss",
             host : process.env.DOMAIN_NAME,
-            port : 8181
+            port : process.env.WEB_PORT
         },
         watch:{
             usePolling: true

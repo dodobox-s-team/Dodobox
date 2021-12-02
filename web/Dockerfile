@@ -1,8 +1,11 @@
-FROM node:lts-slim as build-stage
+FROM node:lts-alpine as build-stage
 WORKDIR /app
-COPY package.json ./
-COPY yarn.lock ./
-RUN yarn
+
+COPY ["package.json", "yarn.lock", "./"]
+RUN yarn && \
+    yarn cache clean
+
 COPY . .
+
 EXPOSE 3000
 CMD ["yarn", "dev", "--host"]
