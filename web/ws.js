@@ -1,18 +1,31 @@
-const PREFIX = 'V2';
+const PREFIX = 'V1';
+const CACHED_FILE = [];
 
 self.addEventListener("install", (event) => {
+  self.skipWaiting();
   event.waitUntil(
     (async () => {
       const cache = await caches.open(PREFIX);
-      console.log("cache")
       cache.add(new Request('/offline.html'));
     })()
   );
   console.log(`${PREFIX} Install`);
 });
 
-self.addEventListener("activate", () => {
-  clients.claim()
+self.addEventListener("activate", (event) => {
+  clients.claim();
+  event.waitUntil(
+    (async () => {
+      const keys = await caches.keys();
+      await Promise.all(
+        keys.map((key) => {
+          if (!key.includes(PREFIX)) {
+            return caches.delete(key);
+          }
+        })
+      );
+    })()
+  );
   console.log(`${PREFIX} Active`);
 });
 
