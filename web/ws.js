@@ -1,12 +1,22 @@
-const PREFIX = 'V1';
-const CACHED_FILE = [];
+const PREFIX = 'V5';
+const BASE = location.protocol + "//" + location.host;
+const CACHED_FILES = [
+  `${BASE}/offline.html`
+];
+
+const LAZY_CACHE = [
+];
 
 self.addEventListener("install", (event) => {
   self.skipWaiting();
   event.waitUntil(
     (async () => {
       const cache = await caches.open(PREFIX);
-      cache.add(new Request('/offline.html'));
+      await Promise.all([...CACHED_FILES].map(
+        (path) => {
+          return cache.add(new Request(path));
+        }
+      ));
     })()
   );
   console.log(`${PREFIX} Install`);
@@ -46,5 +56,26 @@ self.addEventListener("fetch", (event) => {
           return await cache.match('/offline.html');
         }
       })());
+  } else if (CACHED_FILES.includes(event.request.url)) {
+    event.respondWith(caches.match(event.request));
+  }else if (LAZY_CACHE.includes(event.request.url)) {
+    event.respondWith(
+      (async () => {
+        try {
+          const cache = await caches.open(PREFIX);
+          const preloadResponse = await event.preloadResponse;
+          if (preloadResponse) {
+            cache.put(event.request, preloadResponse.clone());
+            return preloadResponse;
+          }
+
+          const networkResponse = await fetch(event.request);
+          cache.put(event.request, networkResponse.clone());
+          return networkResponse
+        } catch (e) {
+          return await cache.match(event.request);
+        }
+      })()
+    );
   }
 });
