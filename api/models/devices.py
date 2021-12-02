@@ -42,7 +42,7 @@ class Device(BaseModel):
         query = f'SELECT toggle FROM devices WHERE id={id};'
         device = await db.fetch_one(query)
         if device:
-            return Device(**device)
+            return device
 
     @classmethod
     async def get_all(cls) -> list['Device']:
@@ -55,6 +55,14 @@ class Device(BaseModel):
         query = devices.update().where(devices.c.id == id).values(**kwargs).returning(devices)
         if device := await db.fetch_one(query):
             return Device(**device)
+
+    @classmethod
+    async def edit_toggle(cls, id: int, toggle:bool, device: 'Device') -> Optional['dict']:
+        """Edit toggle of a device using another device object."""
+        device = device.dict()
+        device.pop('id')
+        device['toggle'] = toggle
+        return await cls.update(id, **device)
 
     @classmethod
     async def edit(cls, id: int, device: 'Device') -> Optional['Device']:

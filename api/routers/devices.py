@@ -29,7 +29,7 @@ async def get_device_id(id: int):
     return device
 
 
-@router.get("/{id}/status", response_model=Device)
+@router.get("/{id}/status", response_model=dict)
 async def get_device_toggle(id: int):
     """Get a device by id."""
     toggle = await Device.get_toggle(id)
@@ -47,6 +47,20 @@ async def delete_device(id: int):
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="No device with that id was found.")
 
     return device
+
+
+@router.put("/{id}/{toggle}", response_model=Device)
+async def edit_a_device_toggle(id: int, toggle: bool):
+    """Updates the information stored about a device."""
+    device = await Device.get(id)
+    if not device:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="No device with that id was found.")
+
+    updated_device_toggle = await Device.edit_toggle(id, toggle, device)
+    if not updated_device_toggle:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="device not found.")
+
+    return updated_device_toggle
 
 
 @router.put("/{id}", response_model=Device)
