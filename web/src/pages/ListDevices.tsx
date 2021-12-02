@@ -36,6 +36,7 @@ class ListDevices extends React.Component<{}, ListDevicesInterface> {
 
   componentDidMount() {
     this.displayDevice();
+    //this.displayData();
   }
 
   displayDevice() {
@@ -51,6 +52,21 @@ class ListDevices extends React.Component<{}, ListDevicesInterface> {
       });
 
   };
+/*
+  displayData() {
+    fetch("/api/graphData", { method: 'GET' })
+      .then(graphDataElements => graphDataElements.json())
+      .then((response) => {
+        this.setState({
+          isLoaded: true,
+          graphDataElements: response,
+          graphDataShown: response
+        }
+        )
+      });
+
+  };
+*/
   searchData(pattern?: string) {
     if (pattern == null || pattern == "") {
       return;
@@ -67,6 +83,7 @@ class ListDevices extends React.Component<{}, ListDevicesInterface> {
 
   render() {
     let { devices } = this.state;
+    let deviceTemperature = 25;
     return (
       <div>
         <Navbar bg="light" expand="lg">
