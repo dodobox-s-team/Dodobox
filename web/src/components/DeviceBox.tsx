@@ -62,7 +62,6 @@ class DeviceBox  extends React.Component<DeviceBoxInterface, {}> {
     })
     .then((response) => response.json())
     .then((json) => {
-
       fetch(`/api/devices/${this.props.id}/status`, {
         method: "GET",
         headers: {
