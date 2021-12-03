@@ -43,23 +43,24 @@ class DeviceBox  extends React.Component<DeviceBoxInterface, {}> {
         'Content-type': 'application/json; charset=UTF-8'
       },
     })
-
-    fetch(`/api/devices/${this.props.id}/status`, {
-      method: "GET",
-      headers: {
-        'Content-type': 'application/json; charset=UTF-8'
-      },
-    })
-      .then((response) => response.json())
-      .then((json) => {
-        console.log(`device state on API : ${json.toggle} <> device state  wanted : ${newToggle}`);
-        if(json.toggle != newToggle) {
-          toast.error(`L'état de l'appareil n'a pas pu être changé`);
+    .then((response) => response.json())
+    .then((json) => {
+      fetch(`/api/devices/${this.props.id}/status`, {
+        method: "GET",
+        headers: {
+          'Content-type': 'application/json; charset=UTF-8'
+        },
+      })
+        .then((response) => response.json())
+        .then((json) => {
+          console.log(`device state on API : ${json.toggle} <> device state  wanted : ${newToggle}`);
+          if(json.toggle != newToggle) {
+            toast.error(`L'état de l'appareil n'a pas pu être changé`);
+          }
           this.setState({toggle: json.toggle})
-        } else {
-          this.setState({toggle: newToggle})
-        }
-      });
+        });
+    });
+
   }
 
   render() {
