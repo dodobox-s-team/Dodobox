@@ -14,6 +14,7 @@ interface Device {
   modele: string
   type: number
   ip: string
+  toggle: boolean
 }
 
 interface ListDevicesInterface {
@@ -91,7 +92,7 @@ class ListDevices extends React.Component<{}, ListDevicesInterface> {
         </Navbar>
         <Row>
           {this.state.devicesShown.map((device: Device, i: number) => (
-            <DeviceBox key={device.id} img={[<BsLamp key={device.id} />]} name={device.name} state="success" ipAddress={device.ip} groupId={device.groupId} type={device.type} id={device.id} displayDevice={this.displayDevice.bind(this)} />
+            <DeviceBox key={device.id} img={[<BsLamp key={device.id} />]} name={device.name} ipAddress={device.ip} groupId={device.groupId} type={device.type} id={device.id} toggle={device.toggle} displayDevice={this.displayDevice.bind(this)} />
           ))}
         </Row>
       </div>
