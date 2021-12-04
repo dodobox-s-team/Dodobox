@@ -6,6 +6,7 @@ import PageNotFound from "./errors/404";
 import "../styles/GroupDetail.scss";
 import { toast } from "react-toastify";
 import ListGroups from "../components/ListGroups";
+import DeviceBox from '../components/DeviceBox';
 
 interface Group {
   name: string;
@@ -15,6 +16,10 @@ interface Group {
   };
   error?: React.ReactElement;
   isOpen: boolean;
+}
+
+interface GroupDetailInterface {
+  group: Group[];
 }
 
 type GroupProps = RouteComponentProps<{
@@ -108,7 +113,19 @@ class GroupDetail extends React.Component<GroupProps, Group> {
   openModal = () => this.setState({ isOpen: true });
   closeModal = () => this.setState({ isOpen: false });
 
+  loadDeviceGroup = () => {
+    fetch('api/groups/$this.id/devices', { method: 'GET' }).then(async (r) => {
+      if (r.ok) {
+        const group = await r.json();
+        this.setState({ group: group, name: group.name });
+      }
+    });
+  };
+
+
   render() {
+    const { group } = this.state;
+
     if (this.state.error !== undefined) {
       return this.state.error;
     }
@@ -151,6 +168,12 @@ class GroupDetail extends React.Component<GroupProps, Group> {
               </Modal>
             </Col>
           </Row>
+          {/*<Row>
+            {this.state.devicesShown.map((device: Device, i: number) => (
+              <DeviceBox key={device.id} img={[<BsLamp key={device.id} />]} name={device.name} state="success" ipAddress={device.ip} groupId={device.groupId} type={device.type} id={device.id} displayDevice={this.displayDevice.bind(this)} />
+            ))}
+            </Row>*/}
+          <p>name: {group.name}</p>
         </Container>
       </div>
     );
