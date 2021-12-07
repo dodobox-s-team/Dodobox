@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 import FormDeviceOptions from './FormDeviceOptions'
 import { Modal, Button, Form, Image, Alert } from 'react-bootstrap'
 import { RiSettings2Line } from "react-icons/ri";
-è
+
 interface DevicesManagementInterface {
   modalShow: boolean;
   setModalShow: boolean;
