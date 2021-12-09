@@ -22,6 +22,19 @@ interface DeviceBoxInterface {
 
 class DeviceBox  extends React.Component<DeviceBoxInterface, {}> {
 
+  getCurrentState = () => {
+    fetch(`/api/devices/${this.props.id}/status`, {
+      method: "GET",
+      headers: {
+        'Content-type': 'application/json; charset=UTF-8'
+      },
+    })
+      .then((response) => response.json())
+      .then((json) => {
+        this.setState({toggle : json.toggle});
+      });
+  }
+
   state: DeviceBoxInterface = {
     key: 0,
     img: [],
@@ -32,6 +45,10 @@ class DeviceBox  extends React.Component<DeviceBoxInterface, {}> {
     id: 0,
     toggle: false,
     displayDevice: JSON,
+  }
+
+  componentDidMount() {
+    this.getCurrentState();
   }
 
   handleOnOff = () => {
@@ -45,6 +62,7 @@ class DeviceBox  extends React.Component<DeviceBoxInterface, {}> {
     })
     .then((response) => response.json())
     .then((json) => {
+
       fetch(`/api/devices/${this.props.id}/status`, {
         method: "GET",
         headers: {
@@ -53,14 +71,12 @@ class DeviceBox  extends React.Component<DeviceBoxInterface, {}> {
       })
         .then((response) => response.json())
         .then((json) => {
-          console.log(`device state on API : ${json.toggle} <> device state  wanted : ${newToggle}`);
           if(json.toggle != newToggle) {
             toast.error(`L'état de l'appareil n'a pas pu être changé`);
           }
           this.setState({toggle: json.toggle})
         });
     });
-
   }
 
   render() {
