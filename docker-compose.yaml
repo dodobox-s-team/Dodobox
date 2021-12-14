@@ -30,7 +30,7 @@ services:
     depends_on:
       - api
   caddy:
-    build: ./caddy
+    image: mwath/dodobox-caddy:v1
     command: caddy run
     volumes:
       - caddy_data:/data
