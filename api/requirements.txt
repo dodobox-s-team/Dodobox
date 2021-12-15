@@ -1,9 +1,11 @@
 alembic~=1.7.4
+asgi-lifespan~=1.0.1
 asyncpg~=0.24.0
 cryptography~=35.0.0
 databases~=0.5.3
 fastapi~=0.70.0
 flake8
+httpx~=0.21.1
 passlib[bcrypt]~=1.7.4
 psycopg2~=2.9.1
 pytest~=6.2.5
