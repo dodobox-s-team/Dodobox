@@ -30,7 +30,7 @@ services:
     depends_on:
       - api
   caddy:
-    build: ./caddy
+    image: mwath/dodobox-caddy:v1
     command: caddy run
     volumes:
       - caddy_data:/data
@@ -38,6 +38,7 @@ services:
     environment:
       - WEB_PORT=${WEB_PORT}
       - DOMAIN_NAME=${DOMAIN_NAME}
+      - ACME_APIKEY=${ACME_APIKEY}
     ports:
       - "${WEB_PORT}:${WEB_PORT}"
       - "${WEB_PORT_HTTP}:80"
