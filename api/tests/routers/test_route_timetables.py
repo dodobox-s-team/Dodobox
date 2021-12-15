@@ -1,58 +1,77 @@
 from datetime import datetime, timedelta
 
+import pytest
 from api.models.timetables import Timetable
 from fastapi import status
 from fastapi.testclient import TestClient
 
+pytestmark = pytest.mark.asyncio
+
+
+@pytest.fixture
+def timetable2(timetable):
+    return Timetable(
+        id=1,
+        action="on",
+        start=datetime.now(tz=None),
+        duration=timedelta(minutes=3),
+        repeat=timedelta(weeks=1)
+    )
+
+
+@pytest.fixture
+def modified_timetable(timetable):
+    return Timetable(
+        id=11,
+        action="on",
+        start=datetime.now(tz=None),
+        duration=timedelta(minutes=6),
+        repeat=timedelta(weeks=7)
+    )
+
 
 class TestRouteTimetable:
-    prefix = "/timetables"
-    timetable = Timetable(id=3,
-                          action="off",
-                          start=datetime.now(tz=None),
-                          duration=timedelta(minutes=5),
-                          repeat=timedelta(weeks=1))
-    timetable_edit = Timetable(id=3,
-                               action="on",
-                               start=datetime.now(tz=None),
-                               duration=timedelta(minutes=6),
-                               repeat=timedelta(weeks=7))
-
-    def test_add_timetables(self, client: TestClient):
-        responseAdd = client.post(self.prefix + "", data=self.timetable.json())
+    async def test_add_timetables(self, client: TestClient, timetable2: Timetable):
+        # We need to use content=timetable.json() because datetime is not json serializable
+        # but pydantic can serialize it.
+        responseAdd = await client.post("/timetables", content=timetable2.json())
         timetableAdd = Timetable(**responseAdd.json())
         assert responseAdd.status_code == status.HTTP_200_OK
-        responseGet = client.get(self.prefix + f"/{responseAdd.json()['id']}")
+
+        responseGet = await client.get(f"/timetables/{timetable2.id}")
         timetableGet = Timetable(**responseGet.json())
         assert timetableAdd == timetableGet
-        # responseErrorAction = client(post
 
-    def test_get_timetables_id(self, client: TestClient):
-        response = client.get(self.prefix + f"/{self.timetable.id}")
+    async def test_get_timetables_id(self, client: TestClient, timetable: Timetable):
+        response = await client.get(f"/timetables/{timetable.id}")
         assert response.status_code == status.HTTP_200_OK
-        assert self.timetable == Timetable(**response.json())
-        response = client.get(self.prefix + "/666")
+        assert timetable == Timetable(**response.json())
+
+        response = await client.get("/timetables/666")
         assert response.status_code == status.HTTP_404_NOT_FOUND
 
-    def test_edit_a_timetable(self, client: TestClient):
-        response = client.put(self.prefix + f"/{self.timetable.id}", data=self.timetable_edit.json())
-        assert self.timetable_edit == Timetable(**response.json())
-        assert self.timetable != Timetable(**response.json())
-        assert self.timetable_edit == Timetable(**client.get(self.prefix + f"/{response.json()['id']}").json())
-        response = client.put(self.prefix + "10", data=self.timetable_edit.json())
+    async def test_edit_a_timetable(self, client: TestClient, timetable: Timetable, modified_timetable: Timetable):
+        response = await client.put(f"/timetables/{timetable.id}", content=modified_timetable.json())
+        assert modified_timetable == Timetable(**response.json())
+        assert timetable != Timetable(**response.json())
+
+        response = await client.get(f"/timetables/{response.json()['id']}")
+        assert modified_timetable == Timetable(**response.json())
+
+        response = await client.put("/timetables/10", content=modified_timetable.json())
         assert response.status_code == status.HTTP_404_NOT_FOUND
 
-    def test_delete_timetable(self, client: TestClient):
-        response = client.delete(self.prefix + f"/{self.timetable.id}")
+    async def test_delete_timetable(self, client: TestClient, timetable: Timetable):
+        response = await client.delete(f"/timetables/{timetable.id}")
         assert response.status_code == status.HTTP_200_OK
-        response = client.get(self.prefix + f"/{self.timetable.id}")
-        assert response.status_code == status.HTTP_404_NOT_FOUND
-        response = client.delete(self.prefix + f"/{self.timetable.id}")
+
+        response = await client.get(f"/timetables/{timetable.id}")
         assert response.status_code == status.HTTP_404_NOT_FOUND
 
-    def test_get_timetables(self, client: TestClient):
-        response = client.get(self.prefix)
+        response = await client.delete(f"/timetables/{timetable.id}")
+        assert response.status_code == status.HTTP_404_NOT_FOUND
+
+    async def test_get_timetables(self, client: TestClient, timetable: Timetable):
+        response = await client.get("/timetables")
         assert response.status_code == status.HTTP_200_OK
-        print(response.json())
-        print(response.status_code)
         assert len(response.json()) == 1

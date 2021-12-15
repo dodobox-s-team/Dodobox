@@ -1,15 +1,13 @@
+from typing import Any
+
 import pytest
-from api.schemas import db as database
+from pytest_mock import MockerFixture
 
 
 @pytest.fixture
-async def db():
-    await database.connect()
-    yield database
-    await database.disconnect()
+def apatch(mocker: MockerFixture):
+    """Return a function that let you patch an async function."""
+    def patch(target: str, return_value: Any):
+        return mocker.patch(target, side_effect=mocker.AsyncMock(return_value=return_value))
 
-
-@pytest.mark.asyncio
-async def test_db_connection():
-    await database.connect()
-    await database.disconnect()
+    yield patch
