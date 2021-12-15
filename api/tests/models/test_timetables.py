@@ -3,6 +3,8 @@ from datetime import datetime, timedelta
 import pytest
 from api.models.timetables import Timetable
 
+pytestmark = pytest.mark.asyncio
+
 timetable = Timetable(
     id=1, action="off", start=datetime.now(), duration=timedelta(minutes=5), repeat=timedelta(weeks=1)
 )
@@ -15,7 +17,6 @@ timetable2 = Timetable(
 
 
 class TestTimetable:
-    @pytest.mark.asyncio
     async def test_add(self, apatch):
         apatch('api.schemas.db.execute', return_value=1)
         assert timetable == await Timetable.add(timetable)
@@ -23,7 +24,6 @@ class TestTimetable:
         apatch('api.schemas.db.execute', return_value=2)
         assert timetable2 == await Timetable.add(timetable2)
 
-    @pytest.mark.asyncio
     async def test_get(self, apatch):
         apatch('api.schemas.db.fetch_one', return_value=timetable.dict())
         assert timetable == await Timetable.get(timetable.id)
@@ -34,12 +34,10 @@ class TestTimetable:
         apatch('api.schemas.db.fetch_one', return_value=None)
         assert await Timetable.get(69) is None
 
-    @pytest.mark.asyncio
     async def test_get_all(self, apatch):
         apatch('api.schemas.db.fetch_all', return_value=[timetable.dict()])
         assert [timetable] == await Timetable.get_all()
 
-    @pytest.mark.asyncio
     async def test_edit(self, apatch):
         apatch('api.schemas.db.fetch_one', return_value=modified_timetable.dict())
         assert modified_timetable == await Timetable.edit(timetable.id, modified_timetable)
@@ -47,7 +45,6 @@ class TestTimetable:
         apatch('api.schemas.db.fetch_one', return_value=None)
         assert await Timetable.edit(0, modified_timetable) is None
 
-    @pytest.mark.asyncio
     async def test_delete(self, apatch):
         apatch('api.schemas.db.fetch_one', return_value=modified_timetable.dict())
         assert modified_timetable == await Timetable.delete(modified_timetable.id)

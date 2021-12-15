@@ -4,6 +4,8 @@ from api.models.groups import Group
 from asyncpg import UniqueViolationError
 from pytest_mock import MockerFixture
 
+pytestmark = pytest.mark.asyncio
+
 group = Group(id=1, name="salon")
 modified_group = Group(id=1, name="Salon")
 group2 = Group(id=2, name="Cuisine")
@@ -11,7 +13,6 @@ device = Device(name="Lampe", modele="", groupId=1, type=1, ip="192.168.1.5")
 
 
 class TestGroup:
-    @pytest.mark.asyncio
     async def test_add(self, apatch, mocker: MockerFixture):
         apatch('api.schemas.db.execute', return_value=1)
         assert group == await Group.add(group)
@@ -24,7 +25,6 @@ class TestGroup:
         with pytest.raises(UniqueViolationError):
             await Group.add(group)
 
-    @pytest.mark.asyncio
     async def test_get(self, apatch):
         apatch('api.schemas.db.fetch_one', return_value=group.dict())
         assert group == await Group.get(group.id)
@@ -35,12 +35,10 @@ class TestGroup:
         apatch('api.schemas.db.fetch_one', return_value=None)
         assert await Group.get(0) is None
 
-    @pytest.mark.asyncio
     async def test_get_all(self, apatch):
         apatch('api.schemas.db.fetch_all', return_value=[group.dict()])
         assert [group] == await Group.get_all()
 
-    @pytest.mark.asyncio
     async def test_update(self, apatch):
         apatch('api.schemas.db.fetch_one', return_value=modified_group.dict())
         assert modified_group == await Group.update(group.id, name=modified_group.name)
@@ -48,7 +46,6 @@ class TestGroup:
         apatch('api.schemas.db.fetch_one', return_value=None)
         assert await Group.update(0, name=modified_group.name) is None
 
-    @pytest.mark.asyncio
     async def test_edit(self, apatch):
         apatch('api.schemas.db.fetch_one', return_value=modified_group.dict())
         assert modified_group == await Group.edit(group.id, modified_group)
@@ -56,7 +53,6 @@ class TestGroup:
         apatch('api.schemas.db.fetch_one', return_value=None)
         assert await Group.edit(0, modified_group) is None
 
-    @pytest.mark.asyncio
     async def test_delete(self, apatch, mocker):
         mocker.patch('api.schemas.db.execute')
         apatch('api.schemas.db.fetch_one', return_value=group.dict())
@@ -65,12 +61,10 @@ class TestGroup:
         apatch('api.schemas.db.fetch_one', return_value=None)
         assert await Group.delete(0) is None
 
-    @pytest.mark.asyncio
     async def test_get_devices(self, apatch):
         apatch('api.schemas.db.fetch_all', return_value=[device.dict()])
         assert [device] == await Group.get_devices(group.id)
 
-    @pytest.mark.asyncio
     async def test_delete_with_devices(self, apatch, mocker):
         def reset_groupId(query):
             device.groupId = None
