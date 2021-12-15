@@ -17,6 +17,7 @@ function App() {
       display: "flex",
     },
     contentMargin: {
+      marginLeft: "10px",
       width: "100%",
     },
   };

@@ -1,10 +1,11 @@
-import React from "react";
-import { Col, Container, Row } from "react-bootstrap";
-import { FaCog } from "react-icons/fa";
+import React, { FormEvent } from "react";
+import { Col, Container, Row, Modal, Form, Button, ListGroup } from "react-bootstrap";
+import { FaTrash } from "react-icons/fa";
 import { RouteComponentProps } from "react-router";
 import PageNotFound from "./errors/404";
 import "../styles/GroupDetail.scss";
 import { toast } from "react-toastify";
+import ListGroups from "../components/ListGroups";
 
 interface Group {
   name: string;
@@ -13,6 +14,7 @@ interface Group {
     name: string;
   };
   error?: React.ReactElement;
+  isOpen: boolean;
 }
 
 type GroupProps = RouteComponentProps<{
@@ -22,6 +24,7 @@ type GroupProps = RouteComponentProps<{
 class GroupDetail extends React.Component<GroupProps, Group> {
   state: Group = {
     name: "Loading ...",
+    isOpen: false,
   };
 
   get id() {
@@ -89,6 +92,22 @@ class GroupDetail extends React.Component<GroupProps, Group> {
     });
   };
 
+  deleteGroup = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    fetch(`/api/groups/${this.id}`, { method: "DELETE" }).then(async (r) => {
+      if (r.ok) {
+        this.props.history.push("/");
+        ListGroups.instance?.loadGroups();
+        toast.success("Le groupe a bien été supprimé");
+      } else {
+        toast.error("Impossible de supprimer ce groupe");
+      }
+    });
+  }
+
+  openModal = () => this.setState({ isOpen: true });
+  closeModal = () => this.setState({ isOpen: false });
+
   render() {
     if (this.state.error !== undefined) {
       return this.state.error;
@@ -113,7 +132,23 @@ class GroupDetail extends React.Component<GroupProps, Group> {
               </span>
             </Col>
             <Col md="auto">
-              <FaCog size="1.3em" />
+              <FaTrash size="1.3em" onClick={this.openModal} />
+              <Modal show={this.state.isOpen} onHide={this.closeModal}>
+                <Form onSubmit={this.deleteGroup}>
+                  <Modal.Header>
+                    <Modal.Title>Supprimer le groupe</Modal.Title>
+                  </Modal.Header>
+                  <Modal.Body>Êtes-vous sûr de vouloir supprimer ce groupe ?</Modal.Body>
+                  <Modal.Footer>
+                    <Button variant="secondary" onClick={this.closeModal}>
+                      Annuler
+                    </Button>
+                    <Button variant="primary" type="submit">
+                      Supprimer
+                    </Button>
+                  </Modal.Footer>
+                </Form>
+              </Modal>
             </Col>
           </Row>
         </Container>
