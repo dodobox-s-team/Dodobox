@@ -1,22 +1,17 @@
-import { useState } from 'react'
-import React from 'react'
-import ReactDOM from 'react-dom'
-import menuIcon from '../images/burger-menu-icon.png'
+import { useState } from "react";
+import React from "react";
+import ReactDOM from "react-dom";
+import menuIcon from "../images/burger-menu-icon.png";
 import { AiOutlineMenu, AiOutlineDashboard } from "react-icons/ai";
 import { FaLayerGroup } from "react-icons/fa";
 import { MdOutlineWidgets } from "react-icons/md";
-import {
-  Menu,
-  MenuItem,
-  ProSidebar,
-  SidebarHeader,
-  SubMenu,
-} from "react-pro-sidebar";
+import { Menu, MenuItem, ProSidebar, SidebarHeader } from "react-pro-sidebar";
 import { Link } from "react-router-dom";
+import ListGroups from "./ListGroups";
 
 const SideBar = () => {
   const [collapsed, setCollapsed] = useState(false);
-  // added styles 
+  // added styles
   const styles = {
     sideBarHeight: {
       height: "100vh",
@@ -39,13 +34,13 @@ const SideBar = () => {
         </div>
       </SidebarHeader>
       <Menu iconShape="square">
-        <MenuItem icon={<AiOutlineDashboard />}><Link to="/Dashboard"> Tableau de bord </Link></MenuItem>
-        <MenuItem icon={<MdOutlineWidgets />}><Link to="/ListDevices"> Listes des appareils </Link></MenuItem>
-        <SubMenu title="Salles personnalisées" icon={<FaLayerGroup />}>
-          <MenuItem>Salon</MenuItem>
-          <MenuItem>Cuisine</MenuItem>
-          <MenuItem>Chambre n°1</MenuItem>
-        </SubMenu>
+        <MenuItem icon={<AiOutlineDashboard />}>
+          <Link to="/"> Tableau de bord </Link>
+        </MenuItem>
+        <MenuItem icon={<MdOutlineWidgets />}>
+          <Link to="/ListDevices"> Listes des appareils </Link>
+        </MenuItem>
+        <ListGroups />
       </Menu>
     </ProSidebar>
   );

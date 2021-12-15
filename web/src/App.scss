@@ -5,36 +5,13 @@ $primary: #000246;
 $sidebar-bg-color: $primary !default;
 $submenu-bg-color: $primary !default;
 
-.sideBar {
-  width : 15em;
-  height: 58em;
-  background-color: #459C9C;
-}
 
-.sidebar-nav {
-  list-style-type: none;
-  padding:0;
-  margin:0;
-}
+// delete horizontal scrollbar
+body { overflow-x : hidden}
 
-.sidebar-nav li{
-  background-color: #C4C4C4;
-  margin-top:2em;
-  text-align : center;
-  padding : 0.5em;
-}
+//.pro-sidebar-inner { position: fixed ; }
 
-.sidebar-parameter {
-  background-color: #C4C4C4; 
-  padding : 0.5em;
-  text-align : center;
-  margin-top : 30em;
-}
 
-.burger-menu-icon {
-  width : 3em;
-  position : absolute;
-}
 
 @import '../node_modules/bootstrap/scss/bootstrap';
 @import 'react-pro-sidebar/dist/scss/styles.scss';
