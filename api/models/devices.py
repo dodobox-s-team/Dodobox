@@ -40,9 +40,9 @@ class Device(BaseModel):
     async def get_toggle(cls, id: int) -> Optional['Device']:
         """Get the status of a device from the database from its id."""
         query = f'SELECT toggle FROM devices WHERE id={id};'
-        device = await db.fetch_one(query)
-        if device:
-            return device
+        toggle = await db.fetch_one(query)
+        if toggle:
+            return toggle
 
     @classmethod
     async def get_all(cls) -> list['Device']:
