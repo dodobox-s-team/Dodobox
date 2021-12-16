@@ -1,7 +1,7 @@
 """Add toggle
 
 Revision ID: 2517bfd62b9d
-Revises: 7db537b8750a
+Revises: a0d1d33506c3
 Create Date: 2021-11-25 10:48:55.625002
 
 """
@@ -11,7 +11,7 @@ import sqlalchemy as sa
 
 # revision identifiers, used by Alembic.
 revision = '2517bfd62b9d'
-down_revision = '7db537b8750a'
+down_revision = 'a0d1d33506c3'
 branch_labels = None
 depends_on = None
 
