@@ -15,7 +15,7 @@ from httpx import AsyncClient
 
 @pytest.fixture
 def device(setup_database):
-    return Device(id=11, groupId=None, name="prise salon", modele="esp32", type=0, ip="192.168.1.9")
+    return Device(id=11, groupId=None, name="prise salon", modele="esp32", type=0, ip="192.168.1.9", toggle=True)
 
 
 @pytest.fixture
@@ -25,7 +25,7 @@ def group(setup_database):
 
 @pytest.fixture
 def device_group(setup_database):
-    return Device(id=12, groupId=11, name="Lampe", modele="", type=1, ip="192.168.1.5")
+    return Device(id=12, groupId=11, name="Lampe", modele="", type=1, ip="192.168.1.5", toggle=True)
 
 
 @pytest.fixture
