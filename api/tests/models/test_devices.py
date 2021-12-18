@@ -4,7 +4,8 @@ from api.models.devices import Device
 pytestmark = pytest.mark.asyncio
 
 device = Device(id=1, groupId=None, name="prise salon", modele="esp32", type=0, ip="192.168.1.9", toggle=True)
-modified_device = Device(id=1, groupId=None, name="prise pas du salon", modele="esp32", type=0, ip="192.168.1.9", toggle=False)
+modified_device = Device(id=1, groupId=None, name="prise pas du salon",
+                         modele="esp32", type=0, ip="192.168.1.9", toggle=False)
 device2 = Device(id=2, groupId=None, name="prise salon", modele="esp32", type=0, ip="192.168.1.9", toggle=True)
 
 

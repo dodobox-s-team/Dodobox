@@ -35,7 +35,7 @@ class Device(BaseModel):
         device = await db.fetch_one(query)
         if device:
             return Device(**device)
-    
+
     @classmethod
     async def get_toggle(cls, id: int) -> Optional['Device']:
         """Get the status of a device from the database from its id."""
@@ -57,7 +57,7 @@ class Device(BaseModel):
             return Device(**device)
 
     @classmethod
-    async def edit_toggle(cls, id: int, toggle:bool, device: 'Device') -> Optional['dict']:
+    async def edit_toggle(cls, id: int, toggle: bool, device: 'Device') -> Optional['dict']:
         """Edit toggle of a device using another device object."""
         device = device.dict()
         device.pop('id')
