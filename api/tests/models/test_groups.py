@@ -9,7 +9,7 @@ pytestmark = pytest.mark.asyncio
 group = Group(id=1, name="salon")
 modified_group = Group(id=1, name="Salon")
 group2 = Group(id=2, name="Cuisine")
-device = Device(name="Lampe", modele="", groupId=1, type=1, ip="192.168.1.5")
+device = Device(name="Lampe", modele="", groupId=1, type=1, ip="192.168.1.5", toggle=True)
 
 
 class TestGroup:
