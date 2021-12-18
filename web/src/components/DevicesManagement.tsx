@@ -56,11 +56,12 @@ class DevicesManagement extends React.Component<{}, DevicesManagementInterface> 
     e.preventDefault();
 
     let dataDevice = {
-      "groupId": 1,
+      "groupId": null,
       "name": e.target.elements.formNameDevice.value.trim(),
       "modele": 1,
       "type": 1,
       "ip": e.target.elements.formIpAddress.value.trim(),
+      "toggle": false,
     }
     let regexIpv4Address = /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
     let valueIpv4AddressForm = dataDevice.ip;
