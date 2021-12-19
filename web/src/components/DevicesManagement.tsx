@@ -54,13 +54,19 @@ class DevicesManagement extends React.Component<{}, DevicesManagementInterface> 
 
   handleSettingsInput = (e, methodParameter, id) => {
     e.preventDefault();
+    let groupField = e.target.elements.formGroupDevice.value
+    let nameField = e.target.elements.formNameDevice.value.trim()
+    let ipField = e.target.elements.formIpAddress.value.trim()
 
+    if (groupField == "") {
+      groupField = null
+    }
     let dataDevice = {
-      "groupId": null,
-      "name": e.target.elements.formNameDevice.value.trim(),
-      "modele": 1,
+      "groupId": groupField,
+      "name": nameField,
+      "modele": "ESP",
       "type": 1,
-      "ip": e.target.elements.formIpAddress.value.trim(),
+      "ip": ipField,
       "toggle": false,
     }
     let regexIpv4Address = /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
