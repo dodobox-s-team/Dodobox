@@ -6,6 +6,8 @@ import PageNotFound from "./errors/404";
 import "../styles/GroupDetail.scss";
 import { toast } from "react-toastify";
 import ListGroups from "../components/ListGroups";
+import DeviceBox from '../components/DeviceBox';
+import Device from "./ListDevices";
 
 interface Group {
   name: string;
@@ -13,6 +15,7 @@ interface Group {
     id: number;
     name: string;
   };
+  devices: Device[]
   error?: React.ReactElement;
   isOpen: boolean;
 }
@@ -24,6 +27,7 @@ type GroupProps = RouteComponentProps<{
 class GroupDetail extends React.Component<GroupProps, Group> {
   state: Group = {
     name: "Loading ...",
+    devices: [],
     isOpen: false,
   };
 
@@ -37,6 +41,7 @@ class GroupDetail extends React.Component<GroupProps, Group> {
 
   componentDidMount() {
     this.loadGroup();
+    this.loadDeviceGroup();
   }
 
   loadGroup() {
@@ -55,6 +60,7 @@ class GroupDetail extends React.Component<GroupProps, Group> {
       const group = await r.json();
       this.setState({ group: group, name: group.name, error: undefined });
     });
+
   }
 
   handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -105,6 +111,15 @@ class GroupDetail extends React.Component<GroupProps, Group> {
     });
   }
 
+  loadDeviceGroup() {
+    fetch(`/api/groups/${this.id}/devices`, { method: 'GET' }).then(async (r) => {
+      if (r.ok) {
+        const devices = await r.json();
+        this.setState({ devices: devices });
+      }
+    });
+  };
+
   openModal = () => this.setState({ isOpen: true });
   closeModal = () => this.setState({ isOpen: false });
 
@@ -151,6 +166,11 @@ class GroupDetail extends React.Component<GroupProps, Group> {
               </Modal>
             </Col>
           </Row>
+          <div>
+            {this.state.devices.map((device: Device, i: number) => (
+              <DeviceBox key={device.Id} name = {device.name} state="success" ipAddress={device.ip} groupId={device.groupId} type={device.type} id={device.id} />
+            ))}
+          </div>
         </Container>
       </div>
     );
