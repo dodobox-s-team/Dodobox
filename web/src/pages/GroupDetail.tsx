@@ -60,7 +60,7 @@ class GroupDetail extends React.Component<GroupProps, Group> {
       const group = await r.json();
       this.setState({ group: group, name: group.name, error: undefined });
     });
-
+    this.loadDeviceGroup();
   }
 
   handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
