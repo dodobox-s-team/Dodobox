@@ -83,4 +83,3 @@ async def edit_a_device(id: int, device: Device):
         return updated_device
     except UniqueViolationError:
         raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="Device name or ip address already exists.")
-
