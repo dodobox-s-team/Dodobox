@@ -30,6 +30,7 @@ class DevicesManagement extends React.Component<{}, DevicesManagementInterface> 
   handleClose() {
     this.setState({ modalShow: false });
     this.setState({ validAlertShow: false });
+    this.setState({ invalidAlertShow: false });
   }
   handleShow() {
     this.setState({ modalShow: true });
@@ -74,15 +75,15 @@ class DevicesManagement extends React.Component<{}, DevicesManagementInterface> 
 
     if (((e.target.elements.formNameDevice.value).trim() == "") && !(regexIpv4Address.test(valueIpv4AddressForm))) {
       this.handleInvalidAlertShow();
-      this.state.messageErreur = "le nom de l'appareil doit contenir au moins un caractère ou le format de l'adresse IP n'est pas valide.";
+      this.state.modalErrorMessage = "le nom de l'appareil doit contenir au moins un caractère ou le format de l'adresse IP n'est pas valide.";
     }
     else if ((e.target.elements.formNameDevice.value).trim() == "") {
       this.handleInvalidAlertShow();
-      this.state.messageErreur = "le nom de l'appareil doit contenir au moins un caractère.";
+      this.state.modalErrorMessage = "le nom de l'appareil doit contenir au moins un caractère.";
     }
     else if ((valueIpv4AddressForm).length > 15 || !(regexIpv4Address.test(valueIpv4AddressForm))) {
       this.handleInvalidAlertShow();
-      this.state.messageErreur = "le format de l'adresse IP n'est pas valide.";
+      this.state.modalErrorMessage = "le format de l'adresse IP n'est pas valide.";
     }
 
     else {
@@ -93,7 +94,14 @@ class DevicesManagement extends React.Component<{}, DevicesManagementInterface> 
         },
         body: JSON.stringify(dataDevice)
       })
-        .then(response => response.json())
+        .then(async response => {
+          response.json()
+          if (!response.ok) {
+            if (response.status == 409)
+              this.handleInvalidAlertShow();
+            this.state.modalErrorMessage = "le nom ou l'adresse ip de l'appareil existe déjà"
+          }
+        })
         .then(this.props.displayDevice.bind(this))
     }
   }
@@ -117,7 +125,7 @@ class DevicesManagement extends React.Component<{}, DevicesManagementInterface> 
                 {((this.props.fetchMethod == "PUT") ? `La configuration de l'appareil ${this.props.name} a  bien été sauvegardée.` : `L'appareil a bien été rajouté à la liste des appareils.`)}
               </Alert>
               <Alert variant="danger" show={this.state.invalidAlertShow}>
-                La configuration de l'appareil « {this.props.name} » ne peut pas être sauvegardée car {this.state.messageErreur}
+                La configuration de l'appareil « {this.props.name} » ne peut pas être sauvegardée car {this.state.modalErrorMessage}
               </Alert>
             </Modal.Body>
 

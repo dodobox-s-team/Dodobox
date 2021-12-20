@@ -1,4 +1,5 @@
 from api.models.devices import Device
+from asyncpg import UniqueViolationError
 from fastapi import APIRouter, HTTPException, status
 
 router = APIRouter(
@@ -10,7 +11,10 @@ router = APIRouter(
 @router.post("", response_model=Device)
 async def add_device(device: Device):
     """Add a device."""
-    return await Device.add(device)
+    try: 
+        return await Device.add(device)
+    except UniqueViolationError:
+        raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="Device name or ip address already exists.")
 
 
 @router.get("", response_model=list[Device])
@@ -72,8 +76,11 @@ async def edit_a_device_toggle(id: int, toggle: bool):
 @router.put("/{id}", response_model=Device)
 async def edit_a_device(id: int, device: Device):
     """Updates the information stored about a device."""
-    updated_device = await Device.edit(id, device)
-    if not updated_device:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="device not found.")
+    try: 
+        updated_device = await Device.edit(id, device)
+        if not updated_device:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="device not found.")
+        return updated_device
+    except UniqueViolationError:
+        raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="Device name or ip address already exists.")
 
-    return updated_device
