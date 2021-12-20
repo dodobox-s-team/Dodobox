@@ -11,6 +11,7 @@ class Device(BaseModel):
     modele: constr(max_length=64)
     type: int
     ip: constr(max_length=15)
+    toggle: bool
 
     @classmethod
     async def add(cls, device: 'Device') -> 'Device':
@@ -36,6 +37,14 @@ class Device(BaseModel):
             return Device(**device)
 
     @classmethod
+    async def get_toggle(cls, id: int) -> Optional['Device']:
+        """Get the status of a device from the database from its id."""
+        query = f'SELECT toggle FROM devices WHERE id={id};'
+        toggle = await db.fetch_one(query)
+        if toggle:
+            return toggle
+
+    @classmethod
     async def get_all(cls) -> list['Device']:
         """Return a list of all devices from the database."""
         return [Device(**device) for device in await db.fetch_all(devices.select())]
@@ -46,6 +55,14 @@ class Device(BaseModel):
         query = devices.update().where(devices.c.id == id).values(**kwargs).returning(devices)
         if device := await db.fetch_one(query):
             return Device(**device)
+
+    @classmethod
+    async def edit_toggle(cls, id: int, toggle: bool, device: 'Device') -> Optional['dict']:
+        """Edit toggle of a device using another device object."""
+        device = device.dict()
+        device.pop('id')
+        device['toggle'] = toggle
+        return await cls.update(id, **device)
 
     @classmethod
     async def edit(cls, id: int, device: 'Device') -> Optional['Device']:

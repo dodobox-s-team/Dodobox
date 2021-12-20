@@ -14,6 +14,7 @@ interface Device {
   modele: string
   type: number
   ip: string
+  toggle: boolean
 }
 
 interface ListDevicesInterface {
