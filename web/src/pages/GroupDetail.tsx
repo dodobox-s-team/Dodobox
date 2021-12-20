@@ -41,7 +41,6 @@ class GroupDetail extends React.Component<GroupProps, Group> {
 
   componentDidMount() {
     this.loadGroup();
-    this.loadDeviceGroup();
   }
 
   loadGroup() {
@@ -168,7 +167,7 @@ class GroupDetail extends React.Component<GroupProps, Group> {
           </Row>
           <div>
             {this.state.devices.map((device: Device, i: number) => (
-              <DeviceBox key={device.Id} name = {device.name} state="success" ipAddress={device.ip} groupId={device.groupId} type={device.type} id={device.id} />
+              <DeviceBox key={device.id} name = {device.name} state="success" ipAddress={device.ip} groupId={device.groupId} type={device.type} id={device.id} displayDevice={this.loadGroup.bind(this)} />
             ))}
           </div>
         </Container>
