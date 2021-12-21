@@ -12,29 +12,29 @@ device = Device(id=4, groupId=None, name="prise salon", modele="esp32", type=0, 
 
 class TestGraph:
     async def test_add(self, apatch):
-        apatch('api.schemas.db.execute', return_value=1)
+        apatch("api.schemas.db.execute", return_value=1)
         assert graph == await Graph.add(graph)
 
     async def test_get(self, apatch):
-        apatch('api.schemas.db.fetch_one', return_value=graph.dict())
+        apatch("api.schemas.db.fetch_one", return_value=graph.dict())
         assert graph == await Graph.get(graph.id)
-        apatch('api.schemas.db.fetch_one', return_value=None)
+        apatch("api.schemas.db.fetch_one", return_value=None)
         assert await Graph.get(14) is None
-    
+
     async def test_edit(self, apatch):
-        apatch('api.schemas.db.fetch_one', return_value=modified_graph.dict())
+        apatch("api.schemas.db.fetch_one", return_value=modified_graph.dict())
         assert modified_graph == await Graph.edit(graph.id, modified_graph)
 
-        apatch('api.schemas.db.fetch_one', return_value=None)
+        apatch("api.schemas.db.fetch_one", return_value=None)
         assert await Graph.edit(0, modified_graph) is None
-    
+
     async def test_delete(self, apatch):
-        apatch('api.schemas.db.fetch_one', return_value=modified_graph.dict())
+        apatch("api.schemas.db.fetch_one", return_value=modified_graph.dict())
         assert modified_graph == await Graph.delete(modified_graph.id)
 
-        apatch('api.schemas.db.fetch_one', return_value=None)
+        apatch("api.schemas.db.fetch_one", return_value=None)
         assert await Graph.delete(0) is None
 
     async def test_get_all(self, apatch):
-        apatch('api.schemas.db.fetch_all', return_value=[graph.dict()])
+        apatch("api.schemas.db.fetch_all", return_value=[graph.dict()])
         assert [graph] == await Graph.get_all()
