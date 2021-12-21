@@ -2,37 +2,39 @@ import pytest
 from api.models.graph import Graph
 from api.models.devices import Device
 
+pytestmark = pytest.mark.asyncio
+
+graph = Graph(id=1, deviceId=2, name="graphe de température", axisLabel="X")
+modified_graph = Graph(id=1, deviceId=2, name="graphe de chaleur", axisLabel="X")
+graph2 = Graph(id=2, deviceId=1, name="graphe d'autre chose", axisLabel="Y")
+device = Device(id=4, groupId=None, name="prise salon", modele="esp32", type=0, ip="192.168.1.9", toggle=True)
+
 
 class TestGraph:
-    graph = Graph(id=1, deviceId=2, name="graphe de température", axisLabel="X")
-    modified_graph = Graph(id=1, deviceId=2, name="graphe de chaleur", axisLabel="X")
-    graph2 = Graph(id=2, deviceId=1, name="graphe d'autre chose", axisLabel="Y")
-    device = Device(id=4, groupId=None, name="prise salon", modele="esp32", type=0, ip="192.168.1.9")
+    async def test_add(self, apatch):
+        apatch('api.schemas.db.execute', return_value=1)
+        assert graph == await Graph.add(graph)
 
-    @pytest.mark.asyncio
-    async def test_add(self, db):
-        assert self.graph == await Graph.add(self.graph)
-
-    @pytest.mark.asyncio
-    async def test_get(self, db):
-        assert self.graph == await Graph.get(self.graph.id)
+    async def test_get(self, apatch):
+        apatch('api.schemas.db.fetch_one', return_value=graph.dict())
+        assert graph == await Graph.get(graph.id)
+        apatch('api.schemas.db.fetch_one', return_value=None)
         assert await Graph.get(14) is None
     
-    @pytest.mark.asyncio
-    async def test_edit(self, db):
-        assert self.modified_graph == await Graph.edit(self.graph.id, self.modified_graph)
-        assert self.modified_graph == await Graph.get(self.modified_graph.id)
-        assert self.graph != await Graph.get(self.graph.id)
+    async def test_edit(self, apatch):
+        apatch('api.schemas.db.fetch_one', return_value=modified_graph.dict())
+        assert modified_graph == await Graph.edit(graph.id, modified_graph)
+
+        apatch('api.schemas.db.fetch_one', return_value=None)
+        assert await Graph.edit(0, modified_graph) is None
     
-    @pytest.mark.asyncio
-    async def test_delete(self, db):
-        assert self.modified_graph == await Graph.delete(self.modified_graph.id)
-        assert await Graph.get(self.modified_graph.id) is None
+    async def test_delete(self, apatch):
+        apatch('api.schemas.db.fetch_one', return_value=modified_graph.dict())
+        assert modified_graph == await Graph.delete(modified_graph.id)
 
-    @pytest.mark.asyncio
-    async def test_get_all(self, db):
-        TestGraph.device = await Device.add(self.device)
+        apatch('api.schemas.db.fetch_one', return_value=None)
+        assert await Graph.delete(0) is None
 
-        await Graph.add(self.graph2)
-        assert len(await Graph.get_all()) == 1
-        await Graph.delete(self.device)
+    async def test_get_all(self, apatch):
+        apatch('api.schemas.db.fetch_all', return_value=[graph.dict()])
+        assert [graph] == await Graph.get_all()

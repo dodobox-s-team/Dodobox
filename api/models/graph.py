@@ -46,7 +46,7 @@ class Graph(BaseModel):
             return Graph(**graph)
 
     @classmethod
-    async def edit(cls, id: int, graph: "Graph") -> "Graph":
+    async def edit(cls, id: int, graph: "Graph") -> Optional["Graph"]:
         """Edit a graph using another device object."""
         graph = graph.dict()
         graph.pop("id")

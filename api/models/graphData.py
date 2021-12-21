@@ -1,6 +1,6 @@
 from datetime import datetime
 from typing import Optional
-
+from sqlalchemy import desc
 from api.schemas import db, graphData
 from pydantic import BaseModel
 
@@ -26,31 +26,28 @@ class GraphData(BaseModel):
         return graphdata
 
     @classmethod
-    async def get(cls) -> Optional['GraphData']:
+    async def get(cls) -> list['GraphData']:
         """Get data from the database."""
         query = "SELECT time_bucket('1 day', time) AS bucket, FROM graphData GROUP BY bucket"
-        graphdata = await db.fetch_all(query)
+        return [GraphData(**graphdata) for graphdata in await db.fetch_all(query)]
+    
+    @classmethod
+    async def get_all(cls) -> list['GraphData']:
+        """Return a list of all the data from the database."""
+        return [GraphData(**graphdata) for graphdata in await db.fetch_all(graphData.select())]
+    
+    @classmethod
+    async def get_latest(cls) -> Optional['GraphData']:
+        """Return a list of the last data from the database."""
+        query = graphData.select().order_by(desc(graphData.c.time)).limit(1)
+        graphdata = await db.fetch_one(query)
         if graphdata:
             return GraphData(**graphdata)
 
     @classmethod
-    async def update(cls, graphId: int, **kwargs) -> Optional['GraphData']:
-        """Update fields of Graphdata."""
-        query = graphData.update().where(graphData.c.id == id).values(**kwargs).returning(graphData)
-        if graphdata := await db.fetch_one(query):
-            return GraphData(**graphdata)
-
-    @classmethod
-    async def edit(cls, graphId: int, graphdata: 'GraphData') -> Optional['GraphData']:
-        """Edit a graphdata using another graphdata object."""
-        graphdata = graphdata.dict()
-        graphdata.pop('id')
-        return await cls.update(id, **graphdata)
-
-    @classmethod
     async def delete(cls, graphId: int) -> Optional['GraphData']:
         """Delete a graphdata and return it. Return None if the data does not exists."""
-        query = graphData.delete().where(graphData.c.id == id).returning(graphData)
+        query = graphData.delete().where(graphData.c.graphId == graphId).returning(graphData)
         graphdata = await db.fetch_one(query)
 
         return graphdata

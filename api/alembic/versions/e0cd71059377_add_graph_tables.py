@@ -1,7 +1,7 @@
 """Add graph tables
 
 Revision ID: e0cd71059377
-Revises: 7db537b8750a
+Revises: 2517bfd62b9d
 Create Date: 2021-11-08 08:44:13.898236
 
 """
@@ -11,7 +11,7 @@ from api.schemas import hypertable_data_ddl
 
 # revision identifiers, used by Alembic.
 revision = 'e0cd71059377'
-down_revision = '7db537b8750a'
+down_revision = '2517bfd62b9d'
 branch_labels = None
 depends_on = None
 
