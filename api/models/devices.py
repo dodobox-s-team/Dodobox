@@ -2,6 +2,7 @@ from typing import Optional
 
 from api.schemas import db, devices
 from pydantic import BaseModel, constr
+from sqlalchemy import select
 
 
 class Device(BaseModel):
@@ -37,9 +38,18 @@ class Device(BaseModel):
             return Device(**device)
 
     @classmethod
+    async def get_devices_ip(cls, ip: str) -> list['Device']:
+        """Get a device from the database from its ip address."""
+        query = devices.select().where(devices.c.ip == ip)
+        response = await db.fetch_all(query)
+        r = [Device(**device) for device in response]
+        print(r)
+        return r
+
+    @classmethod
     async def get_toggle(cls, id: int) -> Optional['Device']:
         """Get the status of a device from the database from its id."""
-        query = f'SELECT toggle FROM devices WHERE id={id};'
+        query = select(devices.c.toggle).select_from(devices).where(devices.c.id == id)
         toggle = await db.fetch_one(query)
         if toggle:
             return toggle
