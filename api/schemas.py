@@ -17,7 +17,7 @@ devices = Table(
     Column("name", String(64), nullable=False, unique=True),
     Column("modele", String(64), nullable=False),
     Column("type", Integer, nullable=False),
-    Column("ip", String(15), unique=True),
+    Column("ip", String(15)),
     Column("toggle", Boolean, nullable=False),
 )
 

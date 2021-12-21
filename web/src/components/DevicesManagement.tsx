@@ -58,6 +58,7 @@ class DevicesManagement extends React.Component<{}, DevicesManagementInterface> 
     let groupField = e.target.elements.formGroupDevice.value
     let nameField = e.target.elements.formNameDevice.value.trim()
     let ipField = e.target.elements.formIpAddress.value.trim()
+    let typeField = e.target.elements.formTypeDevice.value
 
     if (groupField == "") {
       groupField = null
@@ -66,7 +67,7 @@ class DevicesManagement extends React.Component<{}, DevicesManagementInterface> 
       "groupId": groupField,
       "name": nameField,
       "modele": "ESP",
-      "type": 1,
+      "type": typeField,
       "ip": ipField,
       "toggle": false,
     }
@@ -99,7 +100,7 @@ class DevicesManagement extends React.Component<{}, DevicesManagementInterface> 
           if (!response.ok) {
             if (response.status == 409)
               this.handleInvalidAlertShow();
-            this.state.modalErrorMessage = "le nom ou l'adresse ip de l'appareil existe déjà"
+            this.state.modalErrorMessage = "le nom de l'appareil existe déjà"
           }
         })
         .then(this.props.displayDevice.bind(this))

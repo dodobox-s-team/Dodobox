@@ -9,7 +9,8 @@ class FormDeviceOptions extends React.Component<{}, {}> {
     this.state = {
       groups: [],
       isLoaded: false,
-      selectedOption: this.props.groupId || '',
+      selectedGroupOption: this.props.groupId || '',
+      selectedTypeOption: this.props.type || '',
     }
   };
 
@@ -26,7 +27,11 @@ class FormDeviceOptions extends React.Component<{}, {}> {
   }
 
   handleSelectGroup = (e) => {
-    this.setState({ selectedOption: e.target.value })
+    this.setState({ selectedGroupOption: e.target.value })
+  }
+
+  handleSelectType = (e) => {
+    this.setState({ selectedTypeOption: e.target.value })
   }
 
   componentDidMount() {
@@ -52,8 +57,19 @@ class FormDeviceOptions extends React.Component<{}, {}> {
           </Form.Text>
         </Form.Group>
 
+        <Form.Group className="mb-3" controlId="formTypeDevice">
+          <Form.Select aria-label="typeSelect" value={this.state.selectedTypeOption} onChange={(e) => this.handleSelectType(e)}>
+            <option value={1}>Capteur température</option>
+            <option value={2}>Capteur humidité</option>
+            <option value={3}>Capteur qualité air</option>
+          </Form.Select>
+          <Form.Text className="text-muted">
+            Définir le type de l'appareil.
+          </Form.Text>
+        </Form.Group>
+
         <Form.Group className="mb-3" controlId="formGroupDevice">
-          <Form.Select aria-label="groupSelect" value={this.state.selectedOption} onChange={(e) => this.handleSelectGroup(e)}>
+          <Form.Select aria-label="groupSelect" value={this.state.selectedGroupOption} onChange={(e) => this.handleSelectGroup(e)}>
             <option value=""> Ajouter à un groupe </option>
             {(this.state.groups.length > 0) ? this.state.groups.map((group) => {
               return <option key={group.id} value={group.id}> {group.name}</option>
