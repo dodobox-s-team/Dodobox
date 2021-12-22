@@ -27,6 +27,13 @@ class TestDevice:
         apatch('api.schemas.db.fetch_one', return_value=None)
         assert await Device.get(0) is None
 
+    async def test_get_ip(self, apatch):
+        apatch('api.schemas.db.fetch_all', return_value=[device.dict()])
+        assert [device] == await Device.get_devices_ip(device.ip)
+
+        apatch('api.schemas.db.fetch_all', return_value=[device2.dict()])
+        assert [device2] == await Device.get_devices_ip(device2.ip)
+
     async def test_get_toggle(self, apatch):
         apatch('api.schemas.db.fetch_one', return_value=device.toggle)
         assert device.toggle == await Device.get_toggle(device.id)
