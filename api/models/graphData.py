@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import Optional
 from sqlalchemy import desc
-from api.schemas import db, graphData, devices, graphs
+from api.schemas import db, graphData, graphs
 from pydantic import BaseModel
 
 
