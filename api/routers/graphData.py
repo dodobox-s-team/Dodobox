@@ -18,6 +18,11 @@ async def get_graphdata():
     """Get a list of time bucketed graphdata."""
     return await GraphData.get_all()
 
+@router.get("/{id}", response_model=GraphData)
+async def get_latest_graphdata(id):
+    """Get the last entry of a device in the database"""
+    return await GraphData.get_latest(id)
+
 
 @router.delete("/{id}", response_model=GraphData)
 async def delete_graphData(id: int):
