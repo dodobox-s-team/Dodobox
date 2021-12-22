@@ -7,10 +7,21 @@ $submenu-bg-color: $primary !default;
 
 
 // delete horizontal scrollbar
-body { overflow-x : hidden}
+body {
+  overflow-x: hidden
+}
 
 //.pro-sidebar-inner { position: fixed ; }
 
+
+//css DeviceBox.tsx
+.listDevices {
+  margin: 0em 0em 0em 0em;
+}
+
+.cardType {
+  margin-left: 1em;
+}
 
 
 @import '../node_modules/bootstrap/scss/bootstrap';
