@@ -99,8 +99,10 @@ class DeviceBox extends React.Component<DeviceBoxInterface, {}> {
                 </Link>
               </Col>
               <Col>
-                <Button variant={this.state.toggle ? "success" : "danger"}
-                        onClick={this.handleOnOff}>{this.state.toggle ? "ON" : "OFF"}</Button>
+                <Button
+                  class="cardType"
+                  variant={this.state.toggle ? "success" : "danger"}
+                  onClick={this.handleOnOff}>{this.state.toggle ? "ON" : "OFF"}</Button>
               </Col>
             </Row>
           </Card.Body>
