@@ -3,7 +3,7 @@ import os
 import sqlalchemy
 from sqlalchemy.sql.sqltypes import Boolean
 from databases import Database
-from sqlalchemy import Column, DateTime, ForeignKey, Integer, Interval, String, Table
+from sqlalchemy import DDL, Column, DateTime, ForeignKey, Integer, Interval, Numeric, String, Table, event
 
 db = Database(os.environ["DATABASE_URL"])
 
@@ -50,4 +50,29 @@ device_timetables = Table(
     metadata,
     Column("deviceId", Integer, ForeignKey('devices.id'), primary_key=True),
     Column("timetableId", Integer, ForeignKey('timetables.id'), primary_key=True),
+)
+
+graphs = Table(
+    "graphs",
+    metadata,
+    Column("id", Integer, primary_key=True),
+    Column("deviceId", Integer, ForeignKey('devices.id'), nullable=False),
+    Column("name", String(64), nullable=False),
+    Column("axisLabel", String(64), nullable=False),
+)
+
+graphData = Table(
+    "graphData",
+    metadata,
+    Column("time", DateTime, nullable=False),
+    Column("graphId", Integer, ForeignKey('graphs.id'), nullable=False),
+    Column("value", Numeric, nullable=False),
+)
+
+# Create the hypertable for time-scale data
+hypertable_data_ddl = DDL(f"SELECT create_hypertable('\"{graphData.name}\"', {graphData.c.time.name!r});")
+event.listen(
+    graphData,
+    "after_create",
+    hypertable_data_ddl
 )
