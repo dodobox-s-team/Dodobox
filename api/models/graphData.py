@@ -18,7 +18,7 @@ class GraphData(BaseModel):
         The id is suppressed without warning.
         """
         values = graphdata.dict()
-        values.pop("graphId")
+        values["time"] = datetime.now()
 
         query = graphData.insert().values(**values)
         graphdata.graphId = await db.execute(query)
