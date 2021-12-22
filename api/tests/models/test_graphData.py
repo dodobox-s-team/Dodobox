@@ -34,4 +34,4 @@ class TestGraphData:
 
     async def test_get_latest(self, apatch):
         apatch("api.schemas.db.fetch_one", return_value=graphData.dict())
-        assert graphData == await GraphData.get_latest()
+        assert graphData == await GraphData.get_latest(0)
