@@ -107,7 +107,7 @@ class ListDevices extends React.Component<{}, ListDevicesInterface> {
             <DevicesManagement displayDevice={this.displayDevice.bind(this)} buttonFeature={"Ajouter un appareil"} fetchMethod={"POST"} />
           </Container>
         </Navbar>
-        <Row>
+        <Row class="listDevices">
           {this.state.devicesShown.map((device: Device, i: number) => (
             <DeviceBox key={device.id} img={[<BsLamp key={device.id} />]} name={device.name} ipAddress={device.ip} groupId={device.groupId} type={device.type} id={device.id} toggle={device.toggle} displayDevice={this.displayDevice.bind(this)} />
           ))}
