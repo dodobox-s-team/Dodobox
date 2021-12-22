@@ -6,6 +6,7 @@ import { Container, Row, NavDropdown, Nav, Navbar } from 'react-bootstrap'
 import { BsLamp } from "react-icons/bs";
 import Fuse from "fuse.js";
 import DevicesManagement from '../components/DevicesManagement';
+import { toast } from "react-toastify";
 
 interface Device {
   id: number
@@ -48,6 +49,10 @@ class ListDevices extends React.Component<{}, ListDevicesInterface> {
           devicesShown: response
         }
         )
+      }, (error) => {
+        if (error) {
+          toast.error(`Erreur pour récupérer les modules ${error}`);
+        }
       });
 
   };
