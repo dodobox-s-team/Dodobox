@@ -8,7 +8,6 @@ app.include_router(graph.router)
 app.include_router(graphData.router)
 
 
-
 @app.get("/")
 async def root():
     return {"message": "Hello World"}
