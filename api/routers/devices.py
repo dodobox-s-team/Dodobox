@@ -31,7 +31,7 @@ async def get_device_id(id: int):
 
 @router.get("/{id}/status", response_model=dict)
 async def get_device_toggle(id: int):
-    """Get a device by id."""
+    """Get the status of a device."""
     toggle = await Device.get_toggle(id)
     if not toggle:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="No device with that id was found.")
