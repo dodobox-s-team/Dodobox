@@ -54,7 +54,6 @@ class ListDevices extends React.Component<{}, ListDevicesInterface> {
         if (error) {
           toast.error(`Erreur pour récupérer les modules ${error}`);
         }
-<<<<<<< HEAD
       });
 
   };
