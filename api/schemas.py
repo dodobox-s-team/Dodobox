@@ -64,6 +64,7 @@ graphs = Table(
 graphData = Table(
     "graphData",
     metadata,
+    Column("id", Integer, primary_key=True),
     Column("time", DateTime, nullable=False),
     Column("graphId", Integer, ForeignKey('graphs.id'), nullable=False),
     Column("value", Numeric, nullable=False),
