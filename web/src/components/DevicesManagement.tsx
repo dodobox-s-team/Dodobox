@@ -30,6 +30,7 @@ class DevicesManagement extends React.Component<{}, DevicesManagementInterface> 
   handleClose() {
     this.setState({ modalShow: false });
     this.setState({ validAlertShow: false });
+    this.setState({ invalidAlertShow: false });
   }
   handleShow() {
     this.setState({ modalShow: true });
@@ -54,13 +55,20 @@ class DevicesManagement extends React.Component<{}, DevicesManagementInterface> 
 
   handleSettingsInput = (e, methodParameter, id) => {
     e.preventDefault();
+    let groupField = e.target.elements.formGroupDevice.value
+    let nameField = e.target.elements.formNameDevice.value.trim()
+    let ipField = e.target.elements.formIpAddress.value.trim()
+    let typeField = e.target.elements.formTypeDevice.value
 
+    if (groupField == "") {
+      groupField = null
+    }
     let dataDevice = {
-      "groupId": null,
-      "name": e.target.elements.formNameDevice.value.trim(),
-      "modele": 1,
-      "type": 1,
-      "ip": e.target.elements.formIpAddress.value.trim(),
+      "groupId": groupField,
+      "name": nameField,
+      "modele": "ESP",
+      "type": typeField,
+      "ip": ipField,
       "toggle": false,
     }
     let regexIpv4Address = /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
@@ -68,15 +76,15 @@ class DevicesManagement extends React.Component<{}, DevicesManagementInterface> 
 
     if (((e.target.elements.formNameDevice.value).trim() == "") && !(regexIpv4Address.test(valueIpv4AddressForm))) {
       this.handleInvalidAlertShow();
-      this.state.messageErreur = "le nom de l'appareil doit contenir au moins un caractère ou le format de l'adresse IP n'est pas valide.";
+      this.state.modalErrorMessage = "le nom de l'appareil doit contenir au moins un caractère ou le format de l'adresse IP n'est pas valide.";
     }
     else if ((e.target.elements.formNameDevice.value).trim() == "") {
       this.handleInvalidAlertShow();
-      this.state.messageErreur = "le nom de l'appareil doit contenir au moins un caractère.";
+      this.state.modalErrorMessage = "le nom de l'appareil doit contenir au moins un caractère.";
     }
     else if ((valueIpv4AddressForm).length > 15 || !(regexIpv4Address.test(valueIpv4AddressForm))) {
       this.handleInvalidAlertShow();
-      this.state.messageErreur = "le format de l'adresse IP n'est pas valide.";
+      this.state.modalErrorMessage = "le format de l'adresse IP n'est pas valide.";
     }
 
     else {
@@ -111,7 +119,7 @@ class DevicesManagement extends React.Component<{}, DevicesManagementInterface> 
                 {((this.props.fetchMethod == "PUT") ? `La configuration de l'appareil ${this.props.name} a  bien été sauvegardée.` : `L'appareil a bien été rajouté à la liste des appareils.`)}
               </Alert>
               <Alert variant="danger" show={this.state.invalidAlertShow}>
-                La configuration de l'appareil « {this.props.name} » ne peut pas être sauvegardée car {this.state.messageErreur}
+                La configuration de l'appareil « {this.props.name} » ne peut pas être sauvegardée car {this.state.modalErrorMessage}
               </Alert>
             </Modal.Body>
 

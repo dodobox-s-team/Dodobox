@@ -28,13 +28,10 @@ function App() {
         <SideBar></SideBar>
         <div style={styles.contentMargin}>
           <Switch>
-            <Route path="/ListDevices">
-              <ListDevices />
-            </Route>
             <Route path="/Details/:id" component={Details}></Route>
             <Route path="/group/:id" component={GroupDetail}></Route>
             <Route exact path="/">
-              <Dashboard />
+              <ListDevices />
             </Route>
             <Route path="/">
               <PageNotFound />

@@ -3,6 +3,41 @@ import ReactDOM from 'react-dom'
 import { Modal, Button, Form, Image, Alert } from 'react-bootstrap'
 
 class FormDeviceOptions extends React.Component<{}, {}> {
+
+  constructor(props: object) {
+    super(props)
+    this.state = {
+      groups: [],
+      isLoaded: false,
+      selectedGroupOption: this.props.groupId || '',
+      selectedTypeOption: this.props.type || '',
+    }
+  };
+
+  displayGroups() {
+    fetch("/api/groups", { method: 'GET' })
+      .then(groupsElements => groupsElements.json())
+      .then((response) => {
+        this.setState({
+          isLoaded: true,
+          groups: response,
+        }
+        )
+      });
+  }
+
+  handleSelectGroup = (e) => {
+    this.setState({ selectedGroupOption: e.target.value })
+  }
+
+  handleSelectType = (e) => {
+    this.setState({ selectedTypeOption: e.target.value })
+  }
+
+  componentDidMount() {
+    this.displayGroups();
+  }
+
   render() {
     return (
       <div>
@@ -23,12 +58,10 @@ class FormDeviceOptions extends React.Component<{}, {}> {
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="formTypeDevice">
-          <Form.Select aria-label="groupSelect">
-            <option>{this.props.type}</option>
-            <option value="choiceLivingRoom">Thermomètre</option>
-            <option value="choiceKitchen">Lampe</option>
-            <option value="choiceChamberNumberN">Caméra</option>
-            <option value="choiceAddNewGroup"> Ajouter un nouveau type </option>
+          <Form.Select aria-label="typeSelect" value={this.state.selectedTypeOption} onChange={(e) => this.handleSelectType(e)}>
+            <option value={1}>Capteur température</option>
+            <option value={2}>Capteur humidité</option>
+            <option value={3}>Capteur qualité air</option>
           </Form.Select>
           <Form.Text className="text-muted">
             Définir le type de l'appareil.
@@ -36,12 +69,11 @@ class FormDeviceOptions extends React.Component<{}, {}> {
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="formGroupDevice">
-          <Form.Select aria-label="groupSelect">
-            <option>{this.props.groupId}</option>
-            <option value="choiceLivingRoom">Salon</option>
-            <option value="choiceKitchen">Cuisine</option>
-            <option value="choiceChamberNumberN">Chambre n°1</option>
-            <option value="choiceAddNewGroup"> Ajouter un nouveau groupe </option>
+          <Form.Select aria-label="groupSelect" value={this.state.selectedGroupOption} onChange={(e) => this.handleSelectGroup(e)}>
+            <option value=""> Ajouter à un groupe </option>
+            {(this.state.groups.length > 0) ? this.state.groups.map((group) => {
+              return <option key={group.id} value={group.id}> {group.name}</option>
+            }) : <option value=""> Aucun groupe disponible </option>}
           </Form.Select>
           <Form.Text className="text-muted">
             Définir le groupe associé à l'appareil.

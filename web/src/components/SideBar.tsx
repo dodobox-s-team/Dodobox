@@ -34,11 +34,8 @@ const SideBar = () => {
         </div>
       </SidebarHeader>
       <Menu iconShape="square">
-        <MenuItem icon={<AiOutlineDashboard />}>
-          <Link to="/"> Tableau de bord </Link>
-        </MenuItem>
         <MenuItem icon={<MdOutlineWidgets />}>
-          <Link to="/ListDevices"> Listes des appareils </Link>
+          <Link to="/"> Listes des appareils </Link>
         </MenuItem>
         <ListGroups />
       </Menu>

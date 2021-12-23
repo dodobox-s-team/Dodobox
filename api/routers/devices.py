@@ -75,5 +75,4 @@ async def edit_a_device(id: int, device: Device):
     updated_device = await Device.edit(id, device)
     if not updated_device:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="device not found.")
-
     return updated_device
