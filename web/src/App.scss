@@ -14,7 +14,17 @@ body {
 //.pro-sidebar-inner { position: fixed ; }
 
 
-//css DeviceBox.tsx
+.h1Detail {
+  margin-left: 0em;
+}
+.h2Detail {
+  margin-left: 1em;
+}
+.h3Detail, .listDetail {
+  margin-left: 2em;
+}
+
+
 .listDevices {
   margin-right: 2em;
 }

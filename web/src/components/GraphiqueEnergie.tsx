@@ -9,7 +9,7 @@ class GraphiqueEnergie extends React.Component {
             labels: this.props.labels,
             datasets: [
                 {
-                    label: "Consommation énergétique",
+                    label: this.props.name,
                     fill: true,
                     lineTension: 0.3,
                     backgroundColor: "rgba(225, 204,230, .5)",

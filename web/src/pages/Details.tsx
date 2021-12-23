@@ -1,5 +1,7 @@
 import React from 'react'
 import {MDBListGroup, MDBListGroupItem, MDBContainer, MDBBadge} from "mdbreact"
+import Col from 'react-bootstrap/Col'
+import Row from 'react-bootstrap/Row'
 import GraphiqueEnergie from "../components/GraphiqueEnergie"
 import {Button, Modal} from 'react-bootstrap'
 import {useParams, Link} from 'react-router-dom'
@@ -103,7 +105,6 @@ class Details extends React.Component<DetailsProps, DetailsInterface> {
     } else {
       return (
         <div>
-          <Button variant="danger" onClick={this.handleDeleteShow.bind(this)}>Supprimer l'appareil</Button>
           <Modal show={this.state.show} onHide={this.handleDeleteClose.bind(this, false)}>
             <Modal.Header closeButton>
               <Modal.Title>Suppression</Modal.Title>
@@ -121,34 +122,27 @@ class Details extends React.Component<DetailsProps, DetailsInterface> {
             </Modal.Footer>
           </Modal>
           <MDBContainer>
-            <MDBListGroup style={{width: "22rem"}}>
-              <MDBListGroupItem
-                className="d-flex justify-content-between align-items-center">Name: {devices.name}<MDBBadge
-                color="primary"
-                pill></MDBBadge>
-              </MDBListGroupItem>
-              <MDBListGroupItem
-                className="d-flex justify-content-between align-items-center">Groupe: {devices.groupId}<MDBBadge
-                color="primary"
-                pill></MDBBadge>
-              </MDBListGroupItem>
-              <MDBListGroupItem
-                className="d-flex justify-content-between align-items-center">Modèle: {devices.modele}<MDBBadge
-                color="primary" pill></MDBBadge>
-              </MDBListGroupItem>
-              <MDBListGroupItem
-                className="d-flex justify-content-between align-items-center">IP: {devices.ip}<MDBBadge
-                color="primary"
-                pill></MDBBadge>
-              </MDBListGroupItem>
-              <MDBListGroupItem
-                className="d-flex justify-content-between align-items-center">Type: {devices.type}<MDBBadge
-                color="primary"
-                pill></MDBBadge>
-              </MDBListGroupItem>
-            </MDBListGroup>
-            <GraphiqueEnergie data={[15, 24, 18, 19]} labels={["test1", "test2", "test3", "test4"]}/>
+            <Row>
+              <Col>
+                <h1 class="h1Detail">{devices.name}</h1>
+                <h2 class="h2Detail">{devices.modele}</h2>
+                <h3 class="h2Detail">Type: {devices.type}</h3>
+                <ul class="listDetail">
+                  <li>Groupe: {devices.groupeId}</li>
+                  <li>IP: {devices.ip}</li>
+                </ul>
+              </Col>
+              <Col xs={8}>
+                <GraphiqueEnergie name={"graphique"} data={[15, 24, 18, 19]}
+                                  labels={["test1", "test2", "test3", "test4"]}/></Col>
+            </Row>
           </MDBContainer>
+          <Row>
+            <Col xs={10}/>
+            <Col>
+              <Button variant="danger" onClick={this.handleDeleteShow.bind(this)}
+              >Supprimer l'appareil</Button></Col>
+          </Row>
         </div>
       )
     }
