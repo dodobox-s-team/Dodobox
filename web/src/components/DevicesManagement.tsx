@@ -95,14 +95,7 @@ class DevicesManagement extends React.Component<{}, DevicesManagementInterface> 
         },
         body: JSON.stringify(dataDevice)
       })
-        .then(async response => {
-          response.json()
-          if (!response.ok) {
-            if (response.status == 409)
-              this.handleInvalidAlertShow();
-            this.state.modalErrorMessage = "le nom de l'appareil existe déjà"
-          }
-        })
+        .then(response => response.json())
         .then(this.props.displayDevice.bind(this))
     }
   }
