@@ -1,7 +1,7 @@
 """add_unique_name_device
 
 Revision ID: a79ded195005
-Revises: 2517bfd62b9d
+Revises: e0cd71059377
 Create Date: 2021-12-21 21:47:18.385579
 
 """
@@ -11,7 +11,7 @@ import sqlalchemy as sa
 
 # revision identifiers, used by Alembic.
 revision = 'a79ded195005'
-down_revision = '2517bfd62b9d'
+down_revision = 'e0cd71059377'
 branch_labels = None
 depends_on = None
 
