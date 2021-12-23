@@ -42,9 +42,7 @@ class Device(BaseModel):
         """Get a device from the database from its ip address."""
         query = devices.select().where(devices.c.ip == ip)
         response = await db.fetch_all(query)
-        r = [Device(**device) for device in response]
-        print(r)
-        return r
+        return [Device(**device) for device in response]
 
     @classmethod
     async def get_toggle(cls, id: int) -> Optional['Device']:
