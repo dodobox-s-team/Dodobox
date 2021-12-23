@@ -68,8 +68,6 @@ class ListDevices extends React.Component<{}, ListDevicesInterface> {
           graphDataShown: response
         }
         )
-=======
->>>>>>> Add toast error in ListDevice
       });
 
   };
