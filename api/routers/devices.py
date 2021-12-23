@@ -29,6 +29,12 @@ async def get_device_id(id: int):
     return device
 
 
+@router.get("/ip/{ip}", response_model=list[Device])
+async def get_devices_by_ip(ip: str):
+    """Get devices by ip address."""
+    return await Device.get_devices_ip(ip)
+
+
 @router.get("/{id}/status", response_model=dict)
 async def get_device_toggle(id: int):
     """Get the status of a device."""

@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import Optional
 from sqlalchemy import desc
-from api.schemas import db, graphData
+from api.schemas import db, graphData, graphs
 from pydantic import BaseModel
 
 
@@ -18,7 +18,7 @@ class GraphData(BaseModel):
         The id is suppressed without warning.
         """
         values = graphdata.dict()
-        values.pop("graphId")
+        values["time"] = datetime.now()
 
         query = graphData.insert().values(**values)
         graphdata.graphId = await db.execute(query)
@@ -37,9 +37,15 @@ class GraphData(BaseModel):
         return [GraphData(**graphdata) for graphdata in await db.fetch_all(graphData.select())]
 
     @classmethod
-    async def get_latest(cls) -> Optional["GraphData"]:
+    async def get_latest(cls, deviceId) -> Optional["GraphData"]:
         """Return a list of the last data from the database."""
-        query = graphData.select().order_by(desc(graphData.c.time)).limit(1)
+        query = (
+            graphData.select()
+            .join(graphs, graphs.c.id == graphData.c.graphId)
+            .where(graphs.c.deviceId == deviceId)
+            .order_by(desc(graphData.c.time))
+            .limit(1)
+        )
         graphdata = await db.fetch_one(query)
         if graphdata:
             return GraphData(**graphdata)
